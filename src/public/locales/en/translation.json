@@ -1,0 +1,138 @@
+{
+  "titles": {
+    "name": "Raphael Rocha",
+    "title": "Software Engineer | React Native | React | Node",
+    "location": "Belém, Pará, Brazil",
+    "contactTitle": "Contact:",
+    "skillsTitle": "Main Skills:",
+    "languagesTitle": "Languages:",
+    "experiencesTitle": "Experiences:",
+    "educationTitle": "Education:",
+    "certificationsTitle": "Certifications:",
+    "awardsTitle": "Awards and Honors:"
+  },
+  "contact": {
+    "name": "Raphael Rocha",
+    "mobile": "+55 91982823076",
+    "email": "raphaelrochabcc@gmail.com",
+    "linkedin": "www.linkedin.com/in/raphaelrocha-903014103"
+  },
+  "competences": {
+    "languages": ["Portuguese", "English"],
+    "programming": ["Node.js", "React.js", "React native"],
+    "certifications": [
+      "McAfee Endpoint Threat Protection/Defense",
+      "Bootcamp GoStack 14",
+      "Apex One Certified Professional",
+      "Deep Security 20 Certified Professional",
+      "Deep Discovery Advanced Threat Detection 3.3 Certified Professional"
+    ]
+  },
+  "awards": ["Winner of the first Hackathon Insern 2021"],
+  "summary": "Software developer with more than three years of experience in web and mobile front-end using the react and react-native stack. I worked on some projects using Node and maintaining applications with a large flow of users. I am communicative, open to new professional experiences and challenges. I believe in teamwork and in an environment where everyone can help each other to have a higher quality result. Specialist in FDM 3D printers.",
+  "github": ["https://github.com/RaphaelSR"],
+
+  "experience": [
+    {
+      "company": "Vix - Grupo Águia Branca",
+      "position": "Front-end Developer",
+      "location": "Remote",
+      "period": "July 2022 - Present",
+      "projects": []
+    },
+    {
+      "company": "Wine.com.br",
+      "position": "Front-end Developer",
+      "location": "Remote",
+      "period": "October 2021 - June 2022",
+      "projects": [
+        {
+          "name": "Wine main App",
+          "description": "Development of new features and screens, integration with new SDKs and APIs."
+        },
+        {
+          "name": "México App",
+          "description": "Responsible for the development of new features in mobile with React Native and back-end with Node. Using Shopify and other APIs for integration."
+        },
+        {
+          "name": "Black Friday Web",
+          "description": "Development of Black Friday landing page for the black Friday week, project made in React."
+        }
+      ]
+    },
+    {
+      "company": "SEPLAD",
+      "position": "Software Developer",
+      "location": "Remote",
+      "period": "October 2020 - October 2021",
+      "projects": [
+        {
+          "name": "DoarPA",
+          "description": "Web application to donate objects to government. Developed with React Native."
+        },
+        {
+          "name": "Sepladpa",
+          "description": "App with webviews to access LOA and PPA government programs."
+        }
+      ]
+    },
+    {
+      "company": "Trend Micro",
+      "position": "Student at CPITS3",
+      "location": "Remote",
+      "period": "February 2021 - March 2021",
+      "description": "Trainee in Trend Micro's IT security certification program. Two months with classes about cloud computing, cloud security, ethical hacking, LGPD, overview about cybersecurity ,exams and tests every week and three cybersecurity certifications.",
+      "projects": []
+    },
+    {
+      "company": "Prodepa",
+      "position": "Systems Analyst",
+      "location": "Remote",
+      "period": "March 2020 - September 2020",
+      "description": "Junior front-end developer.",
+      "projects": []
+    },
+    {
+      "company": "Casa Civil do Governo do Estado do Pará",
+      "position": "Systems Analyst",
+      "location": "Belém, Pará, Brasil",
+      "period": "March 2019 - March 2020",
+      "description": "Management of the civil house network in the state of Pará. Application of improvements in the internal protocols and structure of the governor's palace.",
+      "projects": []
+    },
+    {
+      "company": "Lab3D",
+      "position": "Project Development Manager",
+      "location": "Belém, Pará, Brasil",
+      "period": "January 2016 - July 2019",
+      "description": "CEO and founding partner for three years of startup Lab3D, the first startup of training and manufacturing of 3D printers in the north of Brazil. Last position as Manager of project development, working with digital manufacturing, automation in rapid prototyping machinery, leadership, design and innovation.",
+      "projects": []
+    },
+    {
+      "company": "Defensoria Pública do Estado do Pará",
+      "position": "Trainee",
+      "location": "Belém, Pará, Brasil",
+      "period": "January 2016 - January 2017",
+      "description": "Active in the sector of networks, function of control of the intranet traffic, maintenance of the local server and planning in future strategies."
+    },
+    {
+      "company": "Fabrica de software CESUPA",
+      "position": "Trainee",
+      "location": "Belém, Pará, Brasil",
+      "period": "February 2015 - December 2015",
+      "description": "Active in the programming of Ruby on Rails, Java and C# for companies in the Amazon region through partnerships realized by CESUPA."
+    },
+    {
+      "company": "CTIC CESUPA",
+      "position": "Trainee",
+      "location": "Belém, Pará, Brasil",
+      "period": "August 2014 - January 2015",
+      "description": "Trainee with stock control function and internal software programming in Java."
+    }
+  ],
+  "education": {
+    "university": "Cesupa - Centro Universitário do Estado do Pará",
+    "degree": "Bachelor´s degree, Computer Science",
+    "period": "(2014 - 2018)"
+  }
+}

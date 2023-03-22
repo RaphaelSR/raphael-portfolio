@@ -1,0 +1,138 @@
+{
+  "titles": {
+    "name": "Raphael Rocha",
+    "title": "Engenheiro de Software | React Native | React | Node",
+    "location": "Belém, Pará, Brasil",
+    "contactTitle": "Contato:",
+    "skillsTitle": "Principais competências:",
+    "languagesTitle": "Idiomas:",
+    "experiencesTitle": "Experiências:",
+    "educationTitle": "Formação acadêmica:",
+    "certificationsTitle": "Certificações:",
+    "awardsTitle": "Prêmios e Honras:"
+  },
+  "contact": {
+    "name": "Raphael Rocha",
+    "mobile": "+55 (91) 982823076",
+    "email": "raphaelrochabcc@gmail.com",
+    "linkedin": "www.linkedin.com/in/raphaelrocha-903014103"
+  },
+  "competences": {
+    "languages": ["Português", "Inglês"],
+    "programming": ["Node.js", "React.js", "React native"],
+    "certifications": [
+      "McAfee Endpoint Threat Protection/Defense",
+      "Bootcamp GoStack 14",
+      "Apex One Certified Professional",
+      "Deep Security 20 Certified Professional",
+      "Deep Discovery Advanced Threat Detection 3.3 Certified Professional"
+    ]
+  },
+  "awards": ["Vencedor do primeiro Hackathon Insern 2021"],
+  "summary": "Desenvolvedor de software com mais de três anos de experiência em front-end web e mobile usando as tecnologias react e react-native. Trabalhei em alguns projetos usando Node e mantenho aplicações com um grande fluxo de usuários. Sou comunicativo, aberto a novas experiências e desafios profissionais. Acredito no trabalho em equipe e em um ambiente onde todos possam ajudar uns aos outros para obter um resultado de maior qualidade. Especialista em impressoras 3D FDM.",
+  "github": ["https://github.com/RaphaelSR"],
+
+  "experience": [
+    {
+      "company": "Vix - Grupo Águia Branca",
+      "position": "Desenvolvedor Front-end",
+      "location": "Remoto",
+      "period": "Julho 2022 - Presente",
+      "projects": []
+    },
+    {
+      "company": "Wine.com.br",
+      "position": "Desenvolvedor Front-end",
+      "location": "Remoto",
+      "period": "Outubro 2021 - Junho 2022",
+      "projects": [
+        {
+          "name": "Wine main App",
+          "description": "Desenvolvimento de novos recursos e telas, integração com novos SDKs e APIs."
+        },
+        {
+          "name": "México App",
+          "description": "Responsável pelo desenvolvimento de novos recursos em mobile com React Native e back-end com Node. Utilização de Shopify e outras APIs para integração."
+        },
+        {
+          "name": "Black Friday Web",
+          "description": "Desenvolvimento da página de destino da Black Friday para a semana da Black Friday, projeto realizado em React."
+        }
+      ]
+    },
+    {
+      "company": "SEPLAD",
+      "position": "Desenvolvedor de Software",
+      "location": "Remoto",
+      "period": "Outubro 2020 - Outubro 2021",
+      "projects": [
+        {
+          "name": "DoarPA",
+          "description": "Aplicação web para doação de objetos ao governo. Desenvolvido com React Native."
+        },
+        {
+          "name": "Sepladpa",
+          "description": "App com webviews para acesso aos programas governamentais LOA e PPA."
+        }
+      ]
+    },
+    {
+      "company": "Trend Micro",
+      "position": "Estudante no CPITS3",
+      "location": "Remoto",
+      "period": "Fevereiro 2021 - Março 2021",
+      "description": "Estagiário no programa de certificação de segurança de TI da Trend Micro. Dois meses com aulas sobre computação em nuvem, segurança em nuvem, hacking ético, LGPD, visão geral sobre cibersegurança, exames e testes semanais e três certificações em cibersegurança.",
+      "projects": []
+    },
+    {
+      "company": "Prodepa",
+      "position": "Analista de Sistemas",
+      "location": "Remoto",
+      "period": "Março 2020 - Setembro 2020",
+      "description": "Desenvolvedor front-end júnior.",
+      "projects": []
+    },
+    {
+      "company": "Casa Civil do Governo do Estado do Pará",
+      "position": "Analista de Sistemas",
+      "location": "Belém, Pará, Brasil",
+      "period": "Março 2019 - Março 2020",
+      "description": "Gerenciamento da rede da casa civil do estado do Pará. Aplicação de melhorias nos protocolos internos e estrutura do palácio do governador.",
+      "projects": []
+    },
+    {
+      "company": "Lab3D",
+      "position": "Gerente de Desenvolvimento de Projetos",
+      "location": "Belém, Pará, Brasil",
+      "period": "Janeiro 2016 - Julho 2019",
+      "description": "CEO e sócio fundador por três anos da startup Lab3D, a primeira startup de treinamento e fabricação de impressoras 3D no norte do Brasil. Última posição como Gerente de desenvolvimento de projetos, trabalhando com fabricação digital, automação em máquinas de prototipagem rápida, liderança, design e inovação.",
+      "projects": []
+    },
+    {
+      "company": "Defensoria Pública do Estado do Pará",
+      "position": "Estagiário",
+      "location": "Belém, Pará, Brasil",
+      "period": "Janeiro 2016 - Janeiro 2017",
+      "description": "Atuação no setor de redes, função de controle do tráfego de intranet, manutenção do servidor local e planejamento em estratégias futuras."
+    },
+    {
+      "company": "Fábrica de software CESUPA",
+      "position": "Estagiário",
+      "location": "Belém, Pará, Brasil",
+      "period": "Fevereiro 2015 - Dezembro 2015",
+      "description": "Atuação na programação de Ruby on Rails, Java e C# para empresas da região Amazônica através de parcerias realizadas pelo CESUPA."
+    },
+    {
+      "company": "CTIC CESUPA",
+      "position": "Estagiário",
+      "location": "Belém, Pará, Brasil",
+      "period": "Agosto 2014 - Janeiro 2015",
+      "description": "Estagiário com função de controle de estoque e programação de software interno em Java."
+    }
+  ],
+  "education": {
+    "university": "Cesupa - Centro Universitário do Estado do Pará",
+    "degree": "Bacharelado, Ciência da Computação",
+    "period": "(2014 - 2018)"
+  }
+}
