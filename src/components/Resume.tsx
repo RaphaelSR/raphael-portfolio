@@ -5,6 +5,7 @@ import { IoLanguageOutline } from "react-icons/io5";
 import { ExperienceItem } from "./ExperienceItem";
 import { useTranslations } from "../hooks/useTranslations";
 import { Competences } from "./Competences";
+import { ImageModal } from "./ImageModal";
 
 const Resume = () => {
   const {
@@ -17,6 +18,7 @@ const Resume = () => {
     education,
     awards,
   } = useTranslations();
+  const [isImageModalOpen, setImageModalOpen] = React.useState(false);
 
   return (
     <div className="relative py-3 sm:max-w-4xl sm:mx-auto">
@@ -26,10 +28,21 @@ const Resume = () => {
           <h1 className="text-4xl font-bold mb-4 text-gray-800">
             {titles.name}
           </h1>
-          <img
+          <div
+            className="cursor-pointer"
+            onClick={() => setImageModalOpen(true)}
+          >
+            <img
+              src="https://avatars.githubusercontent.com/u/12202804?v=4"
+              alt="Raphael Rocha"
+              className="w-24 h-24 mb-4 rounded-full border-4 border-cyan-600"
+            />
+          </div>
+          <ImageModal
             src="https://avatars.githubusercontent.com/u/12202804?v=4"
             alt="Raphael Rocha"
-            className="w-24 h-24 mb-4 rounded-full border-4 border-cyan-600"
+            isOpen={isImageModalOpen}
+            onClose={() => setImageModalOpen(false)}
           />
         </div>
         <h2 className="text-2xl font-semibold mb-2 text-gray-600">
