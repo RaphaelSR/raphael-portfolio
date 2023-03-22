@@ -1,7 +1,7 @@
 {
   "titles": {
     "name": "Raphael Rocha",
-    "title": "Software Engineer | React Native | React | Node",
+    "title": "Front-end Software Engineer",
     "location": "Belém, Pará, Brazil",
     "contactTitle": "Contact:",
     "skillsTitle": "Main Skills:",
@@ -19,7 +19,7 @@
   },
   "competences": {
     "languages": ["Portuguese", "English"],
-    "programming": ["Node.js", "React.js", "React native"],
+    "programming": ["Node.js", "React.js", "React native", "Typescript", "HTML", "CSS"],
     "certifications": [
       "McAfee Endpoint Threat Protection/Defense",
       "Bootcamp GoStack 14",
@@ -29,7 +29,7 @@
     ]
   },
   "awards": ["Winner of the first Hackathon Insern 2021"],
-  "summary": "Software developer with more than three years of experience in web and mobile front-end using the react and react-native stack. I worked on some projects using Node and maintaining applications with a large flow of users. I am communicative, open to new professional experiences and challenges. I believe in teamwork and in an environment where everyone can help each other to have a higher quality result. Specialist in FDM 3D printers.",
+  "summary": "I am an IT professional with 9 years of experience, working in the dynamic world of technology and development. My expertise lies in front-end development, where I have had the opportunity to work on various React, React Native, and Node.js projects, receiving positive feedback along the way. I also have experience with cloud environments and am committed to implementing good cybersecurity practices. Currently, I am tackling new challenges, continually learning, and enjoying every step of this exciting journey!",
   "github": ["https://github.com/RaphaelSR"],
 
   "experience": [
