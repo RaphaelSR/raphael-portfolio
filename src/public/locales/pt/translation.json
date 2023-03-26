@@ -19,7 +19,23 @@
   },
   "competences": {
     "languages": ["Português", "Inglês"],
-    "programming": ["Node.js", "React.js", "React native", "Typescript", "HTML", "CSS"],
+    "programming": [
+      "Node.js",
+      "React.js",
+      "React native",
+      "Typescript",
+      "HTML",
+      "CSS",
+      "Firebase",
+      "Tailwind CSS",
+      "Expo",
+      "Redux",
+      "MongoDB",
+      "MySQL",
+      "Express",
+      "Styled Components",
+      "SASS"
+    ],
     "certifications": [
       "McAfee Endpoint Threat Protection/Defense",
       "Bootcamp GoStack 14",
@@ -38,7 +54,16 @@
       "position": "Desenvolvedor Front-end",
       "location": "Remoto",
       "period": "Julho 2022 - Presente",
-      "projects": []
+      "projects": [
+        {
+          "name": "Vapt-Jornada App",
+          "description": "Responsável como desenvolvedor líder do aplicativo Vapt-Jornada, gerenciando e mantendo o aplicativo com mais de 3000 usuários ativos diários nas plataformas Android e iOS, projetando e implementando novos recursos e funcionalidades, identificando e resolvendo bugs e utilizando React Native para o desenvolvimento da nova arquitetura do aplicativo."
+        },
+        {
+          "name": "Vapt-Jornada Aplicativo Web",
+          "description": "Manutenção e melhoria dos recursos e funcionalidades do aplicativo web usando React, aderindo às melhores práticas, como Kanban, Scrum, Azure e Git."
+        }
+      ]
     },
     {
       "company": "Wine.com.br",
@@ -47,16 +72,20 @@
       "period": "Outubro 2021 - Junho 2022",
       "projects": [
         {
-          "name": "Wine main App",
-          "description": "Desenvolvimento de novos recursos e telas, integração com novos SDKs e APIs."
+          "name": "App Wine Brasil",
+          "description": "Participação ativa na equipe de desenvolvimento mobile, implementando melhorias e novos recursos que tiveram um impacto direto no produto, usando TDD, padrões de design Kanban, Scrum e versionamento Git com automação e comunicação direta com as equipes de QA e produto."
         },
         {
-          "name": "México App",
-          "description": "Responsável pelo desenvolvimento de novos recursos em mobile com React Native e back-end com Node. Utilização de Shopify e outras APIs para integração."
+          "name": "Wine Black Friday",
+          "description": "Desenvolvimento da página de comércio eletrônico Wine Black Friday usando React."
         },
         {
-          "name": "Black Friday Web",
-          "description": "Desenvolvimento da página de destino da Black Friday para a semana da Black Friday, projeto realizado em React."
+          "name": "App Wine México",
+          "description": "Participação na equipe de desenvolvimento responsável pela expansão do aplicativo para a América Latina."
+        },
+        {
+          "name": "RestFull API",
+          "description": "Manutenção de novos recursos para a API RestFull usando Adonis."
         }
       ]
     },
@@ -68,11 +97,11 @@
       "projects": [
         {
           "name": "DoarPA",
-          "description": "Aplicação web para doação de objetos ao governo. Desenvolvido com React Native."
+          "description": "Liderança no desenvolvimento da aplicação web DoarPA, que permite aos usuários doar objetos facilmente para organizações governamentais. Utilizado React para criar uma experiência de usuário perfeita e intuitiva."
         },
         {
           "name": "Sepladpa",
-          "description": "App com webviews para acesso aos programas governamentais LOA e PPA."
+          "description": "Desenvolvimento do aplicativo móvel Sepladpa, que utiliza webviews para fornecer acesso a programas governamentais como LOA e PPA. Utilizado React Native para criar um aplicativo multiplataforma compatível com dispositivos iOS e Android."
         }
       ]
     },

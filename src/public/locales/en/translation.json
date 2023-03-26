@@ -19,7 +19,23 @@
   },
   "competences": {
     "languages": ["Portuguese", "English"],
-    "programming": ["Node.js", "React.js", "React native", "Typescript", "HTML", "CSS"],
+    "programming": [
+      "Node.js",
+      "React.js",
+      "React native",
+      "Typescript",
+      "HTML",
+      "CSS",
+      "Firebase",
+      "Tailwind CSS",
+      "Expo",
+      "Redux",
+      "MongoDB",
+      "MySQL",
+      "Express",
+      "Styled Components",
+      "SASS"
+    ],
     "certifications": [
       "McAfee Endpoint Threat Protection/Defense",
       "Bootcamp GoStack 14",
@@ -38,7 +54,16 @@
       "position": "Front-end Developer",
       "location": "Remote",
       "period": "July 2022 - Present",
-      "projects": []
+      "projects": [
+        {
+          "name": "Vapt-Jornada App",
+          "description": "Responsibilities as lead developer of the Vapt-Jornada App, managing and maintaining the app with over 3000 daily active users on Android and iOS platforms, designing and implementing new features and functionalities, identifying and resolving bugs, and utilizing React Native for the development of the app's new architecture."
+        },
+        {
+          "name": "Vapt-Jornada Web Application",
+          "description": "Maintaining and improving the web application's features and functionality using React, adhering to best practices such as Kanban, Scrum, Azure, and Git."
+        }
+      ]
     },
     {
       "company": "Wine.com.br",
@@ -47,16 +72,20 @@
       "period": "October 2021 - June 2022",
       "projects": [
         {
-          "name": "Wine main App",
-          "description": "Development of new features and screens, integration with new SDKs and APIs."
+          "name": "App Wine Brasil",
+          "description": "Actively involved in the mobile development team, implementing improvements and new features that had a direct impact on the product, using TDD, Kanban, Scrum design patterns, and Git versioning with automation and direct communication with the QA and product teams."
         },
         {
-          "name": "México App",
-          "description": "Responsible for the development of new features in mobile with React Native and back-end with Node. Using Shopify and other APIs for integration."
+          "name": "Wine Black Friday",
+          "description": "Developed the e-commerce Wine Black Friday page using React."
         },
         {
-          "name": "Black Friday Web",
-          "description": "Development of Black Friday landing page for the black Friday week, project made in React."
+          "name": "App Wine Mexico",
+          "description": "Participated in the development team responsible for the App expansion of the product to Latin America."
+        },
+        {
+          "name": "RestFull API",
+          "description": "Maintained new features for the RestFull API using Adonis."
         }
       ]
     },
@@ -68,11 +97,11 @@
       "projects": [
         {
           "name": "DoarPA",
-          "description": "Web application to donate objects to government. Developed with React Native."
+          "description": "Led the development of the DoarPA web application, which allows users to easily donate objects to government organizations. Utilized React to create a seamless and intuitive user experience."
         },
         {
           "name": "Sepladpa",
-          "description": "App with webviews to access LOA and PPA government programs."
+          "description": "Developed the Sepladpa mobile app, which utilizes webviews to provide access to government programs such as LOA and PPA. Utilized React Native to create a cross-platform app that is compatible with both iOS and Android devices."
         }
       ]
     },
@@ -98,7 +127,20 @@
       "location": "Belém, Pará, Brasil",
       "period": "March 2019 - March 2020",
       "description": "Management of the civil house network in the state of Pará. Application of improvements in the internal protocols and structure of the governor's palace.",
-      "projects": []
+      "projects": [
+        {
+          "name": "Internal Web Application",
+          "description": "Led the development of a web application for internal use, utilizing React and Node.js to create a user-friendly and efficient tool for internal communications and organization."
+        },
+        {
+          "name": "Cybersecurity Protocols",
+          "description": "Implemented new cyber security protocols in partnership with McAfee to enhance the security of the network and servers."
+        },
+        {
+          "name": "On-premise Servers",
+          "description": "Responsible for the deployment and management of new on-premise servers to ensure the availability and scalability of the network and the TI services."
+        }
+      ]
     },
     {
       "company": "Lab3D",
@@ -106,28 +148,36 @@
       "location": "Belém, Pará, Brasil",
       "period": "January 2016 - July 2019",
       "description": "CEO and founding partner for three years of startup Lab3D, the first startup of training and manufacturing of 3D printers in the north of Brazil. Last position as Manager of project development, working with digital manufacturing, automation in rapid prototyping machinery, leadership, design and innovation.",
-      "projects": []
+      "projects": [
+        {
+          "name": "3D Printer Feature Development",
+          "description": "Implemented new features using C and C++ programming languages, which helped to improve the performance and efficiency of the printers."
+        }
+      ]
     },
     {
       "company": "Defensoria Pública do Estado do Pará",
       "position": "Trainee",
       "location": "Belém, Pará, Brasil",
       "period": "January 2016 - January 2017",
-      "description": "Active in the sector of networks, function of control of the intranet traffic, maintenance of the local server and planning in future strategies."
+      "description": "Active in the sector of networks, function of control of the intranet traffic, maintenance of the local server and planning in future strategies.",
+      "projects": []
     },
     {
       "company": "Fabrica de software CESUPA",
       "position": "Trainee",
       "location": "Belém, Pará, Brasil",
       "period": "February 2015 - December 2015",
-      "description": "Active in the programming of Ruby on Rails, Java and C# for companies in the Amazon region through partnerships realized by CESUPA."
+      "description": "Active in the programming of Ruby on Rails, Java and C# for companies in the Amazon region through partnerships realized by CESUPA.",
+      "projects": []
     },
     {
       "company": "CTIC CESUPA",
       "position": "Trainee",
       "location": "Belém, Pará, Brasil",
       "period": "August 2014 - January 2015",
-      "description": "Trainee with stock control function and internal software programming in Java."
+      "description": "Trainee with stock control function and internal software programming in Java.",
+      "projects": []
     }
   ],
   "education": {
