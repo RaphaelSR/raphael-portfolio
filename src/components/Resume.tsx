@@ -22,7 +22,7 @@ const Resume = () => {
     <div className="relative py-3 sm:max-w-4xl sm:mx-auto">
       <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-light-blue-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
       <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
-        <div className="flex flex-col items-center space-y-4 sm:space-y-0 sm:space-x-10 sm:flex-row">
+        <div className="flex flex-col items-center space-y-4 mb-4 sm:space-y-0 sm:space-x-10 sm:flex-row">
           <h1 className="text-4xl font-bold mb-4 text-gray-800">
             {titles.name}
           </h1>

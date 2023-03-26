@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import translationsPt from "./../public/locales/pt/translation.json";
 import translationsEn from "./../public/locales/en/translation.json";
 import { useLanguage } from "../context/LanguageContext";
@@ -17,7 +17,11 @@ export const useTranslations = (): Translations => {
   );
 
   useEffect(() => {
-    setCurrentTranslations(translations[language as keyof typeof translations]);
+    setCurrentTranslations(
+      translations[language as keyof typeof translations] as SetStateAction<
+        typeof currentTranslations
+      >
+    );
   }, [language]);
 
   return currentTranslations;

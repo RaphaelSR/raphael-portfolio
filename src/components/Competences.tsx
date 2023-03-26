@@ -82,9 +82,9 @@ export function Competences({ competences, titles }: CompetencesProps) {
     <div className="pt-6 text-base leading-6 font-bold sm:text-lg sm:leading-7">
       <p>{titles.skillsTitle}</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {transitions((style, skill, index) => (
+        {transitions((style, skill) => (
           <animated.div
-            key={index}
+            key={skill}
             style={style}
             className="flex items-center space-x-2"
           >
