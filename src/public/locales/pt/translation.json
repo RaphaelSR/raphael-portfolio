@@ -57,7 +57,7 @@
       "projects": [
         {
           "name": "Vapt-Jornada App",
-          "description": "Responsável como desenvolvedor líder do aplicativo Vapt-Jornada, gerenciando e mantendo o aplicativo com mais de 3000 usuários ativos diários nas plataformas Android e iOS, projetando e implementando novos recursos e funcionalidades, identificando e resolvendo bugs e utilizando React Native para o desenvolvimento da nova arquitetura do aplicativo."
+          "description": "Responsável como desenvolvedor líder do aplicativo Vapt-Jornada, gerenciando e mantendo o aplicativo com mais de 10000 usuários ativos diários nas plataformas Android e iOS, projetando e implementando novos recursos e funcionalidades, identificando e resolvendo bugs e utilizando React Native para o desenvolvimento da nova arquitetura do aplicativo."
         },
         {
           "name": "Vapt-Jornada Aplicativo Web",
@@ -115,10 +115,10 @@
     },
     {
       "company": "Prodepa",
-      "position": "Analista de Sistemas",
+      "position": "Desenvolvedor de Software",
       "location": "Remoto",
       "period": "Março 2020 - Setembro 2020",
-      "description": "Desenvolvedor front-end júnior.",
+      "description": "Desenvolvedor front-end.",
       "projects": []
     },
     {

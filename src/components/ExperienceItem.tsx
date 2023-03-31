@@ -1,7 +1,9 @@
-// components/ExperienceItem.tsx
 import { useState } from "react";
+import { useLanguage } from "../context/LanguageContext";
+import { formatDuration } from "../utils/formatDuration";
 
 interface ExperienceItemProps {
+  company: string;
   title: string;
   period: string;
   location: string;
@@ -15,6 +17,7 @@ interface Project {
 }
 
 export function ExperienceItem({
+  company,
   title,
   period,
   location,
@@ -22,6 +25,10 @@ export function ExperienceItem({
   projects,
 }: ExperienceItemProps) {
   const [expanded, setExpanded] = useState(false);
+
+  const [startDate, endDate] = period.split(" - ");
+  const { language } = useLanguage();
+  const duration = formatDuration(startDate, endDate, language);
 
   return (
     <div
@@ -31,8 +38,8 @@ export function ExperienceItem({
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
     >
-      <h4 className="font-bold text-cyan-600">{title}</h4>
-      <p className="text-gray-500">{period}</p>
+      <h4 className="font-bold text-cyan-600">{company} - {title}</h4>
+      <p className="text-gray-500">{duration}</p>
       <p className="text-gray-500">{location}</p>
       {expanded && (
         <>

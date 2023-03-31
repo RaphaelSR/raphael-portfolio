@@ -96,6 +96,7 @@ const Resume = () => {
                     location={experience.location}
                     description={experience.description}
                     projects={experience.projects}
+                    company={experience.company}
                   />
                 );
               })}

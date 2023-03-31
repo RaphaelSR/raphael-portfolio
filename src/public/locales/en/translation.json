@@ -57,7 +57,7 @@
       "projects": [
         {
           "name": "Vapt-Jornada App",
-          "description": "Responsibilities as lead developer of the Vapt-Jornada App, managing and maintaining the app with over 3000 daily active users on Android and iOS platforms, designing and implementing new features and functionalities, identifying and resolving bugs, and utilizing React Native for the development of the app's new architecture."
+          "description": "Responsibilities as lead developer of the Vapt-Jornada App, managing and maintaining the app with over 10000 daily active users on Android and iOS platforms, designing and implementing new features and functionalities, identifying and resolving bugs, and utilizing React Native for the development of the app's new architecture."
         },
         {
           "name": "Vapt-Jornada Web Application",
@@ -115,10 +115,10 @@
     },
     {
       "company": "Prodepa",
-      "position": "Systems Analyst",
+      "position": "Software Developer",
       "location": "Remote",
       "period": "March 2020 - September 2020",
-      "description": "Junior front-end developer.",
+      "description": "Front-end developer.",
       "projects": []
     },
     {
