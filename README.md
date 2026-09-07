@@ -31,13 +31,13 @@ With Google Chrome already installed: `PLAYWRIGHT_CHANNEL=chrome npm test`. Brow
 - `src/styles.css`: responsive layout and interaction styles. Native document scrolling, no scroll hijacking, no autoplay audio.
 - `public/raphael-rocha-resume-2026.pdf`: original résumé supplied by Raphael.
 
-Career dates follow the supplied 2026 résumé. Website copy additionally incorporates Raphael’s confirmed mobile ownership and applied-AI experience. Spanish is fluent on the website; the downloadable original PDF is unchanged. Concurrent roles are intentionally retained. ModPro is shown as a current contribution without inventing a job title, start date or relationship to Xseed; those details await Raphael's confirmation. Side projects are selected from his public repositories. No private application screens, proprietary code or private repository links are included.
+Career dates follow the supplied 2026 résumé. Website copy additionally incorporates Raphael’s confirmed mobile ownership and applied-AI experience. Spanish is fluent on the website; the downloadable original PDF is unchanged. Concurrent roles are intentionally retained. ModPro is shown as a current contribution without inventing a job title, start date or relationship to Xseed. Side projects are selected from his public repositories. No private application screens, proprietary code or private repository links are included.
 
 ## Publication
 
-This revision is a **local preview pending Raphael's approval**. No remote branch, PR or deployment has been created for it.
+Production: https://raphaelsr.github.io/raphael-portfolio/
 
-The prepared workflow validates pull requests and `main`; publishing requires a manual workflow dispatch on `main`. Before the first approved publication, change GitHub Pages from its existing legacy `gh-pages` source to GitHub Actions. Do not do this or dispatch the workflow before approval. The existing production site remains unchanged.
+The workflow validates pull requests and `main`. Publishing requires a manual workflow dispatch on `main`, with lint, build, audit and browser tests before deployment. GitHub Pages uses GitHub Actions as its source. To test the public release: `PLAYWRIGHT_BASE_URL=https://raphaelsr.github.io/raphael-portfolio/ PLAYWRIGHT_CHANNEL=chrome npm test`.
 
 ## Design references
 

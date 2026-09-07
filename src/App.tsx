@@ -267,10 +267,6 @@ export default function App() {
               <span>{t.hero[1]}</span>
             </h1>
             <p className="hero-intro">{t.intro}</p>
-            <p className="location">
-              <span className="location-line" />
-              {t.location}
-            </p>
             <div className="hero-actions">
               <a className="button primary" href="#work">
                 {t.workCta}
@@ -437,7 +433,7 @@ export default function App() {
               </span>
               <div>
                 <strong>Raphael Rocha</strong>
-                <span>Belém → Buenos Aires</span>
+                <span>Mobile · Web · Backend</span>
               </div>
             </div>
           </div>
@@ -567,7 +563,7 @@ export default function App() {
         {selected && (
           <>
             <div className="dialog-header">
-              <span>project / {selected.id}</span>
+              <span>{selected.name}</span>
               <button
                 autoFocus
                 className="icon-button"
