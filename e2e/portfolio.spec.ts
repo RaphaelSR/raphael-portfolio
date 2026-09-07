@@ -133,7 +133,10 @@ for (const [locale, expected] of [
   test(`initial language follows ${locale}`, async ({ browser }) => {
     const context = await browser.newContext({ locale });
     const page = await context.newPage();
-    await page.goto("http://127.0.0.1:3010/raphael-portfolio/");
+    await page.goto(
+      process.env.PLAYWRIGHT_BASE_URL ||
+        "http://127.0.0.1:3010/raphael-portfolio/",
+    );
     await expect(page.locator("html")).toHaveAttribute("lang", expected);
     await page
       .getByRole("button", {

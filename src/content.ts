@@ -9,30 +9,29 @@ export const copy = {
     nav: ["Início", "Trajetória", "Trabalhos", "Sobre"],
     contact: "Vamos conversar",
     skip: "Pular para o conteúdo",
-    eyebrow: "MOBILE · PRODUCT · APPLIED AI",
+    eyebrow: "MOBILE · FULL STACK · AI",
     hero: ["Raphael Rocha.", "Senior Mobile Engineer"],
     intro:
-      "Assumo produtos mobile da arquitetura à publicação. Combino autonomia técnica, visão de produto e IA aplicada para entregar software confiável e evoluir com velocidade.",
-    location: "De Belém, em Buenos Aires.",
+      "Sou engenheiro de software especializado em mobile, com atuação full stack. Desenvolvo produtos completos, conectando decisões técnicas, experiência de uso e objetivos de negócio.",
     workCta: "Conheça meu trabalho",
     resume: "Currículo",
     focusLabel: "COMO EU CONTRIBUO",
-    scope: "Mobile · Arquitetura · IA aplicada",
+    scope: "Mobile · Full stack · IA aplicada",
     focus: [
       {
         title: "Da arquitetura à entrega",
         description:
-          "Responsabilidade técnica pelo ciclo completo do produto mobile.",
+          "Arquitetura, desenvolvimento e publicação, com foco em qualidade e manutenção.",
       },
       {
-        title: "Produto, além da interface",
+        title: "Desenvolvimento full stack",
         description:
-          "Aplicativos, integrações e serviços conectados às necessidades do negócio.",
+          "Aplicações mobile e web, BFFs e serviços de backend orientados ao produto.",
       },
       {
         title: "IA aplicada à engenharia",
         description:
-          "Automação, pipelines e funcionalidades de produto, com qualidade e revisão.",
+          "Integrações de IA no produto e automação de fluxos de desenvolvimento.",
       },
     ],
     now: "ATUALMENTE",
@@ -42,16 +41,16 @@ export const copy = {
     play: "Ativar animações",
     reduced: "Movimento reduzido pelo sistema",
     pathLabel: "01 / TRAJETÓRIA",
-    pathTitle: "Experiência e\nresponsabilidade técnica.",
+    pathTitle: "Experiência profissional.",
     pathIntro:
-      "Liderança e desenvolvimento de produtos mobile em diferentes setores. Decisões de arquitetura, execução e evolução contínua, em colaboração com produto, design e backend.",
+      "Experiência em produtos de saúde, mobilidade, serviços financeiros e e-commerce, com atuação em desenvolvimento e liderança técnica.",
     earlier: "Ver experiências anteriores",
     concurrent: "Algumas atuações aconteceram em paralelo.",
     present: "atual",
     projectsLabel: "02 / TRABALHOS SELECIONADOS",
     projectsTitle: "Trabalhos selecionados.",
     projectsIntro:
-      "Uma seleção de produtos em que atuo e projetos independentes. Contexto, contribuição e tecnologia.",
+      "Produtos em que contribuí e projetos independentes que desenvolvo para explorar novas soluções.",
     all: "Todos",
     product: "Produtos",
     experiment: "Experimentos",
@@ -63,14 +62,14 @@ export const copy = {
     aboutLabel: "03 / SOBRE",
     aboutTitle: "Engenharia com\nvisão de produto.",
     aboutText:
-      "Minha trajetória começou entre software, infraestrutura e fabricação digital em Belém, onde fundei a LAB3D. Essa base me ensinou a olhar para o produto inteiro, além da interface.",
+      "Sou engenheiro de software com foco em produtos mobile e experiência full stack. Combino profundidade técnica e visão de negócio para transformar requisitos em aplicações confiáveis, acessíveis e preparadas para evoluir.",
     aboutText2:
-      "Desde a Vix, assumo ampla responsabilidade pelos produtos mobile em que trabalho: decisões técnicas, implementação, qualidade e publicação. Transito entre aplicativo, integrações e serviços para resolver o que o produto precisa.",
+      "Trabalho próximo de produto e design, com autonomia para conduzir o desenvolvimento da arquitetura à publicação. Minha atuação abrange aplicativos mobile, aplicações web completas, BFFs e backends voltados às necessidades de cada experiência.",
     aboutText3:
-      "IA faz parte da minha prática de engenharia: da automação de fluxos e pipelines ao desenvolvimento de funcionalidades no produto. Uso essas ferramentas para ampliar a capacidade de entrega, com revisão, testes e responsabilidade pelas decisões.",
+      "Integro IA tanto às funcionalidades do produto quanto aos processos de engenharia, incluindo automação e pipelines de desenvolvimento. Valorizo decisões pragmáticas, comunicação clara e soluções que equilibram velocidade de entrega, qualidade e sustentabilidade técnica.",
     languages: "Português nativo · Inglês fluente · Espanhol fluente",
     education: "Ciência da Computação · CESUPA, 2014–2018",
-    toolkit: "NA CAIXA DE FERRAMENTAS",
+    toolkit: "COMPETÊNCIAS TÉCNICAS",
     recognition: "Além do código",
     award1: "1º lugar · Hackathon Insern, 2021",
     award2: "Top 5 · Amazon Launch, 2017",
@@ -79,7 +78,7 @@ export const copy = {
     contactLabel: "04 / CONTATO",
     contactTitle: "Vamos falar sobre\nseu próximo produto.",
     contactText:
-      "Sobre um produto, um desafio mobile ou uma ideia que merece sair do papel.",
+      "Para conversar sobre desenvolvimento de produtos, desafios técnicos ou oportunidades de colaboração.",
     copyEmail: "Copiar e-mail",
     copied: "E-mail copiado",
     copyFailed: "Não foi possível copiar. O endereço está disponível no link.",
@@ -90,30 +89,29 @@ export const copy = {
     nav: ["Home", "Experience", "Work", "About"],
     contact: "Let’s talk",
     skip: "Skip to content",
-    eyebrow: "MOBILE · PRODUCT · APPLIED AI",
+    eyebrow: "MOBILE · FULL STACK · AI",
     hero: ["Raphael Rocha.", "Senior Mobile Engineer"],
     intro:
-      "I take ownership of mobile products, from architecture to release. I bring together technical autonomy, product thinking and applied AI to deliver reliable software and help teams move faster.",
-    location: "From Belém, based in Buenos Aires.",
+      "I’m a software engineer specializing in mobile, with full-stack capabilities. I build complete products, connecting technical decisions, user experience and business goals.",
     workCta: "Explore my work",
     resume: "Résumé",
     focusLabel: "HOW I CONTRIBUTE",
-    scope: "Mobile · Architecture · Applied AI",
+    scope: "Mobile · Full stack · Applied AI",
     focus: [
       {
         title: "Architecture through delivery",
         description:
-          "Technical ownership across the entire mobile product lifecycle.",
+          "Architecture, development and release, with a focus on quality and maintainability.",
       },
       {
-        title: "Product beyond the interface",
+        title: "Full-stack development",
         description:
-          "Apps, integrations and services connected to business needs.",
+          "Mobile and web applications, BFFs and backend services shaped around the product.",
       },
       {
         title: "AI in engineering practice",
         description:
-          "Automation, pipelines and product features, with quality and review.",
+          "AI integrations in products and automation across development workflows.",
       },
     ],
     now: "CURRENTLY",
@@ -123,16 +121,16 @@ export const copy = {
     play: "Enable animations",
     reduced: "Reduced motion follows your system",
     pathLabel: "01 / EXPERIENCE",
-    pathTitle: "Experience &\ntechnical ownership.",
+    pathTitle: "Professional experience.",
     pathIntro:
-      "Leading and building mobile products across industries. Architecture, delivery and ongoing evolution, working closely with product, design and backend teams.",
+      "Experience building products in healthcare, mobility, financial services and e-commerce, across engineering and technical leadership roles.",
     earlier: "Explore earlier experience",
     concurrent: "Some roles ran concurrently.",
     present: "present",
     projectsLabel: "02 / SELECTED WORK",
     projectsTitle: "Selected work.",
     projectsIntro:
-      "A selection of products I contribute to and independent projects. Context, contribution and technology.",
+      "Products I’ve contributed to and independent projects I build to explore new solutions.",
     all: "All",
     product: "Products",
     experiment: "Experiments",
@@ -144,14 +142,14 @@ export const copy = {
     aboutLabel: "03 / ABOUT",
     aboutTitle: "Engineering with\na product perspective.",
     aboutText:
-      "My career began in software, infrastructure and digital fabrication in Belém, where I founded LAB3D. That foundation taught me to consider the whole product, beyond its interface.",
+      "I’m a software engineer focused on mobile products, with full-stack experience. I combine technical depth and business understanding to turn requirements into reliable, accessible applications that can evolve with the product.",
     aboutText2:
-      "Since Vix, I have taken broad ownership of the mobile products I work on: technical decisions, implementation, quality and release. I work across apps, integrations and services to solve what the product needs.",
+      "I work closely with product and design, with the autonomy to guide development from architecture to release. My work spans mobile apps, complete web applications, BFFs and backends tailored to the needs of each experience.",
     aboutText3:
-      "AI is part of my engineering practice, from workflow and pipeline automation to product features. I use these tools to expand delivery capacity, with review, testing and accountability for the decisions.",
+      "I integrate AI into both product features and engineering processes, including automation and development pipelines. I value pragmatic decisions, clear communication and solutions that balance delivery speed, quality and long-term maintainability.",
     languages: "Native Portuguese · Fluent English · Fluent Spanish",
     education: "Computer Science · CESUPA, 2014–2018",
-    toolkit: "IN MY TOOLKIT",
+    toolkit: "TECHNICAL SKILLS",
     recognition: "Beyond code",
     award1: "1st place · Hackathon Insern, 2021",
     award2: "Top 5 · Amazon Launch, 2017",
@@ -160,7 +158,7 @@ export const copy = {
     contactLabel: "04 / CONTACT",
     contactTitle: "Let’s talk about\nyour next product.",
     contactText:
-      "A product, a mobile challenge, or an idea that deserves to become real.",
+      "For conversations about product development, technical challenges or opportunities to work together.",
     copyEmail: "Copy email",
     copied: "Email copied",
     copyFailed: "Could not copy. The address is available in the email link.",
@@ -348,12 +346,12 @@ export const projects: Project[] = [
     category: "product",
     label: { pt: "AUTOMOTIVO · COMUNIDADE", en: "AUTOMOTIVE · COMMUNITY" },
     description: {
-      pt: "Uma garagem digital para organizar builds e conectar quem gosta de transformar veículos.",
-      en: "A digital garage to organize builds and connect people who love transforming vehicles.",
+      pt: "Plataforma automotiva que reúne gestão de veículos, modificações, comunidade e assistência com IA.",
+      en: "An automotive platform combining vehicle and modification management, community and AI assistance.",
     },
     contribution: {
-      pt: "Atuação no desenvolvimento do produto ModPro. A plataforma reúne veículos, modificações, comunidade e assistência com IA.",
-      en: "Contributing to ModPro product development. The platform brings together vehicles, modifications, community and AI assistance.",
+      pt: "Desenvolvimento de aplicações e serviços para o ModPro, integrando experiências mobile e web às funcionalidades da plataforma.",
+      en: "Developing applications and services for ModPro, connecting mobile and web experiences with the platform’s capabilities.",
     },
     stack: ["Mobile", "Web", "Produto / Product"],
     url: "https://modpro.ai/",
@@ -382,8 +380,8 @@ export const projects: Project[] = [
     category: "experiment",
     label: { pt: "3D · FERRAMENTA CRIATIVA", en: "3D · CREATIVE TOOL" },
     description: {
-      pt: "Um pequeno estúdio para explorar formas, materiais e movimento. Do canvas ao GIF.",
-      en: "A small studio for exploring shapes, materials and motion. From canvas to GIF.",
+      pt: "Editor 3D para criar animações com geometrias, materiais e exportação de imagens e vídeos.",
+      en: "A 3D editor for creating animations with shapes, materials, and image and video export.",
     },
     contribution: {
       pt: "Projeto pessoal: editor de geometrias 3D com iluminação de estúdio, gradientes, animação e exportação de imagens e vídeos.",
@@ -399,12 +397,12 @@ export const projects: Project[] = [
     category: "experiment",
     label: { pt: "JOGO · INTERAÇÃO", en: "GAME · INTERACTION" },
     description: {
-      pt: "Perguntas, respostas e um placar em tempo real. Um experimento para jogar junto.",
-      en: "Questions, answers and real-time scoring. An experiment made for playing together.",
+      pt: "Jogo de perguntas e respostas com painel interativo e pontuação em tempo real.",
+      en: "A trivia game with an interactive dashboard and real-time scoring.",
     },
     contribution: {
-      pt: "Side project de um jogo de trivia com painel interativo e pontuação em tempo real. Código disponível no GitHub.",
-      en: "A side project exploring a trivia game with an interactive dashboard and real-time scoring. Source available on GitHub.",
+      pt: "Projeto independente voltado à interface e à dinâmica de um jogo de perguntas e respostas. Código disponível no GitHub.",
+      en: "An independent project exploring the interface and mechanics of a trivia game. Source available on GitHub.",
     },
     stack: ["Web", "Game UI"],
     url: "https://github.com/RaphaelSR/trivia",
