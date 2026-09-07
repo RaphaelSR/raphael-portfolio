@@ -39,7 +39,9 @@ test("language, keyboard navigation, details and modal focus", async ({
   await expect(
     page.getByRole("link", { name: "Pular para o conteúdo" }),
   ).toBeFocused();
-  await page.getByRole("button", { name: "Switch to English" }).click();
+  await page
+    .getByRole("combobox", { name: "Selecionar idioma" })
+    .selectOption("en");
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await page.reload();
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
@@ -127,7 +129,8 @@ test("reduced motion and manual motion preference", async ({ page }) => {
 for (const [locale, expected] of [
   ["en-US", "en"],
   ["pt-BR", "pt-BR"],
-  ["es-AR", "en"],
+  ["es-AR", "es"],
+  ["es-ES", "es"],
   ["fr-FR", "en"],
 ])
   test(`initial language follows ${locale}`, async ({ browser }) => {
@@ -139,10 +142,8 @@ for (const [locale, expected] of [
     );
     await expect(page.locator("html")).toHaveAttribute("lang", expected);
     await page
-      .getByRole("button", {
-        name: expected === "en" ? "Mudar para português" : "Switch to English",
-      })
-      .click();
+      .getByRole("combobox")
+      .selectOption(expected === "en" ? "pt" : "en");
     await page.reload();
     await expect(page.locator("html")).toHaveAttribute(
       "lang",
@@ -150,3 +151,94 @@ for (const [locale, expected] of [
     );
     await context.close();
   });
+
+for (const width of [320, 768, 1440]) {
+  test(`Spanish content and accessibility at ${width}px`, async ({
+    page,
+  }, info) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("./");
+    const language = page.getByRole("combobox");
+    await expect(language.locator("option")).toHaveText([
+      "Português",
+      "English",
+      "Español",
+    ]);
+    await language.selectOption("es");
+    await page.reload();
+    await expect(page.locator("html")).toHaveAttribute("lang", "es");
+    await expect(
+      page.getByRole("heading", { name: "Experiencia profesional." }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("Portugués nativo · Inglés fluido · Español fluido"),
+    ).toBeVisible();
+    await page
+      .locator("summary")
+      .filter({ hasText: "Ver experiencia anterior" })
+      .click();
+    await page.locator("summary").filter({ hasText: "LAB3D" }).click();
+    await expect(page.getByText("Impresión 3D", { exact: true })).toBeVisible();
+    await page.locator("summary").filter({ hasText: "Medely" }).click();
+    await expect(page.getByText("Arquitectura", { exact: true })).toBeVisible();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    expect(
+      (
+        await new AxeBuilder({ page })
+          .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
+          .analyze()
+      ).violations,
+    ).toEqual([]);
+    await page.screenshot({
+      path: info.outputPath(`spanish-${width}.png`),
+      fullPage: true,
+    });
+    await page
+      .getByRole("button", { name: "Sobre mi participación: ModPro AI" })
+      .click();
+    await expect(page.getByRole("dialog")).toContainText(
+      "Desarrollo de aplicaciones y servicios para ModPro",
+    );
+    await expect(page.getByRole("dialog")).toContainText("Producto");
+    await page.getByRole("button", { name: "Cerrar detalles" }).click();
+    for (const [locale, lang] of [
+      ["en", "en"],
+      ["pt", "pt-BR"],
+      ["es", "es"],
+    ]) {
+      await language.selectOption(locale);
+      await page.reload();
+      await expect(page.locator("html")).toHaveAttribute("lang", lang);
+    }
+  });
+}
+test("unsupported saved locale uses the next supported browser preference", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("rr-language", "invalid");
+    Object.defineProperty(navigator, "languages", {
+      value: ["fr-FR", "es-AR", "en-US"],
+    });
+  });
+  await page.goto("./");
+  await expect(page.locator("html")).toHaveAttribute("lang", "es");
+});
+test("language selection remains usable without persistent storage", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(window, "localStorage", {
+      get() {
+        throw new Error("Storage unavailable");
+      },
+    });
+  });
+  await page.goto("./");
+  await page.getByRole("combobox").selectOption("es");
+  await expect(page.locator("html")).toHaveAttribute("lang", "es");
+});

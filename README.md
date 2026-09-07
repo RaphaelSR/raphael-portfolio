@@ -1,6 +1,6 @@
 # Raphael Rocha — portfolio
 
-A professional, editorial portfolio focused on mobile product ownership, architecture and applied AI. Lightweight CSS and Web Animations API transitions support navigation and reading. React, TypeScript and Vite. Portuguese and English. No backend, analytics, remote fonts or runtime content services.
+A professional, editorial portfolio focused on mobile product ownership, architecture and applied AI. Lightweight CSS and Web Animations API transitions support navigation and reading. React, TypeScript and Vite. Portuguese, English and Spanish. No backend, analytics, remote fonts or runtime content services.
 
 ## Run locally
 
@@ -27,7 +27,11 @@ With Google Chrome already installed: `PLAYWRIGHT_CHANNEL=chrome npm test`. Brow
 
 ## Content and art
 
-- `src/content.ts`: bilingual editorial content, experience, project links and contact details.
+- `src/messages.ts`: complete, type-checked UI and editorial translations in all three languages.
+- `src/i18n.ts`: shared locale types, preference resolution and localized labels.
+- `src/content.ts`: typed experience, projects and technical skills.
+- `src/hooks/`: preferences, section tracking and motion lifecycle.
+- `src/components/`: reusable interface elements.
 - `src/styles.css`: responsive layout and interaction styles. Native document scrolling, no scroll hijacking, no autoplay audio.
 - `public/raphael-rocha-resume-2026.pdf`: original résumé supplied by Raphael.
 
@@ -49,4 +53,4 @@ The workflow validates pull requests and `main`. Publishing requires a manual wo
 
 The resulting art and layout are original; no reference site assets or source code were copied.
 
-Language follows a saved manual preference first, then the first browser language (Portuguese for `pt`, English otherwise). No IP lookup or geolocation request is made. This detects language preference, not physical location.
+Language follows a saved manual preference first, then the first supported browser language in preference order (`pt`, `en`, `es`), with English as the fallback. No IP lookup or geolocation request is made. This detects language preference, not physical location.
