@@ -1,9 +1,8 @@
-import { defineConfig } from 'vite';
-import reactRefresh from '@vitejs/plugin-react-refresh';
-
-// https://vitejs.dev/config/
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 export default defineConfig({
-  plugins: [reactRefresh()],
-  base: '/raphael-portfolio/',
-  publicDir: 'public',
+  plugins: [react()],
+  base: "/raphael-portfolio/",
+  server: { port: 3010, strictPort: true },
+  build: { target: "es2022" },
 });
