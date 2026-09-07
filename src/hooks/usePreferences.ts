@@ -15,9 +15,16 @@ function save(key: string, value: string) {
   }
 }
 export function usePreferences() {
-  const [language, setLanguage] = useState<Language>(() =>
-    saved("rr-language") === "en" ? "en" : "pt",
-  );
+  const [language, updateLanguage] = useState<Language>(() => {
+    const preference = saved("rr-language");
+    if (preference === "pt" || preference === "en") return preference;
+    const preferred = navigator.languages?.[0] || navigator.language || "en";
+    return preferred.toLowerCase().startsWith("pt") ? "pt" : "en";
+  });
+  const setLanguage = (next: Language) => {
+    save("rr-language", next);
+    updateLanguage(next);
+  };
   const [motion, setMotion] = useState(() => saved("rr-motion") !== "off");
   const [reduced, setReduced] = useState(
     () => matchMedia("(prefers-reduced-motion: reduce)").matches,
@@ -30,7 +37,6 @@ export function usePreferences() {
   }, []);
   useEffect(() => {
     document.documentElement.lang = language === "pt" ? "pt-BR" : "en";
-    save("rr-language", language);
   }, [language]);
   useEffect(() => {
     document.documentElement.dataset.motion = motion && !reduced ? "on" : "off";

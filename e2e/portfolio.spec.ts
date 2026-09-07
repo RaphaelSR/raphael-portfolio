@@ -7,7 +7,7 @@ for (const width of [320, 390, 768, 1440])
     await page.setViewportSize({ width, height: 900 });
     await page.goto("./");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await expect(page.locator("canvas")).toBeVisible();
+    await expect(page.locator("canvas")).toHaveCount(0);
     await page.evaluate(() => document.fonts.ready);
     expect(
       await page.evaluate(
@@ -43,7 +43,7 @@ test("language, keyboard navigation, details and modal focus", async ({
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await page.reload();
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Mobile & beyond.",
+    "Senior Mobile Engineer",
   );
   await page.locator("summary").filter({ hasText: "Medely" }).click();
   await expect(
@@ -107,69 +107,43 @@ test("resume is a real PDF and email copy works", async ({ page, context }) => {
     "raphaelrochabcc@gmail.com",
   );
 });
-test("reduced motion, color controls and WebGL fallback", async ({ page }) => {
+test("reduced motion and manual motion preference", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("./");
-  await expect(page.locator("canvas")).toBeVisible();
   await expect(page.locator("html")).toHaveAttribute("data-motion", "off");
   await expect(
-    page
-      .getByRole("button", { name: "Movimento reduzido pelo sistema" })
-      .first(),
+    page.getByRole("button", { name: "Movimento reduzido pelo sistema" }),
   ).toBeDisabled();
-  const before = await page.locator("canvas").screenshot();
-  await page.getByRole("button", { name: "Trocar cor" }).click();
-  const after = await page.locator("canvas").screenshot();
-  expect(before.equals(after)).toBe(false);
-  await page.addInitScript(() => {
-    const original = HTMLCanvasElement.prototype.getContext;
-    HTMLCanvasElement.prototype.getContext = function (
-      this: HTMLCanvasElement,
-      type: string,
-      ...args: unknown[]
-    ) {
-      if (type.includes("webgl")) return null;
-      return Reflect.apply(original, this, [type, ...args]);
-    } as typeof original;
-  });
+  expect(
+    await page
+      .locator("html")
+      .evaluate((el) => getComputedStyle(el).scrollBehavior),
+  ).toBe("auto");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.getByRole("button", { name: "Pausar animações" }).click();
   await page.reload();
-  await expect(
-    page.getByText("O experimento 3D está indisponível", { exact: false }),
-  ).toBeVisible();
-  await expect(
-    page.getByRole("link", { name: "Conheça meu trabalho" }),
-  ).toBeVisible();
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "off");
 });
-
-test("pausing the visible experiment stops continuous GPU rendering", async ({
-  page,
-}) => {
-  await page.addInitScript(() => {
-    const original = WebGL2RenderingContext.prototype.drawElements;
-    Object.assign(window, { gpuDraws: 0 });
-    WebGL2RenderingContext.prototype.drawElements = function (
-      ...args: Parameters<typeof original>
-    ) {
-      (window as unknown as { gpuDraws: number }).gpuDraws++;
-      return original.apply(this, args);
-    };
+for (const [locale, expected] of [
+  ["en-US", "en"],
+  ["pt-BR", "pt-BR"],
+  ["es-AR", "en"],
+  ["fr-FR", "en"],
+])
+  test(`initial language follows ${locale}`, async ({ browser }) => {
+    const context = await browser.newContext({ locale });
+    const page = await context.newPage();
+    await page.goto("http://127.0.0.1:3010/raphael-portfolio/");
+    await expect(page.locator("html")).toHaveAttribute("lang", expected);
+    await page
+      .getByRole("button", {
+        name: expected === "en" ? "Mudar para português" : "Switch to English",
+      })
+      .click();
+    await page.reload();
+    await expect(page.locator("html")).toHaveAttribute(
+      "lang",
+      expected === "en" ? "pt-BR" : "en",
+    );
+    await context.close();
   });
-  await page.goto("./");
-  await expect(page.locator("canvas")).toBeVisible();
-  const draws = () =>
-    page.evaluate(() => (window as unknown as { gpuDraws: number }).gpuDraws);
-  await expect.poll(draws).toBeGreaterThan(0);
-  await page
-    .locator(".playground-caption")
-    .getByRole("button", { name: "Pausar animações" })
-    .click();
-  await page.waitForTimeout(100);
-  const paused = await draws();
-  await page.waitForTimeout(300);
-  expect(await draws()).toBe(paused);
-  await page
-    .locator(".playground-caption")
-    .getByRole("button", { name: "Ativar animações" })
-    .click();
-  await expect.poll(draws).toBeGreaterThan(paused);
-});
