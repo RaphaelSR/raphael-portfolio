@@ -1,11 +1,4 @@
-import {
-  lazy,
-  Suspense,
-  useEffect,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   copy,
   experience,
@@ -17,8 +10,6 @@ import {
 } from "./content";
 import { usePreferences } from "./hooks/usePreferences";
 import { Icon } from "./components/Icon";
-import { ProjectArt } from "./components/ProjectArt";
-const Playground = lazy(() => import("./components/Playground"));
 const anchors = ["home", "experience", "work", "about"];
 function Lines({ text }: { text: string }) {
   return (
@@ -54,9 +45,56 @@ export default function App() {
   const { language, setLanguage, motion, toggleMotion, reduced } =
     usePreferences();
   const t = copy[language];
+  const [activeSection, setActiveSection] = useState("home");
+  useEffect(() => {
+    const sections = [
+      ...document.querySelectorAll<HTMLElement>("main section[id]"),
+    ];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const current = entries
+          .filter((e) => e.isIntersecting)
+          .sort(
+            (a, b) => a.boundingClientRect.top - b.boundingClientRect.top,
+          )[0];
+        if (current) setActiveSection(current.target.id);
+      },
+      { rootMargin: "-15% 0px -55% 0px" },
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!motion) return;
+    const animations: Animation[] = [];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          animations.push(
+            entry.target.animate(
+              [
+                { opacity: 1, transform: "translateY(10px)" },
+                { opacity: 1, transform: "translateY(0)" },
+              ],
+              { duration: 480, easing: "cubic-bezier(.2,.7,.2,1)" },
+            ),
+          );
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.12 },
+    );
+    document
+      .querySelectorAll(".section-heading, .about-content, .focus-panel")
+      .forEach((el) => observer.observe(el));
+    return () => {
+      observer.disconnect();
+      animations.forEach((animation) => animation.cancel());
+    };
+  }, [motion]);
   const [menu, setMenu] = useState(false);
-  const [color, setColor] = useState(0);
-  const [reset, setReset] = useState(0);
   const [filter, setFilter] = useState("all");
   const [selected, setSelected] = useState<Project | null>(null);
   const [copyState, setCopyState] = useState<"idle" | "done" | "failed">(
@@ -152,9 +190,7 @@ export default function App() {
             </span>
             <span>
               Raphael Rocha
-              <span className="wordmark-sub">
-                MOBILE & CREATIVE ENGINEERING
-              </span>
+              <span className="wordmark-sub">SOFTWARE ENGINEER</span>
             </span>
           </a>
           <nav
@@ -167,6 +203,9 @@ export default function App() {
             {t.nav.map((label, i) => (
               <a
                 href={`#${anchors[i]}`}
+                aria-current={
+                  activeSection === anchors[i] ? "location" : undefined
+                }
                 key={label}
                 onClick={() => setMenu(false)}
               >
@@ -211,7 +250,7 @@ export default function App() {
           </div>
         </div>
       </header>
-      <main id="main">
+      <main id="main" tabIndex={-1}>
         <section
           className="hero section-shell"
           id="home"
@@ -250,86 +289,23 @@ export default function App() {
               </p>
             </div>
           </div>
-          <div className="playground-window">
-            <div className="window-title">
-              <span>
-                <span className="window-icon" />
-                playground.exe
-              </span>
-              <div aria-hidden="true" className="window-decoration">
-                <span>−</span>
-                <span>□</span>
-              </div>
-            </div>
-            <div className="playground-area">
-              <div className="playground-grid" />
-              <span className="art-corner mono">PERSONAL OBJECT / 001</span>
-              <Suspense
-                fallback={
-                  <div
-                    className="three-loading"
-                    aria-label={
-                      language === "pt"
-                        ? "Carregando experimento 3D"
-                        : "Loading 3D experiment"
-                    }
-                  >
-                    <span>R/R</span>
-                  </div>
-                }
-              >
-                <Playground
-                  motion={motion}
-                  color={color}
-                  reset={reset}
-                  fallback={t.fallback}
-                />
-              </Suspense>
-              <div className="playground-caption">
-                <span className="mono">{t.visualHint}</span>
+          <aside className="focus-panel" aria-label={t.focusLabel}>
+            <p className="eyebrow">{t.focusLabel}</p>
+            {t.focus.map((item, index) => (
+              <div className="focus-item" key={index}>
+                <span className="mono">0{index + 1}</span>
                 <div>
-                  <button
-                    className="icon-button"
-                    disabled={reduced}
-                    aria-label={reduced ? t.reduced : motion ? t.pause : t.play}
-                    onClick={toggleMotion}
-                  >
-                    <Icon name={motion ? "pause" : "play"} />
-                  </button>
-                  <button
-                    className="icon-button"
-                    aria-label={t.color}
-                    onClick={() => setColor((v) => (v + 1) % 3)}
-                  >
-                    <Icon name="color" />
-                  </button>
-                  <button
-                    className="icon-button"
-                    aria-label={t.rotate}
-                    onClick={() => setReset((v) => v + 1)}
-                  >
-                    <Icon name="reset" />
-                  </button>
+                  <h2>{item.title}</h2>
+                  <p>{item.description}</p>
                 </div>
               </div>
-            </div>
-            <div className="window-status">
-              <span>
-                <span className="status-dot" />
-                {t.visualTitle}
-              </span>
-              <span className="mono">WEBGL</span>
-            </div>
-          </div>
+            ))}
+          </aside>
         </section>
         <div className="expertise-strip">
           <div className="section-shell">
-            <span className="mono">MOBILE AT HEART.</span>
-            <span>
-              React Native <i>↗</i> {language === "pt" ? "Produto" : "Product"}{" "}
-              <i>↗</i> Web <i>↗</i> 3D
-            </span>
-            <span className="mono">ALWAYS EXPLORING.</span>
+            <span>{t.scope}</span>
+            <span>React Native / Expo / TypeScript / NestJS</span>
           </div>
         </div>
         <section
@@ -405,11 +381,19 @@ export default function App() {
                 .map((project, i) => (
                   <article className="project-card" key={project.id}>
                     <button
-                      className="project-art-button"
+                      className="project-preview"
                       onClick={(e) => selectProject(project, e.currentTarget)}
                       aria-label={`${t.detail}: ${project.name}`}
                     >
-                      <ProjectArt id={project.id} />
+                      <span className="project-wordmark" aria-hidden="true">
+                        {project.name}
+                      </span>
+                      <span
+                        className="project-preview-caption"
+                        aria-hidden="true"
+                      >
+                        {project.stack.slice(0, 2).join(" · ")}
+                      </span>
                       <span className="project-open">
                         <Icon name="external" />
                       </span>
@@ -582,7 +566,7 @@ export default function App() {
       >
         {selected && (
           <>
-            <div className="window-title">
+            <div className="dialog-header">
               <span>project / {selected.id}</span>
               <button
                 autoFocus
@@ -593,7 +577,7 @@ export default function App() {
                 <Icon name="close" />
               </button>
             </div>
-            <ProjectArt id={selected.id} />
+
             <div className="dialog-content">
               <p className="eyebrow">{selected.label[language]}</p>
               <h2 id="dialog-title">{selected.name}</h2>
