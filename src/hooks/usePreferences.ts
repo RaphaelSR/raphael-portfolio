@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-export type Language = "pt" | "en";
+import { documentLanguages, resolveLocale, type Locale } from "../i18n";
 function saved(key: string) {
   try {
     return localStorage.getItem(key);
@@ -15,13 +15,13 @@ function save(key: string, value: string) {
   }
 }
 export function usePreferences() {
-  const [language, updateLanguage] = useState<Language>(() => {
-    const preference = saved("rr-language");
-    if (preference === "pt" || preference === "en") return preference;
-    const preferred = navigator.languages?.[0] || navigator.language || "en";
-    return preferred.toLowerCase().startsWith("pt") ? "pt" : "en";
+  const [language, updateLanguage] = useState<Locale>(() => {
+    return resolveLocale(
+      saved("rr-language"),
+      navigator.languages ?? [navigator.language],
+    );
   });
-  const setLanguage = (next: Language) => {
+  const setLanguage = (next: Locale) => {
     save("rr-language", next);
     updateLanguage(next);
   };
@@ -36,7 +36,7 @@ export function usePreferences() {
     return () => media.removeEventListener("change", update);
   }, []);
   useEffect(() => {
-    document.documentElement.lang = language === "pt" ? "pt-BR" : "en";
+    document.documentElement.lang = documentLanguages[language];
   }, [language]);
   useEffect(() => {
     document.documentElement.dataset.motion = motion && !reduced ? "on" : "off";

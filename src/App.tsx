@@ -1,13 +1,9 @@
+import { ExperienceRow } from "./components/ExperienceRow";
+import { useActiveSection, usePageMotion } from "./hooks/usePageMotion";
+import { copy } from "./messages";
+import { isLocale, localeNames, locales, localize } from "./i18n";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import {
-  copy,
-  experience,
-  links,
-  projects,
-  toolkit,
-  type Experience,
-  type Project,
-} from "./content";
+import { experience, links, projects, toolkit, type Project } from "./content";
 import { usePreferences } from "./hooks/usePreferences";
 import { Icon } from "./components/Icon";
 const anchors = ["home", "experience", "work", "about"];
@@ -45,57 +41,10 @@ export default function App() {
   const { language, setLanguage, motion, toggleMotion, reduced } =
     usePreferences();
   const t = copy[language];
-  const [activeSection, setActiveSection] = useState("home");
-  useEffect(() => {
-    const sections = [
-      ...document.querySelectorAll<HTMLElement>("main section[id]"),
-    ];
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const current = entries
-          .filter((e) => e.isIntersecting)
-          .sort(
-            (a, b) => a.boundingClientRect.top - b.boundingClientRect.top,
-          )[0];
-        if (current) setActiveSection(current.target.id);
-      },
-      { rootMargin: "-15% 0px -55% 0px" },
-    );
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!motion) return;
-    const animations: Animation[] = [];
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          animations.push(
-            entry.target.animate(
-              [
-                { opacity: 1, transform: "translateY(10px)" },
-                { opacity: 1, transform: "translateY(0)" },
-              ],
-              { duration: 480, easing: "cubic-bezier(.2,.7,.2,1)" },
-            ),
-          );
-          observer.unobserve(entry.target);
-        });
-      },
-      { threshold: 0.12 },
-    );
-    document
-      .querySelectorAll(".section-heading, .about-content, .focus-panel")
-      .forEach((el) => observer.observe(el));
-    return () => {
-      observer.disconnect();
-      animations.forEach((animation) => animation.cancel());
-    };
-  }, [motion]);
+  const activeSection = useActiveSection();
+  usePageMotion(motion);
   const [menu, setMenu] = useState(false);
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState<"all" | Project["category"]>("all");
   const [selected, setSelected] = useState<Project | null>(null);
   const [copyState, setCopyState] = useState<"idle" | "done" | "failed">(
     "idle",
@@ -143,36 +92,6 @@ export default function App() {
     clearTimeout(timer.current);
     timer.current = setTimeout(() => setCopyState("idle"), 4000);
   };
-  const renderExperience = (item: Experience, index: number) => (
-    <details
-      className="experience-row"
-      key={item.company}
-      open={index === 0 ? true : undefined}
-    >
-      <summary>
-        <span className="experience-date mono">
-          {item.period} {index === 0 ? t.present : ""}
-        </span>
-        <span className="experience-name">
-          <strong>{item.company}</strong>
-          <span>{item.title[language]}</span>
-        </span>
-        <Icon name="plus" />
-      </summary>
-      <div className="experience-detail">
-        <p>{item.description[language]}</p>
-        <div className="tags">
-          {item.tags.map((tag) => (
-            <span key={tag}>
-              {tag.includes(" / ")
-                ? tag.split(" / ")[language === "pt" ? 0 : 1]
-                : tag}
-            </span>
-          ))}
-        </div>
-      </div>
-    </details>
-  );
   return (
     <>
       <a className="skip-link" href="#main">
@@ -183,7 +102,7 @@ export default function App() {
           <a
             href="#home"
             className="wordmark"
-            aria-label="Raphael Rocha — home"
+            aria-label={`Raphael Rocha — ${t.home}`}
           >
             <span className="monogram">
               r<span>/</span>r
@@ -195,9 +114,7 @@ export default function App() {
           </a>
           <nav
             className={menu ? "nav is-open" : "nav"}
-            aria-label={
-              language === "pt" ? "Navegação principal" : "Main navigation"
-            }
+            aria-label={t.navigation}
             id="main-nav"
           >
             {t.nav.map((label, i) => (
@@ -215,16 +132,21 @@ export default function App() {
             ))}
           </nav>
           <div className="header-actions">
-            <button
+            <select
               className="language-button"
-              onClick={() => setLanguage(language === "pt" ? "en" : "pt")}
-              aria-label={
-                language === "pt" ? "Switch to English" : "Mudar para português"
-              }
+              value={language}
+              aria-label={t.languageLabel}
+              onChange={(event) => {
+                if (isLocale(event.target.value))
+                  setLanguage(event.target.value);
+              }}
             >
-              <Icon name="globe" />
-              <span>{language.toUpperCase()}</span>
-            </button>
+              {locales.map((locale) => (
+                <option key={locale} value={locale} lang={locale}>
+                  {localeNames[locale]}
+                </option>
+              ))}
+            </select>
             <a href="#contact" className="contact-nav">
               {t.contact}
               <Icon name="external" />
@@ -235,15 +157,7 @@ export default function App() {
               onClick={() => setMenu((v) => !v)}
               aria-expanded={menu}
               aria-controls="main-nav"
-              aria-label={
-                menu
-                  ? language === "pt"
-                    ? "Fechar menu"
-                    : "Close menu"
-                  : language === "pt"
-                    ? "Abrir menu"
-                    : "Open menu"
-              }
+              aria-label={menu ? t.closeMenu : t.openMenu}
             >
               <Icon name={menu ? "close" : "menu"} />
             </button>
@@ -321,15 +235,26 @@ export default function App() {
             </a>
           </div>
           <div className="experience-list">
-            {experience.slice(0, 6).map(renderExperience)}
+            {experience.slice(0, 6).map((item, index) => (
+              <ExperienceRow
+                key={item.company}
+                item={item}
+                language={language}
+                current={index === 0}
+              />
+            ))}
             <details className="earlier">
               <summary>
                 {t.earlier}
                 <Icon name="chevron" />
               </summary>
-              {experience
-                .slice(6)
-                .map((item, i) => renderExperience(item, i + 6))}
+              {experience.slice(6).map((item) => (
+                <ExperienceRow
+                  key={item.company}
+                  item={item}
+                  language={language}
+                />
+              ))}
             </details>
             <p className="small-note">{t.concurrent}</p>
           </div>
@@ -349,13 +274,7 @@ export default function App() {
               </div>
               <p>{t.projectsIntro}</p>
             </div>
-            <div
-              className="filters"
-              role="group"
-              aria-label={
-                language === "pt" ? "Filtrar projetos" : "Filter projects"
-              }
-            >
+            <div className="filters" role="group" aria-label={t.filterProjects}>
               {(["all", "product", "experiment"] as const).map((key) => (
                 <button
                   key={key}
@@ -388,7 +307,10 @@ export default function App() {
                         className="project-preview-caption"
                         aria-hidden="true"
                       >
-                        {project.stack.slice(0, 2).join(" · ")}
+                        {project.stack
+                          .slice(0, 2)
+                          .map((tag) => localize(tag, language))
+                          .join(" · ")}
                       </span>
                       <span className="project-open">
                         <Icon name="external" />
@@ -454,21 +376,11 @@ export default function App() {
             <p className="eyebrow toolkit-label">{t.toolkit}</p>
             <div className="toolkit">
               {toolkit.map((group) => (
-                <div key={group[0]}>
-                  <h3>
-                    {group[0].includes(" / ")
-                      ? group[0].split(" / ")[language === "pt" ? 0 : 1]
-                      : group[0]}
-                  </h3>
-                  {group.slice(1).map((s) => (
-                    <span key={s}>
-                      {s.includes(" / ") &&
-                      [
-                        "Qualidade / Quality",
-                        "Acessibilidade / Accessibility",
-                      ].includes(s)
-                        ? s.split(" / ")[language === "pt" ? 0 : 1]
-                        : s}
+                <div key={localize(group.title, language)}>
+                  <h3>{localize(group.title, language)}</h3>
+                  {group.items.map((item) => (
+                    <span key={localize(item, language)}>
+                      {localize(item, language)}
                     </span>
                   ))}
                 </div>
@@ -583,10 +495,8 @@ export default function App() {
               <h3 className="eyebrow">{t.tech}</h3>
               <div className="tags">
                 {selected.stack.map((s) => (
-                  <span key={s}>
-                    {s.includes(" / ")
-                      ? s.split(" / ")[language === "pt" ? 0 : 1]
-                      : s}
+                  <span key={localize(s, language)}>
+                    {localize(s, language)}
                   </span>
                 ))}
               </div>

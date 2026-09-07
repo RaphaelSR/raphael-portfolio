@@ -193,15 +193,16 @@ h2 > span {
   gap: 20px;
 }
 .language-button {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font: 11px var(--mono);
   min-height: 44px;
-  padding: 6px;
-}
-.language-button svg {
-  width: 16px;
+  max-width: 112px;
+  padding: 0 6px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
 }
 .contact-nav {
   display: flex;
@@ -957,9 +958,6 @@ summary::-webkit-details-marker {
   }
   .language-button {
     font-size: 10px;
-  }
-  .language-button svg {
-    display: none;
   }
   .menu-toggle {
     display: inline-flex !important;
