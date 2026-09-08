@@ -7,7 +7,7 @@ for (const width of [320, 390, 768, 1440])
     await page.setViewportSize({ width, height: 900 });
     await page.goto("./");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await expect(page.locator("canvas")).toHaveCount(0);
+    await expect(page.locator(".portrait")).toHaveCount(1);
     await page.evaluate(() => document.fonts.ready);
     expect(
       await page.evaluate(
@@ -79,16 +79,22 @@ test("mobile menu closes with Escape and navigation remains usable", async ({
   await page.goto("./");
   const menu = page.getByRole("button", { name: "Abrir menu" });
   await menu.click();
-  await expect(page.getByRole("navigation")).toBeVisible();
+  await expect(
+    page.getByRole("navigation", { name: "Navegação principal" }),
+  ).toBeVisible();
   await page.keyboard.press("Escape");
-  await expect(page.getByRole("navigation")).not.toBeVisible();
+  await expect(
+    page.getByRole("navigation", { name: "Navegação principal" }),
+  ).not.toBeVisible();
   await expect(menu).toBeFocused();
   await menu.click();
   await page
-    .getByRole("navigation")
+    .getByRole("navigation", { name: "Navegação principal" })
     .getByRole("link", { name: "Trabalhos" })
     .click();
-  await expect(page.getByRole("navigation")).not.toBeVisible();
+  await expect(
+    page.getByRole("navigation", { name: "Navegação principal" }),
+  ).not.toBeVisible();
   await expect(page).toHaveURL(/#work$/);
 });
 test("resume is a real PDF and email copy works", async ({ page, context }) => {
@@ -100,8 +106,8 @@ test("resume is a real PDF and email copy works", async ({ page, context }) => {
     .first()
     .click();
   const download = await downloadPromise;
-  expect(download.suggestedFilename()).toBe("raphael-rocha-resume-2026.pdf");
-  const response = await page.request.get("./raphael-rocha-resume-2026.pdf");
+  expect(download.suggestedFilename()).toBe("raphael-rocha-resume.pdf");
+  const response = await page.request.get("./raphael-rocha-resume.pdf");
   expect((await response.body()).subarray(0, 5).toString()).toBe("%PDF-");
   await page.getByRole("button", { name: "Copiar e-mail" }).click();
   await expect(page.getByRole("status")).toHaveText("E-mail copiado");

@@ -3,7 +3,7 @@ export const links = {
   email: "raphaelrochabcc@gmail.com",
   github: "https://github.com/RaphaelSR",
   linkedin: "https://www.linkedin.com/in/raphael-rocha-903014103/",
-  resume: `${import.meta.env.BASE_URL}raphael-rocha-resume-2026.pdf`,
+  resume: `${import.meta.env.BASE_URL}raphael-rocha-resume.pdf`,
 };
 export interface Experience {
   company: string;
@@ -11,10 +11,16 @@ export interface Experience {
   title: Localized<string>;
   description: Localized<string>;
   tags: Label[];
+  highlight?: Localized<string>;
 }
 export const experience: Experience[] = [
   {
     company: "Xseed Solutions",
+    highlight: {
+      pt: "Aplicativos mobile · BFFs e backends com NestJS",
+      en: "Mobile apps · NestJS BFFs and backend services",
+      es: "Aplicaciones móviles · BFFs y backends con NestJS",
+    },
     period: "10.2025 —",
     title: {
       pt: "Senior Mobile Software Engineer",
@@ -30,6 +36,11 @@ export const experience: Experience[] = [
   },
   {
     company: "Medely",
+    highlight: {
+      pt: "Modernização da base mobile e evolução de arquitetura",
+      en: "Mobile codebase modernization and architecture",
+      es: "Modernización del código móvil y la arquitectura",
+    },
     period: "10.2024 — 10.2025",
     title: {
       pt: "Senior Mobile Software Engineer",
@@ -89,6 +100,11 @@ export const experience: Experience[] = [
   },
   {
     company: "Vix / Grupo Águia Branca",
+    highlight: {
+      pt: "Vapt-Jornada · mais de 18 mil usuários ativos",
+      en: "Vapt-Jornada · over 18,000 active users",
+      es: "Vapt-Jornada · más de 18.000 usuarios activos",
+    },
     period: "07.2022 — 10.2024",
     title: {
       pt: "Mobile Engineering Lead",

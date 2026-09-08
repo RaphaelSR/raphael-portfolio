@@ -1,0 +1,43 @@
+.portrait {
+  position: relative;
+  width: 192px;
+  height: 210px;
+  flex: 0 0 192px;
+  isolation: isolate;
+}
+.portrait::before {
+  content: "";
+  position: absolute;
+  inset: 13% 4% 5%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 25%, #eef1e8, #e1e6ef);
+  border: 1px solid #d0d8e5;
+  z-index: -1;
+}
+.portrait-canvas {
+  position: absolute;
+  inset: 0;
+}
+.portrait-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.portrait-fallback {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.portrait[data-ready="true"] .portrait-fallback {
+  visibility: hidden;
+}
+.portrait-hands {
+  opacity: 0;
+}
+@media (max-width: 620px) {
+  .portrait {
+    width: 150px;
+    height: 170px;
+    flex-basis: 150px;
+  }
+}

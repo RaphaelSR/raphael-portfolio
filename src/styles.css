@@ -1828,3 +1828,34 @@ html[data-motion="on"] .hero-copy > .hero-actions {
 html[data-motion="on"] .project-card {
   animation: arrive 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
+
+/* Recruitment content remains readable without opening interactive details. */
+.experience-name .experience-highlight {
+  margin-top: 9px;
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.6;
+  font-weight: 550;
+}
+.project-description .project-contribution {
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+  margin-top: 18px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.project-contribution .eyebrow { display: block; margin-bottom: 8px; font-size: 9px; }
+.project-description > .inline-link { margin-top: 18px; min-height: 44px; font-size: 12px; }
+.personal-signature { align-items: center; gap: 16px; }
+.footer-languages { display: flex; flex-wrap: wrap; gap: 14px; }
+.footer .footer-languages a { width: auto; height: auto; min-height: 44px; border: 0; display: inline-flex; align-items: center; font-size: 11px; }
+.footer-languages a[aria-current="page"] { text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 620px) {
+  .personal-signature { display: flex; }
+  .footer { flex-wrap: wrap; gap: 12px; }
+  .footer-languages { width: 100%; order: 3; }
+}
+html:not([data-enhanced]) .language-button,
+html:not([data-enhanced]) .filters,
+html:not([data-enhanced]) .menu-toggle,
+html:not([data-enhanced]) .footer > div > button { display: none !important; }

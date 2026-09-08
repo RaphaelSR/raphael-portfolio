@@ -1,7 +1,8 @@
+import { Portrait } from "./components/Portrait";
 import { ExperienceRow } from "./components/ExperienceRow";
 import { useActiveSection, usePageMotion } from "./hooks/usePageMotion";
 import { copy } from "./messages";
-import { isLocale, localeNames, locales, localize } from "./i18n";
+import { isLocale, localeNames, locales, localize, type Locale } from "./i18n";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { experience, links, projects, toolkit, type Project } from "./content";
 import { usePreferences } from "./hooks/usePreferences";
@@ -37,9 +38,13 @@ function External({
     </a>
   );
 }
-export default function App() {
+export default function App({
+  initialLocale = "en",
+}: {
+  initialLocale?: Locale;
+}) {
   const { language, setLanguage, motion, toggleMotion, reduced } =
-    usePreferences();
+    usePreferences(initialLocale);
   const t = copy[language];
   const activeSection = useActiveSection();
   usePageMotion(motion);
@@ -333,6 +338,13 @@ export default function App() {
                         <span className="mono">0{i + 1}</span>
                       </div>
                       <p>{project.description[language]}</p>
+                      <p className="project-contribution">
+                        <span className="eyebrow">{t.role}</span>
+                        {project.contribution[language]}
+                      </p>
+                      <External href={project.url} className="inline-link">
+                        {t.open}
+                      </External>
                     </div>
                   </article>
                 ))}
@@ -350,9 +362,7 @@ export default function App() {
               <Lines text={t.aboutTitle} />
             </h2>
             <div className="personal-signature">
-              <span className="signature-mark" aria-hidden="true">
-                r/r
-              </span>
+              <Portrait motion={motion} />
               <div>
                 <strong>Raphael Rocha</strong>
                 <span>Mobile · Web · Backend</span>
@@ -445,6 +455,19 @@ export default function App() {
       </main>
       <footer className="footer section-shell">
         <span>{t.footer}</span>
+        <nav className="footer-languages" aria-label={t.languageLabel}>
+          {locales.map((locale) => (
+            <a
+              key={locale}
+              href={`${import.meta.env.BASE_URL}${locale}/`}
+              lang={locale}
+              hrefLang={locale}
+              aria-current={locale === language ? "page" : undefined}
+            >
+              {localeNames[locale]}
+            </a>
+          ))}
+        </nav>
         <div>
           <button
             onClick={toggleMotion}
