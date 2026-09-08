@@ -36,7 +36,7 @@ test("mobile navigation and every project remain available without JavaScript", 
   });
   const page = await context.newPage();
   await page.goto(`${baseURL}en/`);
-  await expect(page.locator(".project-card:visible")).toHaveCount(6);
+  await expect(page.locator(".project-card:visible")).toHaveCount(8);
   await page
     .getByRole("navigation", { name: "Main navigation" })
     .getByRole("link", { name: /Let’s talk/ })

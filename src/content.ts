@@ -251,6 +251,7 @@ export interface Project {
   contribution: Localized<string>;
   stack: Label[];
   url: string;
+  stores?: { android: string; ios: string; androidDownloads: number; checkedAt: string };
 }
 export const projects: Project[] = [
   {
@@ -281,6 +282,7 @@ export const projects: Project[] = [
       "TypeScript",
     ],
     url: "https://modpro.ai/",
+    stores: { android: "https://play.google.com/store/apps/details?id=ai.modpro.app", ios: "https://apps.apple.com/us/app/modpro-ai/id6755011876", androidDownloads: 5000, checkedAt: "2026-09-08" },
   },
   {
     id: "medely",
@@ -303,6 +305,7 @@ export const projects: Project[] = [
     },
     stack: [
       "React Native",
+      "GraphQL",
       {
         pt: "Arquitetura mobile",
         en: "Mobile architecture",
@@ -310,7 +313,72 @@ export const projects: Project[] = [
       },
     ],
     url: "https://medely.com/",
+    stores: { android: "https://play.google.com/store/apps/details?id=com.medely.proclient", ios: "https://apps.apple.com/us/app/medely-find-healthcare-shifts/id6478015730", androidDownloads: 10000, checkedAt: "2026-09-08" },
   },
+{
+  "id": "wine",
+  "name": "Wine",
+  "category": "product",
+  "label": {
+    "pt": "E-COMMERCE · MOBILE",
+    "en": "E-COMMERCE · MOBILE",
+    "es": "COMERCIO ELECTRÓNICO · MOBILE"
+  },
+  "description": {
+    "pt": "Loja e clube de vinhos com uma experiência integrada de compra e assinatura.",
+    "en": "A wine store and subscription club with an integrated shopping experience.",
+    "es": "Tienda y club de vinos con una experiencia integrada de compra y suscripción."
+  },
+  "contribution": {
+    "pt": "Evolução dos aplicativos Brasil e México, integrações e campanha sazonal de e-commerce com React Native e Next.js.",
+    "en": "Development of the Brazil and Mexico apps, integrations and a seasonal e-commerce campaign with React Native and Next.js.",
+    "es": "Evolución de las aplicaciones de Brasil y México, integraciones y una campaña estacional de comercio electrónico con React Native y Next.js."
+  },
+  "stack": [
+    "React Native",
+    "Next.js",
+    "GraphQL"
+  ],
+  "url": "https://www.wine.com.br/institucional/app/",
+  "stores": {
+    "android": "https://play.google.com/store/apps/details?id=br.com.wine.app",
+    "ios": "https://apps.apple.com/br/app/wine-loja-e-clube-de-vinhos/id1411629873",
+    "androidDownloads": 1000000,
+    "checkedAt": "2026-09-08"
+  }
+},
+{
+  "id": "vapt",
+  "name": "Vapt Jornada",
+  "category": "product",
+  "label": {
+    "pt": "TRANSPORTE · MOBILE",
+    "en": "TRANSPORT · MOBILE",
+    "es": "TRANSPORTE · MOBILE"
+  },
+  "description": {
+    "pt": "Aplicativo que facilita a rotina de colaboradores, clientes e parceiros da Vix.",
+    "en": "An app supporting everyday workflows for Vix employees, customers and partners.",
+    "es": "Aplicación que facilita el día a día de empleados, clientes y socios de Vix."
+  },
+  "contribution": {
+    "pt": "Liderança do desenvolvimento do Vapt Jornada e atuação em aplicativos de transporte com rastreamento em tempo real, analytics e registro de jornada offline, utilizando Kotlin, React Native e Expo.",
+    "en": "Led Vapt Jornada development and worked on transport apps with real-time tracking, analytics and offline time tracking, using Kotlin, React Native and Expo.",
+    "es": "Liderazgo del desarrollo de Vapt Jornada y trabajo en aplicaciones de transporte con seguimiento en tiempo real, analítica y registro de jornada sin conexión, utilizando Kotlin, React Native y Expo."
+  },
+  "stack": [
+    "Kotlin",
+    "React Native",
+    "Expo"
+  ],
+  "url": "https://play.google.com/store/apps/details?id=br.com.globalsys.vaptJornada",
+  "stores": {
+    "android": "https://play.google.com/store/apps/details?id=br.com.globalsys.vaptJornada",
+    "ios": "https://apps.apple.com/br/app/vapt-jornada-vix/id1543761379",
+    "androidDownloads": 10000,
+    "checkedAt": "2026-09-08"
+  }
+},
   {
     id: "geometry",
     name: "Geometry",

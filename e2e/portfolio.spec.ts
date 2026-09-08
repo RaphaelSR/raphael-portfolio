@@ -254,9 +254,9 @@ test("professional work leads, with games discoverable in their category", async
 }) => {
   await page.goto("./en/");
   await expect(
-    page.getByRole("button", { name: "Products 2" }),
+    page.getByRole("button", { name: "Products 4" }),
   ).toHaveAttribute("aria-pressed", "true");
-  await expect(page.locator(".project-card:visible")).toHaveCount(2);
+  await expect(page.locator(".project-card:visible")).toHaveCount(4);
   await expect(page.locator(".phone-device")).toHaveCount(0);
   await expect(page.locator("a[download]")).toHaveCount(1);
   await page.getByRole("button", { name: "Online games 3" }).click();
@@ -269,8 +269,8 @@ test("professional work leads, with games discoverable in their category", async
       ),
     ).toBeVisible();
   }
-  await page.getByRole("button", { name: "All 6" }).click();
-  await expect(page.locator(".project-card:visible")).toHaveCount(6);
+  await page.getByRole("button", { name: "All 8" }).click();
+  await expect(page.locator(".project-card:visible")).toHaveCount(8);
 });
 
 for (const width of [320, 768])
