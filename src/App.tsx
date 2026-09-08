@@ -267,20 +267,22 @@ export default function App({
               <p>{t.projectsIntro}</p>
             </div>
             <div className="filters" role="group" aria-label={t.filterProjects}>
-              {(["all", "product", "experiment"] as const).map((key) => (
-                <button
-                  key={key}
-                  aria-pressed={filter === key}
-                  onClick={() => setFilter(key)}
-                >
-                  {t[key]}
-                  <span>
-                    {key === "all"
-                      ? projects.length
-                      : projects.filter((p) => p.category === key).length}
-                  </span>
-                </button>
-              ))}
+              {(["all", "product", "experiment", "game"] as const).map(
+                (key) => (
+                  <button
+                    key={key}
+                    aria-pressed={filter === key}
+                    onClick={() => setFilter(key)}
+                  >
+                    {t[key]}
+                    <span>
+                      {key === "all"
+                        ? projects.length
+                        : projects.filter((p) => p.category === key).length}
+                    </span>
+                  </button>
+                ),
+              )}
             </div>
             <div className="projects-grid">
               {projects
@@ -336,7 +338,9 @@ export default function App({
                   </article>
                 ))}
             </div>
-            <PhoneSimulator language={language} />
+            {(filter === "all" || filter === "game") && (
+              <PhoneSimulator language={language} />
+            )}
           </div>
         </section>
         <section

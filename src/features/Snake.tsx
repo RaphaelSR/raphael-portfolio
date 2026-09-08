@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { Locale } from "../i18n";
-import { featureCopy, snakeUrl } from "./copy";
+import { featureCopy } from "./copy";
 import {
   canTurn,
   step,
@@ -623,9 +623,6 @@ export function Snake({
           </summary>
           <div className="snake-help-content">
             <p>{t.gameHelp}</p>
-            <a href={snakeUrl} target="_blank" rel="noopener noreferrer">
-              {t.original} ↗
-            </a>
           </div>
         </details>
         <div className="snake-directions">
