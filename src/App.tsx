@@ -191,10 +191,6 @@ export default function App({
                 {t.workCta}
                 <Icon name="arrow" />
               </a>
-              <a className="button text-button" href={links.resume} download>
-                {t.resume}
-                <Icon name="download" />
-              </a>
             </div>
             <div className="current-note">
               <span className="mono">{t.now}</span>
@@ -217,12 +213,6 @@ export default function App({
             ))}
           </aside>
         </section>
-        <div className="expertise-strip">
-          <div className="section-shell">
-            <span>{t.scope}</span>
-            <span>React Native / Expo / TypeScript / NestJS</span>
-          </div>
-        </div>
         <section
           id="experience"
           className="section-shell section-grid experience-section"
@@ -234,10 +224,6 @@ export default function App({
               <Lines text={t.pathTitle} />
             </h2>
             <p>{t.pathIntro}</p>
-            <a href={links.resume} download className="inline-link">
-              {t.resume} PDF
-              <Icon name="download" />
-            </a>
           </div>
           <div className="experience-list">
             {experience.slice(0, 6).map((item, index) => (
@@ -391,19 +377,25 @@ export default function App({
                 {t.education}
               </p>
             </div>
-            <p className="eyebrow toolkit-label">{t.toolkit}</p>
-            <div className="toolkit">
-              {toolkit.map((group) => (
-                <div key={localize(group.title, language)}>
-                  <h3>{localize(group.title, language)}</h3>
-                  {group.items.map((item) => (
-                    <span key={localize(item, language)}>
-                      {localize(item, language)}
-                    </span>
-                  ))}
-                </div>
-              ))}
-            </div>
+            <details className="toolkit-disclosure">
+              <summary>
+                {t.toolkit}
+                <Icon name="plus" />
+              </summary>
+              <p className="toolkit-intro">{t.toolkitIntro}</p>
+              <div className="toolkit">
+                {toolkit.map((group) => (
+                  <div key={localize(group.title, language)}>
+                    <h3>{localize(group.title, language)}</h3>
+                    {group.items.map((item) => (
+                      <span key={localize(item, language)}>
+                        {localize(item, language)}
+                      </span>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </details>
             <details className="recognition">
               <summary>
                 {t.recognition}

@@ -6,7 +6,7 @@ const en = {
   eyebrow: "MOBILE · FULL STACK · AI",
   hero: ["Raphael Rocha.", "Senior Mobile Engineer"],
   intro:
-    "I’m a software engineer specializing in mobile, with full-stack capabilities. I build complete products, connecting technical decisions, user experience and business goals.",
+    "I build mobile products with the engineering breadth to connect apps, web experiences and backend services. My focus is turning product decisions into reliable software people can use.",
   workCta: "Explore my work",
   resume: "Résumé",
   focusLabel: "HOW I CONTRIBUTE",
@@ -30,7 +30,7 @@ const en = {
   ],
   now: "CURRENTLY",
   nowText: "Xseed Solutions · Senior Mobile Engineer",
-  nowDetail: "React Native · Expo · TypeScript",
+  nowDetail: "Cross-platform apps and backend services",
   pause: "Pause animations",
   play: "Enable animations",
   reduced: "Reduced motion follows your system",
@@ -56,14 +56,16 @@ const en = {
   aboutLabel: "03 / ABOUT",
   aboutTitle: "Engineering with\na product perspective.",
   aboutText:
-    "I’m a software engineer focused on mobile products, with full-stack experience. I combine technical depth and business understanding to turn requirements into reliable, accessible applications that can evolve with the product.",
+    "My experience spans healthcare, mobility, fintech, e-commerce and public services, alongside founding a hardware business. That range shapes how I connect technical decisions with the realities of a product and its operation.",
   aboutText2:
-    "I work closely with product and design, with the autonomy to guide development from architecture to release. My work spans mobile apps, complete web applications, BFFs and backends tailored to the needs of each experience.",
+    "I work closely with product and design, taking ownership from requirements and architecture through implementation and release. I pay attention to the parts that make a difference in use: performance, offline behavior, accessibility and reliable integrations.",
   aboutText3:
-    "I integrate AI into both product features and engineering processes, including automation and development pipelines. I value pragmatic decisions, clear communication and solutions that balance delivery speed, quality and long-term maintainability.",
+    "My work extends to web applications, BFFs and backend services. I use AI in product features and development pipelines, combining automation with testing, review and clear technical judgment.",
   languages: "Native Portuguese · Fluent English · Fluent Spanish",
   education: "Computer Science · CESUPA, 2014–2018",
-  toolkit: "TECHNICAL SKILLS",
+  toolkit: "Tools I’ve worked with",
+  toolkitIntro:
+    "Across professional work and personal projects. My core is mobile; the broader toolkit supports integrations, delivery and experimentation.",
   recognition: "Beyond code",
   award1: "1st place · Hackathon Insern, 2021",
   award2: "Top 5 · Amazon Launch, 2017",
@@ -95,7 +97,7 @@ export const copy: Localized<Messages> = {
     eyebrow: "MOBILE · FULL STACK · AI",
     hero: ["Raphael Rocha.", "Senior Mobile Engineer"],
     intro:
-      "Sou engenheiro de software especializado em mobile, com atuação full stack. Desenvolvo produtos completos, conectando decisões técnicas, experiência de uso e objetivos de negócio.",
+      "Desenvolvo produtos mobile com a visão de engenharia necessária para conectar aplicativos, experiências web e serviços de backend. Meu foco é transformar decisões de produto em software confiável no uso real.",
     workCta: "Conheça meu trabalho",
     resume: "Currículo",
     focusLabel: "COMO EU CONTRIBUO",
@@ -119,7 +121,7 @@ export const copy: Localized<Messages> = {
     ],
     now: "ATUALMENTE",
     nowText: "Xseed Solutions · Senior Mobile Engineer",
-    nowDetail: "React Native · Expo · TypeScript",
+    nowDetail: "Aplicativos multiplataforma e serviços de backend",
     pause: "Pausar animações",
     play: "Ativar animações",
     reduced: "Movimento reduzido pelo sistema",
@@ -145,14 +147,16 @@ export const copy: Localized<Messages> = {
     aboutLabel: "03 / SOBRE",
     aboutTitle: "Engenharia com\nvisão de produto.",
     aboutText:
-      "Sou engenheiro de software com foco em produtos mobile e experiência full stack. Combino profundidade técnica e visão de negócio para transformar requisitos em aplicações confiáveis, acessíveis e preparadas para evoluir.",
+      "Minha experiência passa por saúde, mobilidade, fintech, e-commerce e serviços públicos, além da criação de um negócio de hardware. Essa trajetória orienta como conecto decisões técnicas às necessidades do produto e de sua operação.",
     aboutText2:
-      "Trabalho próximo de produto e design, com autonomia para conduzir o desenvolvimento da arquitetura à publicação. Minha atuação abrange aplicativos mobile, aplicações web completas, BFFs e backends voltados às necessidades de cada experiência.",
+      "Trabalho próximo de produto e design, com autonomia dos requisitos e da arquitetura à implementação e publicação. Cuido dos detalhes que fazem diferença no uso: performance, funcionamento offline, acessibilidade e integrações confiáveis.",
     aboutText3:
-      "Integro IA tanto às funcionalidades do produto quanto aos processos de engenharia, incluindo automação e pipelines de desenvolvimento. Valorizo decisões pragmáticas, comunicação clara e soluções que equilibram velocidade de entrega, qualidade e sustentabilidade técnica.",
+      "Minha atuação também abrange aplicações web, BFFs e serviços de backend. Uso IA em funcionalidades de produto e pipelines de desenvolvimento, combinando automação com testes, revisão e critério técnico.",
     languages: "Português nativo · Inglês fluente · Espanhol fluente",
     education: "Ciência da Computação · CESUPA, 2014–2018",
-    toolkit: "COMPETÊNCIAS TÉCNICAS",
+    toolkit: "Ferramentas com que trabalhei",
+    toolkitIntro:
+      "Em trabalhos profissionais e projetos pessoais. Mobile é minha especialidade; as demais ferramentas apoiam integrações, entrega e experimentação.",
     recognition: "Além do código",
     award1: "1º lugar · Hackathon Insern, 2021",
     award2: "Top 5 · Amazon Launch, 2017",
@@ -181,7 +185,7 @@ export const copy: Localized<Messages> = {
     eyebrow: "MOBILE · FULL STACK · IA",
     hero: ["Raphael Rocha.", "Senior Mobile Engineer"],
     intro:
-      "Soy ingeniero de software especializado en desarrollo móvil, con experiencia full stack. Desarrollo productos completos, conectando decisiones técnicas, experiencia de uso y objetivos de negocio.",
+      "Desarrollo productos móviles con la visión de ingeniería necesaria para conectar aplicaciones, experiencias web y servicios de backend. Mi foco es convertir decisiones de producto en software fiable en el uso real.",
     workCta: "Conoce mi trabajo",
     resume: "Currículum",
     focusLabel: "CÓMO CONTRIBUYO",
@@ -205,7 +209,7 @@ export const copy: Localized<Messages> = {
     ],
     now: "ACTUALMENTE",
     nowText: "Xseed Solutions · Senior Mobile Engineer",
-    nowDetail: "React Native · Expo · TypeScript",
+    nowDetail: "Aplicaciones multiplataforma y servicios de backend",
     pause: "Pausar animaciones",
     play: "Activar animaciones",
     reduced: "Movimiento reducido según el sistema",
@@ -231,14 +235,16 @@ export const copy: Localized<Messages> = {
     aboutLabel: "03 / SOBRE MÍ",
     aboutTitle: "Ingeniería con\nvisión de producto.",
     aboutText:
-      "Soy ingeniero de software enfocado en productos móviles, con experiencia full stack. Combino profundidad técnica y visión de negocio para transformar requisitos en aplicaciones fiables, accesibles y preparadas para evolucionar.",
+      "Mi experiencia abarca salud, movilidad, fintech, comercio electrónico y servicios públicos, además de fundar un negocio de hardware. Ese recorrido orienta cómo conecto las decisiones técnicas con las necesidades del producto y su operación.",
     aboutText2:
-      "Trabajo cerca de los equipos de producto y diseño, con autonomía para guiar el desarrollo desde la arquitectura hasta la publicación. Mi trabajo abarca aplicaciones móviles, aplicaciones web completas, BFFs y backends adaptados a las necesidades de cada experiencia.",
+      "Trabajo cerca de producto y diseño, con autonomía desde los requisitos y la arquitectura hasta la implementación y publicación. Cuido los detalles que marcan la diferencia en el uso: rendimiento, funcionamiento sin conexión, accesibilidad e integraciones fiables.",
     aboutText3:
-      "Integro IA tanto en las funcionalidades del producto como en los procesos de ingeniería, incluida la automatización y los pipelines de desarrollo. Valoro las decisiones pragmáticas, la comunicación clara y las soluciones que equilibran velocidad de entrega, calidad y facilidad de mantenimiento.",
+      "Mi trabajo también abarca aplicaciones web, BFFs y servicios de backend. Utilizo IA en funcionalidades de producto y pipelines de desarrollo, combinando automatización con pruebas, revisión y criterio técnico.",
     languages: "Portugués nativo · Inglés fluido · Español fluido",
     education: "Ciencias de la Computación · CESUPA, 2014–2018",
-    toolkit: "COMPETENCIAS TÉCNICAS",
+    toolkit: "Herramientas con las que he trabajado",
+    toolkitIntro:
+      "En trabajos profesionales y proyectos personales. Mi especialidad es el desarrollo móvil; las demás herramientas apoyan integraciones, entrega y experimentación.",
     recognition: "Más allá del código",
     award1: "1.er puesto · Hackathon Insern, 2021",
     award2: "Top 5 · Amazon Launch, 2017",

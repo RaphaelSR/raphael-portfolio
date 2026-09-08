@@ -212,3 +212,60 @@ test("loose content falls, rebounds and settles against other pieces", async () 
   );
   expect(pieces[1].y + pieces[1].height).toBeLessThanOrEqual(200);
 });
+
+test("snake consumes its invitation and technology chips", async ({ page }) => {
+  await page.clock.install();
+  await page.goto("./en/");
+  await page.getByRole("button", { name: "Let it loose on this page" }).click();
+  await page.clock.runFor(2800);
+  expect(
+    await page.evaluate(() =>
+      [...CSS.highlights.get("snake-eaten")!].some((range) =>
+        (range as Range).startContainer.parentElement?.closest(
+          ".snake-invitation",
+        ),
+      ),
+    ),
+  ).toBe(true);
+  await page.keyboard.press("Escape");
+  const tag = page.locator(".experience-row .tags span").first();
+  await tag.scrollIntoViewIfNeeded();
+  await page.evaluate(() => {
+    const r = document
+      .querySelector(".experience-row .tags span")!
+      .getBoundingClientRect();
+    window.scrollTo({
+      top: scrollY + r.top + r.height / 2 - innerHeight * 0.4,
+      behavior: "instant",
+    });
+  });
+  await page.keyboard.press("Control+k");
+  await page.getByRole("searchbox").fill("Snake");
+  await page.keyboard.press("Enter");
+  const rect = await tag.boundingBox();
+  await page.mouse.click(rect!.x + rect!.width / 2, rect!.y + rect!.height / 2);
+  await page.clock.runFor(2400);
+  await expect(tag).toBeHidden();
+  await page.keyboard.press("Escape");
+  await expect(tag).toBeVisible();
+});
+
+test("tool inventory is grouped and résumé download appears only at the end", async ({
+  page,
+}) => {
+  await page.goto("./pt/");
+  await expect(page.locator("a[download]")).toHaveCount(1);
+  await expect(page.locator("#contact a[download]")).toHaveCount(1);
+  await page.locator(".toolkit-disclosure summary").click();
+  for (const name of [
+    "Supabase",
+    "Railway",
+    "Infisical",
+    "SQLite",
+    "Storybook",
+  ]) {
+    await expect(
+      page.locator(".toolkit").getByText(name, { exact: true }),
+    ).toBeVisible();
+  }
+});

@@ -47,11 +47,13 @@ function readContent() {
   };
   const root = document.getElementById("root")!;
   const skip =
-    'dialog,script,style,.studio-tools,.snake-invitation,[aria-hidden="true"],[hidden]';
+    'dialog,script,style,.studio-tools,[aria-hidden="true"],[hidden]';
   root
-    .querySelectorAll<HTMLElement | SVGElement>("button,a,img,svg,hr")
+    .querySelectorAll<HTMLElement | SVGElement>(
+      "button,a,img,svg,hr,.tags span,.toolkit span",
+    )
     .forEach((element) => {
-      if (element.closest(skip)) return;
+      if (element.closest(skip) || element.matches(".snake-invitation")) return;
       const rect = element.getBoundingClientRect();
       if (
         rect.width &&
@@ -63,7 +65,9 @@ function readContent() {
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   let node: Node | null;
   while ((node = walker.nextNode())) {
-    if (node.parentElement?.closest(skip + ",button,a")) continue;
+    if (node.parentElement?.closest(skip + ",a,.tags span,.toolkit span"))
+      continue;
+    if (node.parentElement?.closest("button:not(.snake-invitation)")) continue;
     if (
       node.parentElement &&
       getComputedStyle(node.parentElement).visibility === "hidden"
