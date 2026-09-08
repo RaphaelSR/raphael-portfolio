@@ -42,6 +42,14 @@ export function SnakeArt({
           stroke={`url(#${id}-satin)`}
           strokeWidth="17"
         />
+        {!preview && (
+          <path
+            data-snake-outline
+            fill={`url(#${id}-satin)`}
+            stroke="#205c4c"
+            strokeWidth="1.5"
+          />
+        )}
         <path
           d={path}
           data-snake-body
