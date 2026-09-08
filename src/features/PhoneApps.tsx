@@ -1,7 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import type { Locale } from "../i18n";
 import { PhoneSettings, type PhonePreferences } from "./PhoneSettings";
-import { projects } from "../content";
+import { Browser } from "./phone-apps/Browser";
+import { Notes } from "./phone-apps/Notes";
+import { Health } from "./phone-apps/Health";
+import { Maps } from "./phone-apps/Maps";
+import { Wallet } from "./phone-apps/Wallet";
+import { Photos } from "./phone-apps/Photos";
+import { AppTitle, ProfileRow, words } from "./phone-apps/ui";
+import "./phone-apps/apps.css";
 export type PhoneApp =
   | "photos"
   | "reminders"
@@ -12,9 +19,11 @@ export type PhoneApp =
   | "wallet"
   | "settings"
   | "browser"
-  | "messages";
+  | "messages"
+  | "search";
 const copy = {
   pt: {
+    search: "Buscar apps",
     home: "Início",
     demo: "Demonstração · dados fictícios",
     photos: "Fotos",
@@ -29,31 +38,14 @@ const copy = {
     messages: "Mensagens",
     add: "Adicionar",
     reminder: "Novo lembrete",
-    note: "Uma ideia para o próximo projeto…",
     today: "Hoje",
-    steps: "Passos",
-    walk: "Simular caminhada",
-    offline:
-      "Sem conexão. Ative o Wi-Fi e desative o modo avião nos Ajustes para navegar.",
-    address: "Endereço do site",
-    go: "Ir",
-    external: "Abrir fora do telefone ↗",
-    blocked: "Alguns sites só permitem abrir em nova aba.",
-    invalid: "Use um endereço HTTPS válido.",
     message: "Escrever mensagem",
     send: "Enviar",
     received: "Olá! Este é um espaço para experimentar interfaces.",
     answer: "Mensagem recebida nesta demonstração.",
-    back: "Voltar",
-    saved: "Rascunho nesta sessão",
-    gallery: "Todas as fotos",
-    ticket: "Passe de visitante",
-    coffee: "Cartão de café",
-    place: "Praça",
-    river: "Orla",
-    studio: "Estúdio",
   },
   en: {
+    search: "Search apps",
     home: "Home",
     demo: "Demo · fictional data",
     photos: "Photos",
@@ -68,31 +60,14 @@ const copy = {
     messages: "Messages",
     add: "Add",
     reminder: "New reminder",
-    note: "An idea for the next project…",
     today: "Today",
-    steps: "Steps",
-    walk: "Simulate a walk",
-    offline:
-      "No connection. Enable Wi-Fi and turn off airplane mode in Settings to browse.",
-    address: "Website address",
-    go: "Go",
-    external: "Open outside the phone ↗",
-    blocked: "Some sites only allow opening in a new tab.",
-    invalid: "Enter a valid HTTPS address.",
     message: "Write a message",
     send: "Send",
     received: "Hi! This is a place to explore interfaces.",
     answer: "Message received in this demo.",
-    back: "Back",
-    saved: "Draft for this session",
-    gallery: "All photos",
-    ticket: "Visitor pass",
-    coffee: "Coffee card",
-    place: "Square",
-    river: "Waterfront",
-    studio: "Studio",
   },
   es: {
+    search: "Buscar apps",
     home: "Inicio",
     demo: "Demostración · datos ficticios",
     photos: "Fotos",
@@ -107,29 +82,11 @@ const copy = {
     messages: "Mensajes",
     add: "Añadir",
     reminder: "Nuevo recordatorio",
-    note: "Una idea para el próximo proyecto…",
     today: "Hoy",
-    steps: "Pasos",
-    walk: "Simular caminata",
-    offline:
-      "Sin conexión. Activa el Wi-Fi y desactiva el modo avión en Ajustes para navegar.",
-    address: "Dirección del sitio",
-    go: "Ir",
-    external: "Abrir fuera del teléfono ↗",
-    blocked: "Algunos sitios solo permiten abrir en otra pestaña.",
-    invalid: "Introduce una dirección HTTPS válida.",
     message: "Escribir mensaje",
     send: "Enviar",
     received: "¡Hola! Este es un espacio para explorar interfaces.",
     answer: "Mensaje recibido en esta demostración.",
-    back: "Volver",
-    saved: "Borrador de esta sesión",
-    gallery: "Todas las fotos",
-    ticket: "Pase de visitante",
-    coffee: "Tarjeta de café",
-    place: "Plaza",
-    river: "Costanera",
-    studio: "Estudio",
   },
 };
 export function PhoneApps({
@@ -139,6 +96,7 @@ export function PhoneApps({
   settings,
   changeSettings,
   now,
+  openApp,
 }: {
   app: PhoneApp | null;
   language: Locale;
@@ -146,131 +104,204 @@ export function PhoneApps({
   settings: PhonePreferences;
   changeSettings: (patch: Partial<PhonePreferences>) => void;
   now: Date | null;
+  openApp: (app: PhoneApp) => void;
 }) {
   const t = copy[language];
-  const [photo, setPhoto] = useState<number | null>(null);
+  const w = (pt: string, en: string, es: string) => words(language, pt, en, es);
+  const [appSearch, setAppSearch] = useState("");
+  const [reminderFilter, setReminderFilter] = useState("all");
   const [reminders, setReminders] = useState([
     { id: 1, text: "", done: false },
     { id: 2, text: "", done: true },
   ]);
   const [newReminder, setNewReminder] = useState("");
-  const [note, setNote] = useState("");
+
   const [selectedDay, setDay] = useState<{ month: string; day: number } | null>(
     null,
   );
-  const month = now ? `${now.getFullYear()}-${now.getMonth()}` : "";
-  const day = selectedDay?.month === month ? selectedDay.day : now?.getDate();
-  const days = now
-    ? new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()
+  const [monthOffset, setMonthOffset] = useState(0);
+  const [eventDraft, setEventDraft] = useState("");
+  const [events, setEvents] = useState<Record<string, string[]>>({});
+  const calendarDate = now
+    ? new Date(now.getFullYear(), now.getMonth() + monthOffset, 1)
+    : null;
+  const month = calendarDate
+    ? `${calendarDate.getFullYear()}-${calendarDate.getMonth()}`
+    : "";
+  const day =
+    selectedDay?.month === month
+      ? selectedDay.day
+      : monthOffset === 0
+        ? now?.getDate()
+        : 1;
+  const days = calendarDate
+    ? new Date(
+        calendarDate.getFullYear(),
+        calendarDate.getMonth() + 1,
+        0,
+      ).getDate()
     : 0;
-  const firstWeekday = now
-    ? new Date(now.getFullYear(), now.getMonth(), 1).getDay()
-    : 0;
-  const [steps, setSteps] = useState(4200);
-  const [card, setCard] = useState(0);
+  const firstWeekday = calendarDate ? calendarDate.getDay() : 0;
+
   const back = useRef<HTMLButtonElement>(null);
+  const content = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (app) back.current?.focus({ preventScroll: true });
+    if (app) {
+      if (content.current) content.current.scrollTop = 0;
+      back.current?.focus({ preventScroll: true });
+    }
   }, [app]);
-  const [place, setPlace] = useState(0);
-  const [address, setAddress] = useState("");
-  const [url, setUrl] = useState("");
-  const [error, setError] = useState("");
+
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState<string[]>([]);
-  if (!app) return null;
-  const openUrl = (value: string) => {
-    try {
-      const parsed = new URL(value.includes(":") ? value : `https://${value}`);
-      if (parsed.protocol !== "https:") throw new Error();
-      setUrl(parsed.href);
-      setAddress(parsed.href);
-      setError("");
-    } catch {
-      setError(t.invalid);
-    }
-  };
+
   return (
-    <div className="phone-app-window" data-dark={settings.dark}>
+    <div
+      className="phone-app-window"
+      data-dark={settings.dark}
+      data-app={app}
+      hidden={!app}
+    >
       <div className="phone-app-toolbar">
         <button ref={back} onClick={close} aria-label={t.home}>
           ‹
         </button>
-        <h4>{t[app]}</h4>
-        <span>●</span>
+        <h4>{app ? t[app] : ""}</h4>
+        <span aria-hidden="true">●</span>
       </div>
-      <div className="phone-app-content">
-        {app === "photos" && (
+      <div className="phone-app-content" ref={content}>
+        <section hidden={app !== "photos"}>
+          <Photos language={language} />
+        </section>
+        <section hidden={app !== "notes"}>
+          <Notes language={language} />
+        </section>
+        <section hidden={app !== "health"}>
+          <Health language={language} />
+        </section>
+        <section hidden={app !== "maps"}>
+          <Maps language={language} />
+        </section>
+        <section hidden={app !== "wallet"}>
+          <Wallet language={language} />
+        </section>
+        {app === "search" && (
           <>
-            <p>{t.gallery}</p>
-            {photo === null ? (
-              <div className="mock-gallery">
-                {Array.from({ length: 6 }, (_, i) => (
-                  <button
-                    key={i}
-                    className={`mock-photo photo-${i}`}
-                    aria-label={`${t.photos} ${i + 1}`}
-                    onClick={() => setPhoto(i)}
-                  >
-                    {i === 0 && (
-                      <img
-                        src={`${import.meta.env.BASE_URL}raphael-avatar.jpg`}
-                        alt="Raphael"
-                      />
-                    )}
+            <AppTitle title={t.search} />
+            <input
+              className="ios-search"
+              type="search"
+              aria-label={t.search}
+              value={appSearch}
+              onChange={(e) => setAppSearch(e.target.value)}
+              placeholder={t.search}
+            />
+            <div className="ios-app-results">
+              {(
+                [
+                  "photos",
+                  "notes",
+                  "reminders",
+                  "health",
+                  "maps",
+                  "calendar",
+                  "wallet",
+                  "settings",
+                  "browser",
+                  "messages",
+                ] as const
+              )
+                .filter((key) =>
+                  t[key]
+                    .toLocaleLowerCase(language)
+                    .includes(appSearch.toLocaleLowerCase(language)),
+                )
+                .map((key) => (
+                  <button key={key} onClick={() => openApp(key)}>
+                    <span className={`ios-search-icon icon-${key}`}>
+                      {t[key][0]}
+                    </span>
+                    {t[key]}
+                    <span>›</span>
                   </button>
                 ))}
-              </div>
-            ) : (
-              <>
-                <button onClick={() => setPhoto(null)}>‹ {t.back}</button>
-                <div className={`mock-photo mock-photo-large photo-${photo}`}>
-                  {photo === 0 && (
-                    <img
-                      src={`${import.meta.env.BASE_URL}raphael-avatar.jpg`}
-                      alt="Raphael"
-                    />
-                  )}
-                </div>
-              </>
-            )}
+            </div>
           </>
         )}
         {app === "reminders" && (
           <>
-            <div className="mock-reminders">
-              {reminders.map((item) => (
-                <label key={item.id}>
-                  <input
-                    type="checkbox"
-                    checked={item.done}
-                    onChange={() =>
-                      setReminders((items) =>
-                        items.map((r) =>
-                          r.id === item.id ? { ...r, done: !r.done } : r,
-                        ),
-                      )
-                    }
-                  />
-                  <span
-                    style={{
-                      textDecoration: item.done ? "line-through" : undefined,
-                    }}
-                  >
-                    {item.text ||
-                      {
-                        pt: ["Revisar uma ideia", "Fazer uma pausa"],
-                        en: ["Review an idea", "Take a break"],
-                        es: ["Revisar una idea", "Hacer una pausa"],
-                      }[language][item.id - 1]}
-                  </span>
-                </label>
+            <AppTitle title={t.reminders} />
+            <div className="ios-reminder-summary">
+              {[
+                ["all", w("Todos", "All", "Todos"), reminders.length, "☷"],
+                [
+                  "open",
+                  w("Pendentes", "Pending", "Pendientes"),
+                  reminders.filter((r) => !r.done).length,
+                  "◷",
+                ],
+                [
+                  "done",
+                  w("Concluídos", "Completed", "Completados"),
+                  reminders.filter((r) => r.done).length,
+                  "✓",
+                ],
+              ].map(([key, label, count, icon]) => (
+                <button
+                  key={key}
+                  aria-pressed={reminderFilter === key}
+                  onClick={() => setReminderFilter(String(key))}
+                >
+                  <span>{icon}</span>
+                  <strong>{count}</strong>
+                  <small>{label}</small>
+                </button>
               ))}
+            </div>
+            <h5>{w("Pessoal", "Personal", "Personal")}</h5>
+            <div className="mock-reminders">
+              {reminders
+                .filter(
+                  (item) =>
+                    reminderFilter === "all" ||
+                    item.done === (reminderFilter === "done"),
+                )
+                .map((item) => (
+                  <label key={item.id}>
+                    <input
+                      type="checkbox"
+                      checked={item.done}
+                      onChange={() =>
+                        setReminders((items) =>
+                          items.map((r) =>
+                            r.id === item.id ? { ...r, done: !r.done } : r,
+                          ),
+                        )
+                      }
+                    />
+                    <span
+                      style={{
+                        textDecoration: item.done ? "line-through" : undefined,
+                      }}
+                    >
+                      {item.text ||
+                        {
+                          pt: ["Separar o kimono", "Uma pausa das telas"],
+                          en: ["Pack the gi", "A break from screens"],
+                          es: [
+                            "Preparar el kimono",
+                            "Una pausa de las pantallas",
+                          ],
+                        }[language][item.id - 1]}
+                    </span>
+                  </label>
+                ))}
             </div>
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                if (newReminder.trim()) {
+                if (newReminder.trim() && reminders.length < 50) {
+                  setReminderFilter("all");
                   setReminders((items) => [
                     ...items,
                     {
@@ -290,30 +321,40 @@ export function PhoneApps({
                 aria-label={t.reminder}
                 maxLength={100}
               />
-              <button>{t.add}</button>
+              <button disabled={reminders.length >= 50}>{t.add}</button>
             </form>
-          </>
-        )}
-        {app === "notes" && (
-          <>
-            <p>{t.saved}</p>
-            <textarea
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-              placeholder={t.note}
-              aria-label={t.notes}
-              maxLength={3000}
-            />
           </>
         )}
         {app === "calendar" && (
           <>
-            <p className="mock-calendar-month">
-              {now?.toLocaleDateString(language, {
+            <p className="mock-calendar-month ios-calendar-title">
+              {calendarDate?.toLocaleDateString(language, {
                 month: "long",
                 year: "numeric",
               }) ?? "—"}
             </p>
+            <div className="ios-actions">
+              <button
+                aria-label={w("Mês anterior", "Previous month", "Mes anterior")}
+                onClick={() => setMonthOffset((v) => v - 1)}
+              >
+                ‹
+              </button>
+              <button
+                onClick={() => {
+                  setMonthOffset(0);
+                  setDay(null);
+                }}
+              >
+                {t.today}
+              </button>
+              <button
+                aria-label={w("Próximo mês", "Next month", "Próximo mes")}
+                onClick={() => setMonthOffset((v) => v + 1)}
+              >
+                ›
+              </button>
+            </div>
             <div className="mock-calendar">
               {Array.from({ length: 7 }, (_, i) => (
                 <span key={`weekday-${i}`} className="mock-calendar-weekday">
@@ -330,7 +371,11 @@ export function PhoneApps({
                   key={i}
                   aria-pressed={day === i + 1}
                   onClick={() => setDay({ month, day: i + 1 })}
-                  aria-current={now?.getDate() === i + 1 ? "date" : undefined}
+                  aria-current={
+                    monthOffset === 0 && now?.getDate() === i + 1
+                      ? "date"
+                      : undefined
+                  }
                 >
                   {i + 1}
                 </button>
@@ -338,129 +383,96 @@ export function PhoneApps({
             </div>
             <div className="mock-event">
               <strong>{day}</strong>
-              <p>{day === now?.getDate() ? t.today : "—"}</p>
-            </div>
-          </>
-        )}
-        {app === "maps" && (
-          <>
-            <div className="mock-map">
-              <div className="mock-map-river" />
-              {[t.place, t.river, t.studio].map((name, i) => (
-                <button
-                  key={name}
-                  className={`mock-map-pin pin-${i}`}
-                  aria-label={name}
-                  aria-pressed={place === i}
-                  onClick={() => setPlace(i)}
-                >
-                  ●
-                </button>
+              <p>
+                {monthOffset === 0 && day === now?.getDate()
+                  ? t.today
+                  : w("Dia selecionado", "Selected day", "Día seleccionado")}
+              </p>
+              <span>
+                {w(
+                  "Agenda demonstrativa",
+                  "Demo schedule",
+                  "Agenda de ejemplo",
+                )}
+              </span>
+              {(events[`${month}-${day}`] ?? []).map((event, i) => (
+                <p className="ios-calendar-event" key={i}>
+                  {event}
+                </p>
               ))}
             </div>
-            <h5>{[t.place, t.river, t.studio][place]}</h5>
-            <div className="mock-place-list">
-              {[t.place, t.river, t.studio].map((name, i) => (
-                <button key={name} onClick={() => setPlace(i)}>
-                  {name}
-                </button>
-              ))}
-            </div>
-          </>
-        )}
-        {app === "health" && (
-          <>
-            <div className="mock-health">
-              <span>♡</span>
-              <strong>{steps.toLocaleString(language)}</strong>
-              <p>{t.steps}</p>
-              <progress value={Math.min(steps, 10000)} max={10000} />
-            </div>
-            <button onClick={() => setSteps((v) => v + 500)}>
-              {t.walk} +500
-            </button>
-          </>
-        )}
-        {app === "wallet" && (
-          <>
-            <div className={`mock-wallet card-${card}`}>
-              <span>R / R</span>
-              <h5>{card === 0 ? t.ticket : t.coffee}</h5>
-              <div className="mock-wallet-code" />
-              <small>DEMO · 007</small>
-            </div>
-            <div className="mock-place-list">
-              <button onClick={() => setCard(0)}>{t.ticket}</button>
-              <button onClick={() => setCard(1)}>{t.coffee}</button>
-            </div>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const key = `${month}-${day}`;
+                if (
+                  day &&
+                  eventDraft.trim() &&
+                  (events[key]?.length ?? 0) < 10
+                ) {
+                  setEvents((old) => ({
+                    ...old,
+                    [key]: [...(old[key] ?? []), eventDraft.trim()],
+                  }));
+                  setEventDraft("");
+                }
+              }}
+            >
+              <input
+                aria-label={w("Novo evento", "New event", "Nuevo evento")}
+                placeholder={w("Novo evento", "New event", "Nuevo evento")}
+                maxLength={80}
+                value={eventDraft}
+                onChange={(e) => setEventDraft(e.target.value)}
+              />
+              <button
+                disabled={
+                  !day || (events[`${month}-${day}`]?.length ?? 0) >= 10
+                }
+              >
+                {t.add}
+              </button>
+            </form>
           </>
         )}
         {app === "settings" && (
-          <PhoneSettings
-            language={language}
-            settings={settings}
-            change={changeSettings}
-          />
-        )}
-        {app === "browser" &&
-          (settings.airplane || !settings.wifi ? (
-            <p role="status">{t.offline}</p>
-          ) : (
-            <>
-              <form
-                className="mock-address"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  openUrl(address);
-                }}
-              >
-                <input
-                  type="text"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  placeholder="https://"
-                  aria-label={t.address}
-                />
-                <button>{t.go}</button>
-              </form>
-              {error && <p role="alert">{error}</p>}
-              {url ? (
-                <>
-                  <a
-                    className="mock-browser-external"
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {t.external}
-                  </a>
-                  <iframe
-                    src={url}
-                    title={t.browser}
-                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                    referrerPolicy="no-referrer"
-                  />
-                  <p>{t.blocked}</p>
-                </>
-              ) : (
-                <div className="mock-bookmarks">
-                  {projects
-                    .filter((p) => p.category !== "product")
-                    .map((project) => (
-                      <button
-                        key={project.id}
-                        onClick={() => openUrl(project.url)}
-                      >
-                        {project.name} ↗
-                      </button>
-                    ))}
-                </div>
+          <>
+            <AppTitle title={t.settings} />
+            <ProfileRow
+              subtitle={w(
+                "Meu telefone · demonstração",
+                "My phone · demo",
+                "Mi teléfono · demostración",
               )}
-            </>
-          ))}
+            />
+            <PhoneSettings
+              language={language}
+              settings={settings}
+              change={changeSettings}
+            />
+          </>
+        )}
+        <section hidden={app !== "browser"}>
+          <Browser
+            language={language}
+            active={app === "browser"}
+            offline={settings.airplane || !settings.wifi}
+          />
+        </section>
         {app === "messages" && (
           <>
-            <div className="mock-messages">
+            <div className="ios-chat-contact">
+              <span>R</span>
+              <strong>Raphael</strong>
+              <small>
+                {w(
+                  "Conversa demonstrativa",
+                  "Demo conversation",
+                  "Conversación de ejemplo",
+                )}
+              </small>
+            </div>
+            <div className="mock-messages" role="log" aria-label={t.messages}>
               <p>{t.received}</p>
               {messages.map((message, i) => (
                 <div key={i}>
@@ -472,7 +484,7 @@ export function PhoneApps({
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                if (draft.trim()) {
+                if (draft.trim() && messages.length < 30) {
                   setMessages((items) => [...items, draft.trim()]);
                   setDraft("");
                 }
@@ -485,7 +497,7 @@ export function PhoneApps({
                 aria-label={t.message}
                 maxLength={200}
               />
-              <button>{t.send}</button>
+              <button disabled={messages.length >= 30}>{t.send}</button>
             </form>
           </>
         )}

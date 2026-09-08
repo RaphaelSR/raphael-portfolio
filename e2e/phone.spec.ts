@@ -12,6 +12,7 @@ for (const width of [320, 768])
         .getByRole("button", { name: "Home", exact: true })
         .click();
     await phone.getByRole("button", { name: "Notes", exact: true }).click();
+    await phone.getByRole("button", { name: /Scratchpad/ }).click();
     await phone
       .getByRole("textbox", { name: "Notes", exact: true })
       .fill("A small idea");
@@ -47,7 +48,7 @@ for (const width of [320, 768])
       .click();
     await phone
       .locator(".mock-place-list")
-      .getByRole("button", { name: "Studio", exact: true })
+      .getByRole("button", { name: "Gym", exact: true })
       .click();
     await expect(
       phone.locator(".mock-map-pin").filter({ hasText: "●" }).nth(2),
