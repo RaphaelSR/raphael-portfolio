@@ -101,11 +101,6 @@ export const experience: Experience[] = [
   },
   {
     company: "Vix / Grupo Águia Branca",
-    highlight: {
-      pt: "Vapt-Jornada · mais de 18 mil usuários ativos",
-      en: "Vapt-Jornada · over 18,000 active users",
-      es: "Vapt-Jornada · más de 18.000 usuarios activos",
-    },
     period: "07.2022 — 10.2024",
     title: {
       pt: "Mobile Engineering Lead",
