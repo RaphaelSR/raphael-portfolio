@@ -52,8 +52,10 @@ for (const reducedMotion of ["no-preference", "reduce"] as const) {
   }, testInfo) => {
     await page.setViewportSize({ width: 1000, height: 800 });
     await page.emulateMedia({ reducedMotion });
-    await page.clock.install();
+    await page.clock.install({ time: new Date("2026-09-08T12:00:00Z") });
     await page.goto("./en/");
+    await page.evaluate(() => document.fonts.ready);
+    await page.clock.pauseAt(new Date("2026-09-08T12:01:00Z"));
     await page.evaluate(() => {
       const main = document.querySelector("main")!;
       main.style.visibility = "hidden";
@@ -77,8 +79,15 @@ for (const reducedMotion of ["no-preference", "reduce"] as const) {
     expect((await skin.boundingBox())!.height).toBeGreaterThan(34);
     await page.clock.runFor(400);
     expect(await meals()).toEqual(first);
-    await page.clock.runFor(1600);
+    for (
+      let step = 0;
+      step < 16 && (await meals()).length === first.length;
+      step++
+    ) {
+      await page.clock.runFor(160);
+    }
     const fedAgain = await meals();
+    expect(fedAgain).toHaveLength(first.length + 1);
     expect(fedAgain[2]).toBe(first[1]);
     await page.keyboard.press("ArrowDown");
     await page.clock.runFor(450);
