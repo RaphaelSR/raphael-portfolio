@@ -8,7 +8,7 @@ export default defineConfig({
   use: {
     baseURL:
       process.env.PLAYWRIGHT_BASE_URL ||
-      "http://127.0.0.1:3010/raphael-portfolio/",
+      "http://127.0.0.1:3010/",
     ...devices["Desktop Chrome"],
     locale: "pt-BR",
     channel: process.env.PLAYWRIGHT_CHANNEL || undefined,
@@ -21,7 +21,7 @@ export default defineConfig({
         command: process.env.CI
           ? "npm run preview -- --port 3010"
           : "npm run dev",
-        url: "http://127.0.0.1:3010/raphael-portfolio/",
+        url: "http://127.0.0.1:3010/",
         reuseExistingServer: !process.env.CI,
       },
 });

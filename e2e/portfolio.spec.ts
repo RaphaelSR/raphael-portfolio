@@ -144,7 +144,7 @@ for (const [locale, expected] of [
     const page = await context.newPage();
     await page.goto(
       process.env.PLAYWRIGHT_BASE_URL ||
-        "http://127.0.0.1:3010/raphael-portfolio/",
+        "http://127.0.0.1:3010/",
     );
     await expect(page.locator("html")).toHaveAttribute("lang", expected);
     await page
