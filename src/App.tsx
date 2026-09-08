@@ -64,7 +64,11 @@ export default function App({
   useEffect(() => () => clearTimeout(timer.current), []);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && menu) {
+      if (
+        e.key === "Escape" &&
+        menu &&
+        !document.querySelector("dialog[open]")
+      ) {
         setMenu(false);
         menuRef.current?.focus();
       }
@@ -107,17 +111,13 @@ export default function App({
       </a>
       <header className="header">
         <div className="header-inner">
-          <a
-            href="#home"
-            className="wordmark"
-            aria-label={`Raphael Rocha — ${t.home}`}
-          >
-            <Portrait motion={motion} />
-            <span>
+          <div className="wordmark">
+            <Portrait motion={motion} language={language} />
+            <a href="#home" aria-label={`Raphael Rocha — ${t.home}`}>
               Raphael Rocha
               <span className="wordmark-sub">SOFTWARE ENGINEER</span>
-            </span>
-          </a>
+            </a>
+          </div>
           <nav
             className={menu ? "nav is-open" : "nav"}
             aria-label={t.navigation}

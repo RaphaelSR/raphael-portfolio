@@ -334,3 +334,68 @@ test("phone entrance cancels cleanly and supports reduced motion on mobile", asy
   ).toBe(true);
   await page.keyboard.press("Escape");
 });
+
+for (const selector of [
+  ".language-button",
+  ".menu-toggle",
+  ".portrait-trigger",
+]) {
+  test(`snake consumes and restores the real header control ${selector}`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.clock.install();
+    await page.goto("./en/");
+    const control = page.locator(selector);
+    await expect(control).toBeVisible();
+    await control.evaluate((element) => {
+      const r = element.getBoundingClientRect();
+      window.dispatchEvent(
+        new CustomEvent("portfolio:snake", {
+          detail: { x: Math.max(10, r.left - 50), y: r.top + r.height / 2 },
+        }),
+      );
+    });
+    await expect(page.locator(".snake-hud")).toBeVisible();
+    await page.clock.runFor(1500);
+    await expect(control).toHaveCSS("visibility", "hidden");
+    await page.keyboard.press("Escape");
+    await expect(control).toBeVisible();
+    if (selector === ".language-button") {
+      await control.selectOption("es");
+      await expect(page.locator("html")).toHaveAttribute("lang", "es");
+    }
+    if (selector === ".menu-toggle") {
+      await control.click();
+      await expect(control).toHaveAttribute("aria-expanded", "true");
+    }
+  });
+}
+test("snake can eat the sticky language control after travelling up a scrolled page", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.clock.install();
+  await page.goto("./en/");
+  await page.evaluate(() => {
+    window.scrollTo({ top: 1000, behavior: "instant" });
+    const r = document
+      .querySelector(".language-button")!
+      .getBoundingClientRect();
+    window.dispatchEvent(
+      new CustomEvent("portfolio:snake", {
+        detail: { x: r.left + r.width / 2 - 40, y: scrollY + 170 },
+      }),
+    );
+  });
+  await expect(page.locator(".snake-hud")).toBeVisible();
+  await page.clock.runFor(1000);
+  await page.keyboard.press("ArrowUp");
+  await page.clock.runFor(9000);
+  await expect(page.locator(".language-button")).toHaveCSS(
+    "visibility",
+    "hidden",
+  );
+  await page.keyboard.press("Escape");
+  await expect(page.locator(".language-button")).toBeVisible();
+});

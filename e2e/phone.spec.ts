@@ -220,3 +220,16 @@ test.describe("device clock and phone preferences", () => {
     await page.keyboard.press("Escape");
   });
 });
+
+test("Escape outside a phone app does not steal focus back from the main menu", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("./en/");
+  const phone = page.locator(".phone-device");
+  await phone.getByRole("button", { name: "Notes", exact: true }).click();
+  await phone.getByRole("button", { name: "Home", exact: true }).click();
+  await page.locator(".menu-toggle").click();
+  await page.keyboard.press("Escape");
+  await expect(page.locator(".menu-toggle")).toBeFocused();
+});
