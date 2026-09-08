@@ -100,83 +100,61 @@ for (const [locale, title, blueprint] of [
     await expect(page.locator("html")).not.toHaveAttribute("data-blueprint");
   });
 }
-test("letter snake eats actual text and restores the document on exit", async ({
+test("invitation becomes a snake that eats text and buttons, then restores the page", async ({
   page,
 }) => {
-  await page.clock.install({ time: new Date("2026-09-07T12:00:00Z") });
-  await page.clock.pauseAt(new Date("2026-09-07T12:00:01Z"));
+  await page.clock.install();
   await page.goto("./en/");
-  const original = await page.locator("main").textContent();
-  await page.keyboard.press("Control+k");
-  await page.getByRole("searchbox").fill("Snake");
-  await page.keyboard.press("Enter");
-  await expect(page.locator(".snake-canvas")).toBeVisible();
-  const path = await page.evaluate(() => {
-    const canvas = document.querySelector<HTMLCanvasElement>(".snake-canvas")!;
-    const ctx = canvas.getContext("2d")!;
-    const scale = Math.min(devicePixelRatio, 2),
-      columns = Math.floor(innerWidth / 20),
-      rows = Math.floor(innerHeight / 20);
-    const blocked = new Set<string>();
-    let start = { x: 0, y: 0 };
-    for (let y = 0; y < rows; y++)
-      for (let x = 0; x < columns; x++) {
-        const p = ctx.getImageData(
-          (x * 20 + 10) * scale,
-          (y * 20 + 10) * scale,
-          1,
-          1,
-        ).data;
-        if (p[0] === 28 && p[1] === 96) start = { x, y };
-        else if (p[0] === 60 && p[1] === 128) blocked.add(`${x},${y}`);
-      }
-    const target = [...CSS.highlights.get("snake-target")!][0] as Range;
-    const r = target.getBoundingClientRect();
-    const goal = {
-      x: Math.floor((r.left + r.width / 2) / 20),
-      y: Math.floor((r.top + r.height / 2) / 20),
-    };
-    const queue = [{ ...start, path: [] as string[] }],
-      visited = new Set<string>();
-    while (queue.length) {
-      const cell = queue.shift()!;
-      if (cell.x === goal.x && cell.y === goal.y) return cell.path;
-      for (const [dx, dy, key] of [
-        [1, 0, "ArrowRight"],
-        [0, 1, "ArrowDown"],
-        [0, -1, "ArrowUp"],
-        [-1, 0, "ArrowLeft"],
-      ] as const) {
-        const x = (cell.x + dx + columns) % columns,
-          y = (cell.y + dy + rows) % rows,
-          k = `${x},${y}`;
-        if (!blocked.has(k) && !visited.has(k)) {
-          visited.add(k);
-          queue.push({ x, y, path: [...cell.path, key] });
-        }
-      }
-    }
-    return [];
+  const invite = page.getByRole("button", {
+    name: "Let it loose on this page",
   });
-  expect(path.length).toBeGreaterThan(0);
-  for (const key of path) {
-    await page.keyboard.press(key);
-    await page.clock.runFor(150);
-  }
-  await expect(page.getByRole("dialog").getByRole("status")).toHaveText(
-    "Letters: 1",
+  await expect(invite).toBeVisible();
+  await invite.scrollIntoViewIfNeeded();
+  const original = await page.locator("main").textContent();
+  const initialScroll = await page.evaluate(() => window.scrollY);
+  await page.evaluate(() => {
+    const r = document
+      .querySelector(".snake-invitation svg")!
+      .getBoundingClientRect();
+    const y = Math.floor((r.top + r.height / 2 + scrollY) / 20) * 20;
+    const x = Math.floor((r.left + r.width / 2) / 20) * 20;
+    const fixture = document.createElement("div");
+    fixture.id = "snake-content-fixture";
+    fixture.style.cssText = `position:absolute;top:${y}px;left:${x + 80}px;z-index:2;pointer-events:none;display:flex;gap:20px;height:20px;font-size:14px;line-height:20px`;
+    fixture.innerHTML =
+      '<span>ABC</span><button style="height:20px;min-height:0;padding:0">Eat this button</button>';
+    document.querySelector("main")!.append(fixture);
+  });
+  await invite.click();
+  await expect(page.locator("html")).toHaveAttribute(
+    "data-snake-playing",
+    "true",
+  );
+  await expect(page.locator(".snake-invitation svg")).toBeHidden();
+  await page.clock.runFor(3000);
+  expect(await page.evaluate(() => CSS.highlights.has("snake-target"))).toBe(
+    false,
   );
   expect(
-    await page.evaluate(() => CSS.highlights.get("snake-eaten")?.size),
-  ).toBe(1);
+    await page.evaluate(() => CSS.highlights.get("snake-eaten")!.size),
+  ).toBeGreaterThan(0);
+  await expect(page.locator("#snake-content-fixture button")).toBeHidden();
+  await page.keyboard.press("ArrowDown");
+  await page.clock.runFor(4000);
+  expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(
+    initialScroll,
+  );
   await page.keyboard.press("Escape");
+  await expect(page.locator("#snake-content-fixture button")).toBeVisible();
   expect(await page.evaluate(() => CSS.highlights.has("snake-eaten"))).toBe(
     false,
   );
-  expect(await page.locator("main").textContent()).toBe(original);
-  expect(await page.evaluate(() => document.body.style.overflow)).not.toBe(
-    "hidden",
+  expect(await page.evaluate(() => window.scrollY)).toBe(initialScroll);
+  await page.evaluate(() =>
+    document.getElementById("snake-content-fixture")!.remove(),
   );
+  expect(await page.locator("main").textContent()).toBe(original);
+  await expect(invite).toBeFocused();
 });
 test("mobile snake has touch controls and restores highlights when closed", async ({
   page,
@@ -198,4 +176,39 @@ test("mobile snake has touch controls and restores highlights when closed", asyn
   expect(await page.evaluate(() => CSS.highlights.has("snake-target"))).toBe(
     false,
   );
+});
+
+test("loose content falls, rebounds and settles against other pieces", async () => {
+  const { advancePieces } = await import("../src/features/snake-physics");
+  const pieces = [
+    {
+      x: 40,
+      y: 20,
+      width: 30,
+      height: 20,
+      vx: 0,
+      vy: 0,
+      text: "A",
+      font: "14px sans-serif",
+      color: "#000",
+    },
+    {
+      x: 40,
+      y: 180,
+      width: 30,
+      height: 20,
+      vx: 0,
+      vy: 0,
+      text: "B",
+      font: "14px sans-serif",
+      color: "#000",
+    },
+  ];
+  advancePieces(pieces, 1 / 60, 300, () => 200);
+  expect(pieces[0].y).toBeGreaterThan(20);
+  for (let i = 0; i < 240; i++) advancePieces(pieces, 1 / 60, 300, () => 200);
+  expect(pieces[0].y + pieces[0].height).toBeLessThanOrEqual(
+    pieces[1].y + 0.01,
+  );
+  expect(pieces[1].y + pieces[1].height).toBeLessThanOrEqual(200);
 });
