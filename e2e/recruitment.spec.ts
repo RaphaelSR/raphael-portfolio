@@ -58,30 +58,23 @@ test("portrait belongs to the header and respects reduced motion", async ({
     )
     .toBe(true);
   await page.mouse.move(1000, 600);
-  await expect(portrait).toHaveAttribute("style", /--portrait-x/);
+  await expect(portrait).not.toHaveAttribute("style");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(portrait).not.toHaveAttribute("style");
   await expect(portrait).toHaveCSS("transform", "none");
 });
 
-test("eyes move independently, react to scrolling and blink", async ({
+test("portrait stays still during pointer and scroll input and blinks calmly", async ({
   page,
 }) => {
   await page.goto("./en/");
   const portrait = page.locator("header .portrait");
-  const iris = portrait.locator(".portrait-iris").first();
-  await expect(iris).toBeVisible();
-  const translation = (axis: "x" | "y") =>
-    iris.evaluate((element, axis) => {
-      const matrix = new DOMMatrixReadOnly(getComputedStyle(element).transform);
-      return axis === "x" ? matrix.m41 : matrix.m42;
-    }, axis);
-  await page.mouse.move(0, 50);
-  await expect.poll(() => translation("x")).toBeLessThan(0);
-  await page.mouse.move(1200, 50);
-  await expect.poll(() => translation("x")).toBeGreaterThan(2);
+  await expect(portrait.locator(".portrait-eyes")).toBeVisible();
+  await expect(portrait.locator(".portrait-iris")).toHaveCount(0);
+  await page.mouse.move(1200, 600);
   await page.evaluate(() => scrollTo({ top: 500, behavior: "instant" }));
-  await expect.poll(() => translation("y")).toBeGreaterThan(1);
+  await expect(portrait).not.toHaveAttribute("style");
+  await expect(portrait).toHaveCSS("transform", "none");
   const blinkDuration = await portrait.evaluate(
     (element) =>
       new Promise<number>((resolve, reject) => {
