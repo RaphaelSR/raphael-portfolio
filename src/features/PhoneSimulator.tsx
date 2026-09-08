@@ -22,7 +22,7 @@ const copy = {
     health: "Saúde",
     wallet: "Carteira",
     settings: "Ajustes",
-    events: "Nenhum evento hoje",
+    events: "Ver agenda",
     search: "Buscar",
     loading: "Abrindo Snake…",
     broken: "Opa. A cobra saiu da tela.",
@@ -41,7 +41,7 @@ const copy = {
     health: "Health",
     wallet: "Wallet",
     settings: "Settings",
-    events: "No events today",
+    events: "View calendar",
     search: "Search",
     loading: "Opening Snake…",
     broken: "Oops. The snake left the screen.",
@@ -60,7 +60,7 @@ const copy = {
     health: "Salud",
     wallet: "Cartera",
     settings: "Ajustes",
-    events: "Sin eventos hoy",
+    events: "Ver calendario",
     search: "Buscar",
     loading: "Abriendo Snake…",
     broken: "La serpiente salió de la pantalla.",
@@ -353,10 +353,14 @@ export function PhoneSimulator({ language }: { language: Locale }) {
                           d="M0 35H150M0 110H150M38 0V150M115 0V150"
                         />
                         <text x="76" y="65" textAnchor="middle">
-                          AMERICA
+                          {language === "en" ? "SOUTH" : "AMÉRICA"}
                         </text>
                         <text x="76" y="83" textAnchor="middle">
-                          DO SUL
+                          {language === "en"
+                            ? "AMERICA"
+                            : language === "es"
+                              ? "DEL SUR"
+                              : "DO SUL"}
                         </text>
                       </svg>
                     </div>
@@ -464,9 +468,12 @@ export function PhoneSimulator({ language }: { language: Locale }) {
                     <span>{t.settings}</span>
                   </button>
                 </div>
-                <span className="phone-search" aria-hidden="true">
+                <button
+                  className="phone-search"
+                  onClick={() => setApp("search")}
+                >
                   ⌕ {t.search}
-                </span>
+                </button>
                 <div className="phone-dock">
                   <button
                     aria-label={language === "en" ? "Browser" : "Navegador"}
@@ -510,6 +517,7 @@ export function PhoneSimulator({ language }: { language: Locale }) {
               </div>
               <PhoneApps
                 app={app}
+                openApp={setApp}
                 language={language}
                 close={closeApp}
                 settings={settings}
