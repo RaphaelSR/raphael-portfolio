@@ -18,7 +18,9 @@ export default defineConfig({
   webServer: process.env.PLAYWRIGHT_BASE_URL
     ? undefined
     : {
-        command: "npm run dev",
+        command: process.env.CI
+          ? "npm run preview -- --port 3010"
+          : "npm run dev",
         url: "http://127.0.0.1:3010/raphael-portfolio/",
         reuseExistingServer: !process.env.CI,
       },

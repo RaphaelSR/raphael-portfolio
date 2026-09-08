@@ -1,0 +1,913 @@
+.phone-app-window {
+  --ios-bg: #f2f2f7;
+  --ios-card: #fff;
+  --ios-text: #202126;
+  --ios-secondary: #65656e;
+  --ios-line: #dedee5;
+  --ios-blue: #0065ce;
+  --ios-input: #e7e7ed;
+  background: var(--ios-bg);
+  color: var(--ios-text);
+  -webkit-font-smoothing: antialiased;
+}
+.phone-app-window[data-dark="true"] {
+  --ios-bg: #101114;
+  --ios-card: #222327;
+  --ios-text: #f5f5f7;
+  --ios-secondary: #aeafb9;
+  --ios-line: #36373d;
+  --ios-blue: #69b1ff;
+  --ios-input: #303137;
+  background: var(--ios-bg);
+  color: var(--ios-text);
+  color-scheme: dark;
+}
+.phone-app-window[hidden],
+.phone-app-content > section[hidden] {
+  display: none;
+}
+.phone-app-window .phone-app-toolbar {
+  min-height: 36px;
+  border-color: var(--ios-line);
+  background: var(--ios-bg);
+}
+.phone-app-window .phone-app-toolbar button {
+  color: var(--ios-blue);
+}
+.phone-app-window .phone-app-toolbar h4 {
+  font-size: 12px;
+  font-weight: 600;
+}
+.phone-app-window .phone-app-content {
+  padding: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ios-line) transparent;
+}
+.phone-app-window .phone-app-demo {
+  background: var(--ios-bg);
+  color: var(--ios-secondary);
+  border-color: var(--ios-line);
+  font-size: 8px;
+}
+.phone-app-window .phone-app-content :where(button) {
+  color: var(--ios-blue);
+  background: var(--ios-card);
+  border-color: var(--ios-line);
+  min-height: 34px;
+}
+.phone-app-window
+  .phone-app-content
+  input:not([type="checkbox"]):not([type="range"]),
+.phone-app-window .phone-app-content textarea {
+  background: var(--ios-card);
+  color: var(--ios-text);
+  border-color: var(--ios-line);
+}
+.phone-app-window .phone-app-content input::placeholder,
+.phone-app-window .phone-app-content textarea::placeholder {
+  color: var(--ios-secondary);
+  opacity: 1;
+}
+.phone-app-window .phone-app-content button:focus-visible,
+.phone-app-window .phone-app-content input:focus-visible,
+.phone-app-window .phone-app-content textarea:focus-visible {
+  outline: 2px solid var(--ios-blue);
+  outline-offset: 2px;
+}
+.phone-app-window .ios-title {
+  margin: 4px 0 14px;
+}
+.phone-app-window .ios-title h5 {
+  font-size: clamp(23px, 9cqw, 28px);
+  line-height: 1.1;
+  letter-spacing: -0.8px;
+  font-weight: 750;
+  margin: 0 0 5px;
+}
+.phone-app-window .ios-title p {
+  color: var(--ios-secondary);
+  font-size: 10px;
+  margin: 0;
+}
+.phone-app-window .ios-caption {
+  color: var(--ios-secondary);
+  font-size: 10px;
+  margin: 12px 0 0;
+  line-height: 1.5;
+}
+.phone-app-window .ios-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.phone-app-window .ios-actions button,
+.phone-app-window .ios-link-button {
+  background: transparent;
+  border: 0;
+  padding-left: 0;
+}
+.phone-app-window .ios-actions > span {
+  color: var(--ios-secondary);
+  font-size: 9px;
+}
+.phone-app-window .ios-search {
+  background: var(--ios-input) !important;
+  border: 0 !important;
+  border-radius: 9px !important;
+  margin-bottom: 12px;
+}
+.phone-app-window .ios-segment {
+  display: flex;
+  padding: 2px;
+  gap: 2px;
+  background: var(--ios-input);
+  border-radius: 9px;
+  margin: 10px 0;
+}
+.phone-app-window .ios-segment button {
+  flex: 1;
+  min-width: 0;
+  min-height: 30px;
+  border: 0;
+  padding: 4px;
+  color: var(--ios-text);
+  background: transparent;
+  font-size: 11px;
+}
+.phone-app-window .ios-segment button[aria-pressed="true"] {
+  background: var(--ios-card);
+  box-shadow: 0 1px 4px #0002;
+}
+.phone-app-window .ios-primary {
+  background: #0869d6;
+  color: white;
+  border: 0;
+  width: 100%;
+}
+.phone-app-window .ios-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--ios-card);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 14px;
+}
+.phone-app-window .ios-profile img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+}
+.phone-app-window .ios-profile strong {
+  font-size: 13px;
+}
+.phone-app-window .ios-profile small {
+  display: block;
+  font-size: 9px;
+  color: var(--ios-secondary);
+  margin-top: 2px;
+}
+/* Notes keeps the editor as plain text; all content stays in component state. */
+.phone-app-window[data-app="notes"] {
+  --ios-blue: #8c6500;
+}
+.phone-app-window[data-dark="true"][data-app="notes"] {
+  --ios-blue: #f3cf60;
+}
+.phone-app-window .ios-note-list {
+  background: var(--ios-card);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.phone-app-window .ios-note-list button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-radius: 0;
+  padding: 12px;
+  color: var(--ios-text);
+}
+.phone-app-window .ios-note-list button + button {
+  border-top: 1px solid var(--ios-line);
+}
+.phone-app-window .ios-note-list strong,
+.phone-app-window .ios-note-list span,
+.phone-app-window .ios-note-list small {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.phone-app-window .ios-note-list strong {
+  font-size: 13px;
+}
+.phone-app-window .ios-note-list span {
+  color: var(--ios-secondary);
+  font-size: 10px;
+  margin: 3px 0;
+}
+.phone-app-window .ios-note-list small {
+  color: var(--ios-blue);
+  font-size: 9px;
+}
+.phone-app-window .ios-new-note {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  margin-top: 10px;
+  text-align: right;
+  font-weight: 600;
+}
+.phone-app-window .ios-notes .ios-note-title {
+  font-size: 20px;
+  font-weight: 700;
+  border: 0;
+  border-radius: 0;
+  padding: 5px 0 12px;
+  background: transparent;
+}
+.phone-app-window .ios-notes textarea {
+  min-height: 225px;
+  height: 52cqw;
+  border: 0;
+  padding: 5px 0;
+  background: transparent;
+  line-height: 1.65;
+  font-size: 16px;
+}
+.phone-app-window[data-app="notes"] .phone-app-content {
+  background: var(--ios-card);
+}
+.phone-app-window .ios-reminder-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.phone-app-window .ios-reminder-summary button {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  color: var(--ios-text);
+}
+.phone-app-window .ios-reminder-summary button[aria-pressed="true"] {
+  border-color: var(--ios-blue);
+}
+.phone-app-window .ios-reminder-summary button > span {
+  width: 23px;
+  height: 23px;
+  line-height: 23px;
+  font-size: 17px;
+  background: #0876db;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+}
+.phone-app-window .ios-reminder-summary button:nth-child(2) > span {
+  background: #be3b45;
+}
+.phone-app-window .ios-reminder-summary button:nth-child(3) > span {
+  background: #536276;
+}
+.phone-app-window .ios-reminder-summary strong {
+  font-size: 23px;
+  line-height: 1;
+  text-align: right;
+}
+.phone-app-window .ios-reminder-summary small {
+  grid-column: 1 / -1;
+  font-weight: 600;
+  color: var(--ios-secondary);
+  font-size: 10px;
+}
+.phone-app-window .mock-reminders {
+  border-radius: 12px;
+  background: var(--ios-card);
+  padding: 0 10px;
+}
+.phone-app-window .mock-reminders label {
+  border-color: var(--ios-line);
+}
+.phone-app-window .mock-reminders label:last-child {
+  border: 0;
+}
+.phone-app-window .mock-reminders input {
+  appearance: none;
+  flex-shrink: 0;
+  border: 1.5px solid #9598a1;
+  border-radius: 50%;
+  background: transparent;
+  width: 20px;
+  height: 20px;
+}
+.phone-app-window .mock-reminders input:checked {
+  background: #1672d0;
+  border: 3px solid var(--ios-card);
+  outline: 1.5px solid #1672d0;
+}
+.phone-app-window .mock-reminders input:focus-visible {
+  outline: 2px solid var(--ios-blue);
+  outline-offset: 3px;
+}
+.phone-app-window .mock-reminders input:checked + span {
+  color: var(--ios-secondary);
+}
+.phone-app-window .ios-calendar-title {
+  color: #bb283d;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.6px;
+  text-transform: capitalize;
+  margin: 5px 0 15px;
+}
+.phone-app-window[data-dark="true"] .ios-calendar-title {
+  color: #ff8794;
+}
+.phone-app-window .mock-calendar button {
+  min-height: 28px;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ios-text);
+}
+.phone-app-window .mock-calendar button[aria-pressed="true"] {
+  background: #c32d43;
+  color: white;
+}
+.phone-app-window .mock-calendar-weekday {
+  color: var(--ios-secondary);
+  text-align: center;
+}
+.phone-app-window .mock-event {
+  background: var(--ios-card);
+  padding: 12px;
+  border-radius: 0 12px 12px 0;
+}
+.phone-app-window .mock-event span {
+  color: var(--ios-secondary);
+  font-size: 10px;
+}
+.phone-app-window .ios-health-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 10px;
+  background: var(--ios-card);
+  border-radius: 12px;
+}
+.phone-app-window .ios-health-profile > div {
+  flex: 1;
+}
+.phone-app-window .ios-health-profile strong,
+.phone-app-window .ios-health-profile div span {
+  display: block;
+}
+.phone-app-window .ios-health-profile div span {
+  font-size: 10px;
+  color: var(--ios-secondary);
+}
+.phone-app-window .ios-health-profile > span:last-child {
+  font-size: 25px;
+  color: #c62d61;
+}
+.ios-belt {
+  display: inline-block;
+  position: relative;
+  width: 36px;
+  height: 10px;
+  background: linear-gradient(#936c4d, #694932);
+  border-radius: 2px;
+  transform: rotate(-12deg);
+}
+.ios-belt::before,
+.ios-belt::after {
+  content: "";
+  position: absolute;
+  background: #755136;
+  width: 9px;
+  height: 23px;
+  top: 4px;
+  left: 15px;
+  transform: rotate(25deg);
+  border-radius: 1px;
+}
+.ios-belt::after {
+  left: 21px;
+  transform: rotate(-25deg);
+  border-bottom: 7px solid #27272b;
+}
+.phone-app-window .ios-health-card {
+  background: var(--ios-card);
+  border-radius: 12px;
+  padding: 12px;
+}
+.phone-app-window .ios-card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #a94b0f;
+}
+.phone-app-window[data-dark="true"] .ios-card-heading {
+  color: #ffb170;
+}
+.phone-app-window .ios-card-heading span {
+  font-size: 9px;
+  color: var(--ios-secondary);
+}
+.phone-app-window .ios-metric {
+  display: block;
+  font-size: 30px;
+  letter-spacing: -1px;
+  margin: 7px 0 12px;
+}
+.phone-app-window .ios-bars {
+  height: 65px;
+  display: flex;
+  align-items: end;
+  gap: 5px;
+  border-bottom: 1px solid var(--ios-line);
+  background: repeating-linear-gradient(
+    to top,
+    transparent 0 20px,
+    var(--ios-line) 20px 21px
+  );
+}
+.phone-app-window .ios-bars i {
+  flex: 1;
+  background: linear-gradient(#ffb55b, #df741d);
+  border-radius: 3px 3px 0 0;
+}
+.phone-app-window .ios-chart-axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 8px;
+  color: var(--ios-secondary);
+  margin-top: 4px;
+}
+.phone-app-window .ios-health-card .ios-link-button {
+  margin-top: 8px;
+  font-size: 10px;
+}
+.phone-app-window .ios-sport-detail {
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--ios-card);
+}
+.phone-app-window .ios-sport-detail p {
+  margin: 3px 0 0;
+  color: var(--ios-secondary);
+}
+.phone-app-window[data-app="maps"] .phone-app-content {
+  padding: 0;
+}
+.phone-app-window .ios-map-canvas {
+  height: 66cqw;
+  min-height: 160px;
+  overflow: hidden;
+  position: relative;
+  background: #e7e5da;
+}
+.phone-app-window .ios-map-canvas > svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.phone-app-window .ios-map-pin {
+  position: absolute;
+  border: 2px solid white;
+  border-radius: 50%;
+  width: 27px;
+  min-height: 27px;
+  padding: 0;
+  background: #ba4b44;
+  color: white;
+  font-size: 13px;
+  box-shadow: 0 2px 7px #0003;
+}
+.phone-app-window .ios-map-pin[aria-pressed="true"] {
+  background: #1a61ca;
+  outline: 3px solid #ffffff99;
+  outline-offset: 2px;
+}
+.phone-app-window .ios-map-demo {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  padding: 2px 5px;
+  background: #ffffffe0;
+  color: #465263;
+  border-radius: 3px;
+  font-size: 8px;
+}
+.phone-app-window .ios-map-sheet {
+  position: relative;
+  padding: 8px 12px 12px;
+  border-radius: 16px 16px 0 0;
+  background: var(--ios-bg);
+  margin-top: -5px;
+}
+.phone-app-window .ios-sheet-handle {
+  display: block;
+  width: 30px;
+  height: 4px;
+  background: var(--ios-line);
+  border-radius: 5px;
+  margin: 0 auto 10px;
+}
+.phone-app-window .ios-map-sheet input {
+  border: 0 !important;
+  background: var(--ios-input) !important;
+}
+.phone-app-window .ios-map-sheet h5 {
+  font-size: 19px;
+  margin-bottom: 4px;
+}
+.phone-app-window .ios-map-sheet p {
+  color: var(--ios-secondary);
+  font-size: 10px;
+}
+.phone-app-window .mock-place-list button[aria-pressed="true"] {
+  color: white;
+  background: #136ccc;
+  border-color: #136ccc;
+}
+.phone-app-window .ios-map-route {
+  stroke-dasharray: 300;
+  animation: phone-route-draw 0.7s ease-out both;
+}
+@keyframes phone-route-draw {
+  from {
+    stroke-dashoffset: 300;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.phone-app-window .ios-wallet-stack {
+  position: relative;
+  padding-top: 32px;
+  margin: 22px 0 18px;
+  perspective: 600px;
+}
+.phone-app-window .ios-wallet-peek {
+  position: absolute;
+  inset: 0 8px auto;
+  height: 75px;
+  padding: 8px 13px;
+  background: #546961;
+  border-radius: 12px;
+  color: white;
+  font-size: 11px;
+}
+.phone-app-window .ios-wallet-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.55;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: left;
+  border: 1px solid #ffffff38;
+  color: white;
+  background:
+    radial-gradient(ellipse at top right, #9b7c5655, transparent 75%),
+    linear-gradient(135deg, #252d35, #111a22);
+  box-shadow: 0 12px 20px -10px #0007;
+  transition:
+    transform 0.35s,
+    background 0.35s;
+}
+.phone-app-window .ios-wallet-card:active {
+  transform: rotateY(-8deg) scale(0.98);
+}
+.phone-app-window .ios-wallet-card.card-1 {
+  background:
+    radial-gradient(ellipse at top right, #fbe6bf33, transparent),
+    linear-gradient(130deg, #5e3524, #845336);
+}
+.phone-app-window .ios-wallet-card[data-flipped="true"] {
+  background: #24323d;
+  transform: rotateY(0);
+}
+.phone-app-window .ios-card-brand {
+  display: flex;
+  justify-content: space-between;
+  font-size: 8px;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+.phone-app-window .ios-card-emblem {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+}
+.phone-app-window .ios-wallet-card h5 {
+  color: white;
+  font-size: 18px;
+  line-height: 1.2;
+  margin: 8px 0;
+  letter-spacing: -0.5px;
+}
+.phone-app-window .ios-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  gap: 8px;
+  font-size: 9px;
+}
+.phone-app-window .ios-card-bottom small {
+  font-size: 7px;
+  letter-spacing: 0.5px;
+}
+.phone-app-window .ios-wallet-card p {
+  font-size: 10px;
+  line-height: 1.5;
+}
+.phone-app-window .mock-wallet-code {
+  display: block;
+  height: 24px;
+  width: 65%;
+  background: repeating-linear-gradient(90deg, #fff 0 2px, transparent 2px 5px);
+  margin: 12px 0 0;
+}
+.phone-app-window .ios-coffee-stamps {
+  background: var(--ios-card);
+  padding: 12px;
+  border-radius: 12px;
+  margin-top: 12px;
+}
+.phone-app-window .ios-coffee-stamps > div {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.phone-app-window .ios-coffee-stamps span {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px dashed var(--ios-line);
+  font-size: 22px;
+  color: var(--ios-secondary);
+}
+.phone-app-window .ios-coffee-stamps span[data-filled="true"] {
+  background: #6a4834;
+  color: #fff0d9;
+  border: 0;
+}
+.phone-app-window .mock-gallery {
+  gap: 3px;
+  margin-top: 14px;
+}
+.phone-app-window .mock-gallery .mock-photo {
+  position: relative;
+  aspect-ratio: 3/4;
+  padding: 0;
+  border: 0;
+  min-height: 0;
+  border-radius: 3px;
+}
+.phone-app-window .mock-photo svg,
+.phone-app-window .mock-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.phone-app-window .mock-gallery .mock-photo > span {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 12px 2px 4px;
+  font-size: 8px;
+  text-align: center;
+  color: white;
+  background: linear-gradient(transparent, #0009);
+}
+.phone-app-window .mock-photo-large {
+  aspect-ratio: 4/5;
+  border-radius: 5px;
+}
+.phone-app-window .ios-photos .ios-actions button[aria-pressed="true"] {
+  color: #bf2858;
+}
+.phone-app-window .mock-bookmarks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 10px;
+  margin: 10px 0;
+}
+.phone-app-window .mock-bookmarks button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+  border: 0;
+  background: transparent;
+  padding: 5px 0;
+  color: var(--ios-text);
+}
+.phone-app-window .ios-bookmark-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  font-size: 23px;
+  font-weight: 700;
+  color: #e9ffef;
+  background: linear-gradient(145deg, #406951, #234834);
+  box-shadow: 0 2px 4px #0001;
+}
+.phone-app-window .bookmark-trivia {
+  background: linear-gradient(145deg, #7d568d, #59336a);
+}
+.phone-app-window .bookmark-mimica {
+  background: linear-gradient(145deg, #ba602e, #984528);
+}
+.phone-app-window .mock-address {
+  margin: 0 0 18px;
+}
+.phone-app-window .mock-address input {
+  border: 0 !important;
+  background: var(--ios-input) !important;
+  border-radius: 10px !important;
+}
+.phone-app-window .mock-browser-external {
+  color: var(--ios-blue);
+}
+.phone-app-window .ios-chat-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 0 14px;
+  border-bottom: 1px solid var(--ios-line);
+  margin-bottom: 16px;
+}
+.phone-app-window .ios-chat-contact > span {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  background: #758294;
+  color: white;
+  border-radius: 50%;
+  font-size: 23px;
+  margin-bottom: 4px;
+}
+.phone-app-window .ios-chat-contact small {
+  font-size: 9px;
+  color: var(--ios-secondary);
+}
+.phone-app-window .mock-messages p {
+  color: var(--ios-text);
+  background: var(--ios-input);
+  border-radius: 13px 13px 13px 3px;
+  padding: 9px 11px;
+  max-width: 90%;
+}
+.phone-app-window[data-dark="true"] .mock-messages p:not(.mock-message-sent) {
+  color: var(--ios-text);
+}
+.phone-app-window .mock-messages .mock-message-sent {
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  background: #126ace;
+  color: white;
+  border-radius: 13px 13px 3px 13px;
+  overflow-wrap: anywhere;
+}
+.phone-app-window[data-app="messages"] form {
+  position: sticky;
+  bottom: -10px;
+  background: var(--ios-bg);
+  padding: 8px 0;
+}
+.phone-app-window[data-app="messages"] form input {
+  border-radius: 20px !important;
+}
+.phone-app-window .ios-app-results {
+  border-radius: 12px;
+  overflow: hidden;
+}
+.phone-app-window .ios-app-results button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid var(--ios-line);
+  width: 100%;
+  text-align: left;
+  padding: 10px;
+  color: var(--ios-text);
+}
+.phone-app-window .ios-app-results button > span:last-child {
+  margin-left: auto;
+  color: var(--ios-secondary);
+}
+.phone-app-window .ios-search-icon {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  background: #326e9b;
+  color: white;
+  font-size: 16px;
+}
+.phone-app-window .icon-notes {
+  background: #896400;
+}
+.phone-app-window .icon-health {
+  background: #b93060;
+}
+.phone-app-window .icon-messages {
+  background: #287442;
+}
+.phone-app-window .mock-settings fieldset {
+  background: var(--ios-card);
+  border-color: var(--ios-line);
+}
+.phone-app-window .mock-settings legend,
+.phone-app-window .phone-setting-info small {
+  color: var(--ios-secondary);
+}
+.phone-app-window .phone-setting-row,
+.phone-app-window .phone-setting-brightness {
+  border-color: var(--ios-line);
+}
+.phone-app-window .phone-app-content button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.phone-home .phone-search {
+  cursor: pointer;
+  font-family: inherit;
+}
+@media (prefers-reduced-motion: reduce) {
+  .phone-app-window .ios-map-route {
+    animation: none;
+  }
+  .phone-app-window .ios-wallet-card {
+    transition: none;
+  }
+}
+.phone-device:has(.phone-app-window:not([hidden])) .phone-screen {
+  background: #f2f2f7;
+}
+.phone-device[data-dark="true"]:has(.phone-app-window:not([hidden]))
+  .phone-screen {
+  background: #101114;
+}
+.phone-device:has(.phone-app-window:not([hidden])) .phone-wallpaper,
+.phone-device:has(.phone-app-window:not([hidden])) .phone-home {
+  visibility: hidden;
+}
+.phone-device:has(.phone-app-window:not([hidden])) .phone-status {
+  color: #202126;
+}
+.phone-device[data-dark="true"]:has(.phone-app-window:not([hidden]))
+  .phone-status {
+  color: #fff;
+}
+.phone-device:has(.phone-app-window:not([hidden])) .phone-battery {
+  border-color: currentColor;
+}
+.phone-device:has(.phone-app-window:not([hidden])) .phone-battery::before {
+  background: currentColor;
+}
+.phone-device:has(.phone-app-window:not([hidden])) .phone-home-bar {
+  background: #34343b;
+}
+.phone-device[data-dark="true"]:has(.phone-app-window:not([hidden]))
+  .phone-home-bar {
+  background: #f2f2f7;
+}
+.map-pin-0 {
+  left: calc(18.4% - 13px);
+  top: calc(29.3% - 13px);
+}
+.map-pin-1 {
+  left: calc(62% - 13px);
+  top: calc(77.5% - 13px);
+}
+.map-pin-2 {
+  left: calc(82.4% - 13px);
+  top: calc(22.9% - 13px);
+}
+.phone-app-window .ios-calendar-event {
+  padding: 8px 0;
+  border-top: 1px solid var(--ios-line);
+  margin: 8px 0 0;
+  overflow-wrap: anywhere;
+}

@@ -1,0 +1,90 @@
+.portrait-dialog {
+  width: min(520px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #1f2c3b;
+  overflow: auto;
+}
+.portrait-dialog::backdrop {
+  background: #17243780;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.portrait-dialog-content {
+  position: relative;
+  padding: 56px 16px 16px;
+}
+.portrait-dialog-close {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 44px;
+  height: 44px;
+  background: #f2f5fa;
+  color: #1f2c3b;
+  border: 1px solid #c9d2df;
+  border-radius: 50%;
+  font-size: 26px;
+  cursor: pointer;
+}
+.portrait-dialog-close:focus-visible {
+  outline: 3px solid #3579ba;
+  outline-offset: 3px;
+}
+.portrait-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.elastic-portrait {
+  position: relative;
+  width: min(100%, 440px, calc(100dvh - 112px));
+  aspect-ratio: 1;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow:
+    0 20px 40px #283c5425,
+    inset 0 0 0 1px #fff8;
+  background: #e8edf5;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.elastic-portrait[data-ready="true"] {
+  cursor: var(--hand-open);
+}
+.elastic-portrait[data-dragging="true"] {
+  cursor: var(--hand-grab);
+}
+.elastic-portrait img,
+.elastic-portrait canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+.elastic-portrait canvas {
+  opacity: 0;
+}
+.elastic-portrait[data-ready="true"] canvas {
+  opacity: 1;
+}
+.elastic-portrait:focus-visible {
+  outline: 3px solid #3579ba;
+  outline-offset: 5px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .portrait-dialog,
+  .portrait-dialog * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
