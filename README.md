@@ -66,3 +66,11 @@ The new English download, `public/raphael-rocha-resume.pdf`, has two pages and a
 Validation also covers static pages with JavaScript disabled, explicit locale routes, history navigation, header placement, image loading, calm blinking and reduced motion. All changes in this branch are for local review, with no production deployment.
 
 Motion research: [Blender Studio’s Wing It! shading](https://studio.blender.org/blog/shading-and-rendering-of-wing-it/) and [Sprite Fright animation guide](https://studio.blender.org/blog/sprite-fright-style-guide/), as references for stylized volume and gesture timing, without importing their character designs or assets.
+
+## Quiet discoveries
+
+The footer exposes a command palette (`Cmd/Ctrl K`) and **Behind this site**, localized in Portuguese, English and Spanish. Commands support search, keyboard navigation, section and language selection, résumé download and email copying. Native dialogs preserve focus and close with Escape. Backstage explains implementation decisions and offers a blueprint overlay that outlines the page structure without changing its layout; Escape also exits blueprint mode.
+
+A small link beneath the featured projects points to the [original Snake](https://raphaelsr.github.io/snake-game/). A separate, opt-in game in the palette lets a snake eat letters from the visible portfolio content. Canvas draws the snake, while CSS Custom Highlights temporarily conceal collected text ranges without mutating the document or React's DOM. Closing, pressing Escape or resizing restores the text and clears listeners and timers. Hidden tabs pause the game. Arrow keys/WASD, Space, pause/restart buttons and mobile directional controls are supported. Browsers without the highlight API receive a link to the original game. The résumé PDF remains unchanged.
+
+Regression tests cover the game rules, collection of an actual page letter, restoration after exit, mobile controls, palette keyboard behavior and backstage accessibility in all three languages.
