@@ -223,57 +223,8 @@ html[data-blueprint] main section::before {
   }
 }
 
-.snake-invitation {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 44px;
-  padding: 8px 0;
-  margin-top: 16px;
-  background: none;
-  border: 0;
-  color: var(--muted);
-  font-size: 12px;
-}
-.snake-invitation svg {
-  color: #3c806b;
-  transition: transform 0.45s ease;
-}
-.snake-invitation:hover svg,
-.snake-invitation:focus-visible svg {
-  transform: translateX(4px) rotate(-8deg);
-}
-html:not([data-enhanced]) .snake-invitation {
-  display: none;
-}
-html[data-snake-playing] .snake-invitation svg {
-  visibility: hidden;
-}
 html[data-snake-playing] {
   scroll-behavior: auto;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .snake-invitation svg {
-    transition: none;
-  }
-}
-
-.side-project-discovery {
-  display: flex;
-  align-items: center;
-  gap: 12px 28px;
-  flex-wrap: wrap;
-  margin-top: 24px;
-  border-top: 1px solid var(--line);
-  padding-top: 12px;
-}
-.side-project-discovery .side-project-note,
-.side-project-discovery .snake-invitation {
-  margin: 0;
-}
-.side-project-discovery .snake-invitation {
-  font-size: 11px;
 }
 .snake-art {
   position: absolute;
@@ -282,14 +233,6 @@ html[data-snake-playing] {
   height: 100%;
   pointer-events: none;
   overflow: visible;
-}
-
-@media (max-width: 620px) {
-  .side-project-discovery {
-    gap: 4px;
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }
 
 .snake-title {
@@ -407,4 +350,7 @@ html[data-snake-playing] {
   .snake-directions button:active {
     background: #e5ede8;
   }
+}
+.snake-hud[hidden] {
+  display: none;
 }

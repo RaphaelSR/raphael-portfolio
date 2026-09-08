@@ -10,14 +10,21 @@ import {
 } from "./snake-engine";
 import { SnakeArt } from "./SnakeArt";
 import { advancePieces, type LoosePiece } from "./snake-physics";
+export type SnakeOrigin = { x: number; y: number; entry?: "phone" };
 const size = 20;
-type Bite = { ranges: Range[]; elements: Set<HTMLElement | SVGElement> };
+type PhoneBite = { mask: SVGMaskElement; left: number; top: number };
+type Bite = {
+  ranges: Range[];
+  elements: Set<HTMLElement | SVGElement>;
+  phone?: PhoneBite;
+};
 function readContent() {
   const food = new Map<string, Bite>();
   const add = (
     rect: DOMRect,
     range?: Range,
     element?: HTMLElement | SVGElement,
+    phone?: PhoneBite,
   ) => {
     const top = rect.top + window.scrollY;
     for (
@@ -35,25 +42,26 @@ function readContent() {
         x++
       ) {
         const key = `${x}:${y}`;
-        const bite = food.get(key) ?? {
+        const bite: Bite = food.get(key) ?? {
           ranges: [],
           elements: new Set<HTMLElement | SVGElement>(),
         };
         if (range) bite.ranges.push(range);
         if (element) bite.elements.add(element);
+        if (phone) bite.phone = phone;
         food.set(key, bite);
       }
     }
   };
   const root = document.getElementById("root")!;
   const skip =
-    'dialog,script,style,.studio-tools,[aria-hidden="true"],[hidden]';
+    'dialog,script,style,.studio-tools,.phone-device,[aria-hidden="true"],[hidden]';
   root
     .querySelectorAll<HTMLElement | SVGElement>(
       "button,a,img,svg,hr,.tags span",
     )
     .forEach((element) => {
-      if (element.closest(skip) || element.matches(".snake-invitation")) return;
+      if (element.closest(skip)) return;
       const rect = element.getBoundingClientRect();
       if (
         rect.width &&
@@ -66,7 +74,7 @@ function readContent() {
   let node: Node | null;
   while ((node = walker.nextNode())) {
     if (node.parentElement?.closest(skip + ",a,.tags span")) continue;
-    if (node.parentElement?.closest("button:not(.snake-invitation)")) continue;
+    if (node.parentElement?.closest("button")) continue;
     if (
       node.parentElement &&
       getComputedStyle(node.parentElement).visibility === "hidden"
@@ -81,6 +89,18 @@ function readContent() {
       if (rect.width && rect.height) add(rect, range);
     }
   }
+  const phone = root.querySelector<HTMLElement>(
+    '.phone-stage[data-phase="escaped"] .phone-device',
+  );
+  const mask = phone?.querySelector<SVGMaskElement>("[data-phone-mask]");
+  if (phone && mask) {
+    const rect = phone.getBoundingClientRect();
+    add(rect, undefined, undefined, {
+      mask,
+      left: rect.left,
+      top: rect.top + window.scrollY,
+    });
+  }
   return food;
 }
 export function Snake({
@@ -90,7 +110,7 @@ export function Snake({
 }: {
   language: Locale;
   close: () => void;
-  origin?: { x: number; y: number };
+  origin?: SnakeOrigin;
 }) {
   const t = featureCopy[language];
   const art = useRef<SVGSVGElement>(null);
@@ -99,6 +119,7 @@ export function Snake({
     turn: (direction: Direction) => void;
     pause: () => void;
   } | null>(null);
+  const [entering, setEntering] = useState(origin?.entry === "phone");
   const [score, setScore] = useState(0);
   const [paused, setPaused] = useState(false);
   const [ended, setEnded] = useState<"" | "over" | "won" | "unavailable">("");
@@ -122,6 +143,7 @@ export function Snake({
     const eaten = new Highlight();
     const hidden = new Map<HTMLElement | SVGElement, string>();
     const consumed = new Set<Range>();
+    const phoneHoles: SVGRectElement[] = [];
     const wasPlaying =
       document.documentElement.hasAttribute("data-snake-playing");
     document.documentElement.setAttribute("data-snake-playing", "true");
@@ -136,20 +158,27 @@ export function Snake({
       origin.y < originalScroll + innerHeight
         ? origin
         : { x: innerWidth / 2, y: originalScroll + innerHeight * 0.4 };
+    const phoneEntry = origin?.entry === "phone";
     let body: Cell[] = Array.from({ length: 4 }, (_, i) => ({
-      x: (Math.floor(start.x / size) - i + columns) % columns,
-      y: Math.floor(start.y / size),
+      x:
+        (Math.floor(start.x / size) - (phoneEntry ? 0 : i) + columns) % columns,
+      y: Math.floor(start.y / size) - (phoneEntry ? i : 0),
     }));
     let previous = body.map((cell) => ({ ...cell }));
-    let direction: Direction = "right",
-      next: Direction = "right",
+    let direction: Direction = phoneEntry ? "down" : "right",
+      next: Direction = phoneEntry ? "down" : "right",
       turned = false,
       stopped = false,
       finished = false,
       count = 0;
-    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduced =
+      matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      document.documentElement.dataset.motion === "off";
     const started = performance.now();
-    let lastStep = started + (reduced ? 0 : 650),
+    const entryDuration = phoneEntry ? (reduced ? 0 : 900) : 0;
+    let entryComplete = !phoneEntry;
+    setEntering(phoneEntry);
+    let lastStep = started + (phoneEntry ? entryDuration : reduced ? 0 : 650),
       frame = 0;
     let cameraTarget = originalScroll;
     let pointer: Cell | null = null;
@@ -219,13 +248,14 @@ export function Snake({
     };
     const particles: { x: number; y: number; born: number }[] = [];
     const toggle = () => {
-      if (!finished) {
+      if (!finished && entryComplete) {
         stopped = !stopped;
         setPaused(stopped);
         lastStep = performance.now();
       }
     };
     const turn = (value: Direction) => {
+      if (!entryComplete) return;
       pointer = null;
       if (!turned && canTurn(direction, value)) {
         next = value;
@@ -257,7 +287,8 @@ export function Snake({
       }
     };
     const guide = (event: PointerEvent) => {
-      if ((event.target as HTMLElement).closest(".snake-hud")) return;
+      if (!entryComplete || (event.target as HTMLElement).closest(".snake-hud"))
+        return;
       pointer = {
         x: Math.floor(event.clientX / size),
         y: Math.floor((event.clientY + window.scrollY) / size),
@@ -270,7 +301,14 @@ export function Snake({
       }
     };
     const tick = (now: number) => {
-      if (!stopped && !finished && now - lastStep >= 130) {
+      if (phoneEntry && !entryComplete && now - started >= entryDuration) {
+        body = body.map((cell) => ({ ...cell, y: cell.y + 6 }));
+        previous = body.map((cell) => ({ ...cell }));
+        entryComplete = true;
+        setEntering(false);
+        lastStep = now;
+      }
+      if (entryComplete && !stopped && !finished && now - lastStep >= 130) {
         lastStep = now;
         if (pointer) {
           const dx = pointer.x - body[0].x,
@@ -303,7 +341,10 @@ export function Snake({
             (destination.y + 1) * size > piece.y,
         );
         const eating =
-          ranges.length > 0 || elements.length > 0 || falling.length > 0;
+          ranges.length > 0 ||
+          elements.length > 0 ||
+          falling.length > 0 ||
+          !!bite?.phone;
         const result = step(
           body,
           direction,
@@ -328,7 +369,45 @@ export function Snake({
             });
             falling.forEach((piece) => pieces.splice(pieces.indexOf(piece), 1));
             loosen(destination);
-            count += ranges.length + elements.length + falling.length;
+            if (bite?.phone) {
+              const hole = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "rect",
+              );
+              hole.setAttribute(
+                "x",
+                String(destination.x * size - bite.phone.left - 1),
+              );
+              hole.setAttribute(
+                "y",
+                String(destination.y * size - bite.phone.top - 1),
+              );
+              hole.setAttribute("width", String(size + 2));
+              hole.setAttribute("height", String(size + 2));
+              hole.setAttribute("rx", "3");
+              hole.setAttribute("fill", "black");
+              hole.setAttribute("data-eaten-phone", "true");
+              bite.phone.mask.append(hole);
+              phoneHoles.push(hole);
+              if (!reduced && pieces.length < 42)
+                pieces.push({
+                  x: destination.x * size,
+                  y: destination.y * size,
+                  width: 14,
+                  height: 12,
+                  vx: 35,
+                  vy: -40,
+                  text: "",
+                  font: "12px sans-serif",
+                  color: "#264253",
+                  background: "#264253",
+                });
+            }
+            count +=
+              ranges.length +
+              elements.length +
+              falling.length +
+              (bite?.phone ? 1 : 0);
             setScore(count);
             particles.push({
               x: body[0].x * size + 10,
@@ -339,7 +418,11 @@ export function Snake({
           food.delete(`${destination.x}:${destination.y}`);
         }
       }
-      const headY = body[0].y * size;
+      const headY =
+        body[0].y * size +
+        (phoneEntry && !entryComplete
+          ? Math.min(1, (now - started) / entryDuration) * 120
+          : 0);
       const bottom =
         innerHeight -
         (document.querySelector<HTMLElement>(".snake-hud")?.offsetHeight ??
@@ -378,7 +461,9 @@ export function Snake({
         let y =
           (continuous ? from.y + (cell.y - from.y) * blend : cell.y) * size +
           10;
-        if (progress < 1 && !reduced) {
+        if (phoneEntry && !entryComplete)
+          y += Math.min(1, (now - started) / entryDuration) * 120;
+        if (!phoneEntry && progress < 1 && !reduced) {
           x = start.x + (x - start.x) * progress;
           y = start.y + (y - start.y) * progress;
         }
@@ -474,6 +559,7 @@ export function Snake({
       window.removeEventListener("resize", close);
       document.removeEventListener("visibilitychange", hide);
       CSS.highlights.delete("snake-eaten");
+      phoneHoles.forEach((hole) => hole.remove());
       hidden.forEach((visibility, element) => {
         element.style.visibility = visibility;
       });
@@ -487,7 +573,7 @@ export function Snake({
     <>
       <canvas ref={canvas} className="snake-canvas" aria-hidden="true" />
       <SnakeArt surface={art} />
-      <div className="snake-hud">
+      <div className="snake-hud" hidden={entering}>
         <h2 id="tools-title" className="snake-title">
           {t.gameTitle}
         </h2>

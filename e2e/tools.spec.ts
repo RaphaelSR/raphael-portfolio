@@ -100,24 +100,16 @@ for (const [locale, title, blueprint] of [
     await expect(page.locator("html")).not.toHaveAttribute("data-blueprint");
   });
 }
-test("invitation becomes a snake that eats text and buttons, then restores the page", async ({
+test("snake eats text and buttons, then restores the page", async ({
   page,
 }) => {
   await page.clock.install();
   await page.goto("./en/");
-  const invite = page.getByRole("button", {
-    name: "Let it loose on this page",
-  });
-  await expect(invite).toBeVisible();
-  await invite.scrollIntoViewIfNeeded();
   const original = await page.locator("main").textContent();
   const initialScroll = await page.evaluate(() => window.scrollY);
   await page.evaluate(() => {
-    const r = document
-      .querySelector(".snake-invitation svg")!
-      .getBoundingClientRect();
-    const y = Math.floor((r.top + r.height / 2 + scrollY) / 20) * 20;
-    const x = Math.floor((r.left + r.width / 2) / 20) * 20;
+    const y = Math.floor((scrollY + innerHeight * 0.4) / 20) * 20;
+    const x = Math.floor(innerWidth / 2 / 20) * 20;
     const fixture = document.createElement("div");
     fixture.id = "snake-content-fixture";
     fixture.style.cssText = `position:absolute;top:${y}px;left:${x + 80}px;z-index:2;pointer-events:none;display:flex;gap:20px;height:20px;font-size:14px;line-height:20px`;
@@ -125,12 +117,13 @@ test("invitation becomes a snake that eats text and buttons, then restores the p
       '<span>ABC</span><button style="height:20px;min-height:0;padding:0">Eat this button</button>';
     document.querySelector("main")!.append(fixture);
   });
-  await invite.click();
+  await page.keyboard.press("Control+k");
+  await page.getByRole("searchbox").fill("Snake");
+  await page.keyboard.press("Enter");
   await expect(page.locator("html")).toHaveAttribute(
     "data-snake-playing",
     "true",
   );
-  await expect(page.locator(".snake-invitation svg")).toBeHidden();
   await page.clock.runFor(3000);
   expect(await page.evaluate(() => CSS.highlights.has("snake-target"))).toBe(
     false,
@@ -154,7 +147,6 @@ test("invitation becomes a snake that eats text and buttons, then restores the p
     document.getElementById("snake-content-fixture")!.remove(),
   );
   expect(await page.locator("main").textContent()).toBe(original);
-  await expect(invite).toBeFocused();
 });
 test("mobile snake has touch controls and restores highlights when closed", async ({
   page,
@@ -213,21 +205,9 @@ test("loose content falls, rebounds and settles against other pieces", async () 
   expect(pieces[1].y + pieces[1].height).toBeLessThanOrEqual(200);
 });
 
-test("snake consumes its invitation and technology chips", async ({ page }) => {
+test("snake consumes technology chips", async ({ page }) => {
   await page.clock.install();
   await page.goto("./en/");
-  await page.getByRole("button", { name: "Let it loose on this page" }).click();
-  await page.clock.runFor(2800);
-  expect(
-    await page.evaluate(() =>
-      [...CSS.highlights.get("snake-eaten")!].some((range) =>
-        (range as Range).startContainer.parentElement?.closest(
-          ".snake-invitation",
-        ),
-      ),
-    ),
-  ).toBe(true);
-  await page.keyboard.press("Escape");
   const tag = page.locator(".experience-row .tags span").first();
   await tag.scrollIntoViewIfNeeded();
   await page.evaluate(() => {
@@ -281,4 +261,76 @@ test("tool inventory is grouped and résumé download appears only at the end", 
       page.locator(".toolkit").getByRole("link", { name, exact: true }),
     ).toBeVisible();
   }
+});
+
+test("phone opens the game, breaks, and only then hands over controls", async ({
+  page,
+}) => {
+  await page.clock.install();
+  await page.goto("./en/");
+  const play = page.getByRole("button", { name: "Play Snake", exact: true });
+  await play.click();
+  await expect(page.locator(".phone-stage")).toHaveAttribute(
+    "data-phase",
+    "launching",
+  );
+  await expect(page.locator(".snake-hud")).toHaveCount(0);
+  await page.keyboard.press("ArrowLeft");
+  await page.clock.runFor(1600);
+  await expect(page.locator(".phone-stage")).toHaveAttribute(
+    "data-phase",
+    "impact",
+  );
+  await page.clock.runFor(700);
+  await expect(page.locator(".phone-stage")).toHaveAttribute(
+    "data-phase",
+    "escaped",
+  );
+  await expect(page.locator(".snake-hud")).toBeHidden();
+  await page.keyboard.press("ArrowUp");
+  await page.clock.runFor(1000);
+  await expect(
+    page.getByRole("button", { name: "Pause", exact: true }),
+  ).toBeVisible();
+  await expect(page.locator(".tools-dialog [data-snake-head]")).toHaveAttribute(
+    "transform",
+    /rotate\(90\)/,
+  );
+  await page.keyboard.press("Escape");
+  await expect(page.locator(".phone-stage")).toHaveAttribute(
+    "data-phase",
+    "home",
+  );
+  await expect(play).toBeEnabled();
+  expect(await page.evaluate(() => document.body.style.overflow)).not.toBe(
+    "hidden",
+  );
+});
+
+test("phone entrance cancels cleanly and supports reduced motion on mobile", async ({
+  page,
+}) => {
+  await page.clock.install();
+  await page.setViewportSize({ width: 320, height: 740 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("./pt/");
+  await page.getByRole("button", { name: "Jogar Snake", exact: true }).click();
+  await page.keyboard.press("Escape");
+  await page.clock.runFor(4000);
+  await expect(page.locator(".phone-stage")).toHaveAttribute(
+    "data-phase",
+    "home",
+  );
+  await expect(page.locator(".snake-hud")).toHaveCount(0);
+  await page.getByRole("button", { name: "Jogar Snake", exact: true }).click();
+  await page.clock.runFor(500);
+  await expect(
+    page.getByRole("button", { name: "Pausar", exact: true }),
+  ).toBeVisible();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await page.keyboard.press("Escape");
 });
