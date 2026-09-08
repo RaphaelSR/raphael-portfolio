@@ -39,9 +39,9 @@ Career dates follow the supplied 2026 résumé. Website copy additionally incorp
 
 ## Publication
 
-Production: https://raphaelrocha.com/
+Production: https://portfolio.raphaelrocha.com/
 
-The workflow validates pull requests and `main`. Publishing requires a manual workflow dispatch on `main`, with lint, build, audit and browser tests against the built static site before deployment. GitHub Pages uses GitHub Actions as its source. To test the public release: `PLAYWRIGHT_BASE_URL=https://raphaelrocha.com/ PLAYWRIGHT_CHANNEL=chrome npm test`.
+The workflow validates pull requests and `main`. Publishing requires a manual workflow dispatch on `main`, with lint, build, audit and browser tests against the built static site before deployment. GitHub Pages uses GitHub Actions as its source. To test the public release: `PLAYWRIGHT_BASE_URL=https://portfolio.raphaelrocha.com/ PLAYWRIGHT_CHANNEL=chrome npm test`.
 
 ## Design references
 

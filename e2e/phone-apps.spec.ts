@@ -268,7 +268,7 @@ test("published sibling projects use external launch while arbitrary embeds stay
 }, testInfo) => {
   const localOrigin = new URL(testInfo.project.use.baseURL as string).origin;
   await page.route(
-    "https://raphaelsr.github.io/**",
+    "https://trivia.raphaelrocha.com/**",
     async (route) => {
       const local = new URL(route.request().url());
       const response = await request.get(
@@ -277,7 +277,7 @@ test("published sibling projects use external launch while arbitrary embeds stay
       await route.fulfill({ response });
     },
   );
-  await page.goto("https://raphaelsr.github.io/en/");
+  await page.goto("https://trivia.raphaelrocha.com/en/");
   await page
     .locator(".filters button")
     .filter({ hasText: /Online games|Jogos online|Juegos online/ })
@@ -291,8 +291,8 @@ test("published sibling projects use external launch while arbitrary embeds stay
   await expect(phone.locator("iframe")).toHaveCount(0);
   await expect(
     phone.getByRole("link", { name: "Open outside the phone ↗" }),
-  ).toHaveAttribute("href", "https://raphaelsr.github.io/trivia/");
-  await page.route("https://raphaelsr.github.io/trivia/**", (route) =>
+  ).toHaveAttribute("href", "https://trivia.raphaelrocha.com/");
+  await page.route("https://trivia.raphaelrocha.com/**", (route) =>
     route.fulfill({
       contentType: "text/html",
       body: "<h1>Untrusted query</h1>",
@@ -300,7 +300,7 @@ test("published sibling projects use external launch while arbitrary embeds stay
   );
   await phone
     .getByRole("textbox", { name: "Website address" })
-    .fill("https://raphaelsr.github.io/trivia/?untrusted=1");
+    .fill("https://trivia.raphaelrocha.com/?untrusted=1");
   await phone.getByRole("button", { name: "Go", exact: true }).click();
   await expect(phone.locator("iframe")).toHaveAttribute(
     "sandbox",
