@@ -63,3 +63,51 @@ test("portrait belongs to the header and respects reduced motion", async ({
   await expect(portrait).not.toHaveAttribute("style");
   await expect(portrait).toHaveCSS("transform", "none");
 });
+
+test("eyes move independently, react to scrolling and blink", async ({
+  page,
+}) => {
+  await page.goto("./en/");
+  const portrait = page.locator("header .portrait");
+  const iris = portrait.locator(".portrait-iris").first();
+  await expect(iris).toBeVisible();
+  const translation = (axis: "x" | "y") =>
+    iris.evaluate((element, axis) => {
+      const matrix = new DOMMatrixReadOnly(getComputedStyle(element).transform);
+      return axis === "x" ? matrix.m41 : matrix.m42;
+    }, axis);
+  await page.mouse.move(0, 50);
+  await expect.poll(() => translation("x")).toBeLessThan(0);
+  await page.mouse.move(1200, 50);
+  await expect.poll(() => translation("x")).toBeGreaterThan(2);
+  await page.evaluate(() => scrollTo({ top: 500, behavior: "instant" }));
+  await expect.poll(() => translation("y")).toBeGreaterThan(1);
+  const blinkDuration = await portrait.evaluate(
+    (element) =>
+      new Promise<number>((resolve, reject) => {
+        let started = 0;
+        const observer = new MutationObserver(() => {
+          if (element.getAttribute("data-blink") === "true")
+            started = performance.now();
+          else if (started) {
+            clearTimeout(timeout);
+            observer.disconnect();
+            resolve(performance.now() - started);
+          }
+        });
+        const timeout = setTimeout(() => {
+          observer.disconnect();
+          reject(new Error("No blink observed"));
+        }, 7000);
+        observer.observe(element, {
+          attributes: true,
+          attributeFilter: ["data-blink"],
+        });
+      }),
+  );
+  expect(blinkDuration).toBeGreaterThan(100);
+  expect(blinkDuration).toBeLessThan(500);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(portrait.locator(".portrait-eyes")).toHaveCount(0);
+  await expect(portrait).not.toHaveAttribute("data-blink");
+});
