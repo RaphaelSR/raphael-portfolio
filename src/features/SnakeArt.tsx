@@ -1,14 +1,23 @@
-import type { RefObject } from "react";
+import { useId, type RefObject } from "react";
 export function SnakeArt({
   surface,
+  preview = false,
 }: {
   surface: RefObject<SVGSVGElement | null>;
+  preview?: boolean;
 }) {
+  const id = useId();
+  const path = preview ? "M32 18H43Q57 18 57 30V40Q57 55 43 55H15" : undefined;
   return (
-    <svg ref={surface} className="snake-art" aria-hidden="true">
+    <svg
+      ref={surface}
+      className="snake-art"
+      viewBox={preview ? "0 0 80 80" : undefined}
+      aria-hidden="true"
+    >
       <defs>
         <linearGradient
-          id="snake-satin"
+          id={`${id}-satin`}
           x1="0"
           y1="0"
           x2="100%"
@@ -19,16 +28,22 @@ export function SnakeArt({
           <stop offset=".4" stopColor="#3e987b" />
           <stop offset="1" stopColor="#1a564b" />
         </linearGradient>
-        <radialGradient id="snake-face" cx="35%" cy="25%" r="80%">
+        <radialGradient id={`${id}-face`} cx="35%" cy="25%" r="80%">
           <stop stopColor="#a3dfb5" />
           <stop offset=".65" stopColor="#398d70" />
           <stop offset="1" stopColor="#206552" />
         </radialGradient>
       </defs>
       <g fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <path data-snake-body stroke="#205c4c" strokeWidth="20" />
-        <path data-snake-body stroke="url(#snake-satin)" strokeWidth="17" />
+        <path d={path} data-snake-body stroke="#205c4c" strokeWidth="20" />
         <path
+          d={path}
+          data-snake-body
+          stroke={`url(#${id}-satin)`}
+          strokeWidth="17"
+        />
+        <path
+          d={path}
           data-snake-body
           stroke="#b7efd0"
           strokeWidth="3"
@@ -36,7 +51,11 @@ export function SnakeArt({
           strokeDasharray="1 9"
         />
       </g>
-      <g data-snake-head visibility="hidden">
+      <g
+        data-snake-head
+        visibility={preview ? "visible" : "hidden"}
+        transform={preview ? "translate(32 18) rotate(180)" : undefined}
+      >
         <path
           d="M12 0 H19 l3 -2 M19 0 l3 2"
           stroke="#bc7272"
@@ -47,7 +66,7 @@ export function SnakeArt({
         <ellipse
           rx="14"
           ry="11"
-          fill="url(#snake-face)"
+          fill={`url(#${id}-face)`}
           stroke="#205c4c"
           strokeWidth="1"
         />

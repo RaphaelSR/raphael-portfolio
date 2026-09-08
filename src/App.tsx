@@ -1,6 +1,6 @@
 import { toolSites } from "./tool-sites";
-import { StudioTools, SnakeInvitation } from "./features/StudioTools";
-import { featureCopy, snakeUrl } from "./features/copy";
+import { StudioTools } from "./features/StudioTools";
+import { PhoneSimulator } from "./features/PhoneSimulator";
 import { Portrait } from "./components/Portrait";
 import { ExperienceRow } from "./components/ExperienceRow";
 import { useActiveSection, usePageMotion } from "./hooks/usePageMotion";
@@ -336,15 +336,7 @@ export default function App({
                   </article>
                 ))}
             </div>
-            <div className="side-project-discovery">
-              <p className="side-project-note">
-                {featureCopy[language].extra}{" "}
-                <a href={snakeUrl} target="_blank" rel="noopener noreferrer">
-                  Snake ↗
-                </a>
-              </p>
-              <SnakeInvitation language={language} />
-            </div>
+            <PhoneSimulator language={language} />
           </div>
         </section>
         <section

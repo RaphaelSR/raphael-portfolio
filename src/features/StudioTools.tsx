@@ -3,41 +3,8 @@ import { copy } from "../messages";
 import { links } from "../content";
 import { locales, localeNames, type Locale } from "../i18n";
 import { featureCopy } from "./copy";
-import { Snake } from "./Snake";
+import { Snake, type SnakeOrigin } from "./Snake";
 import "./tools.css";
-export function SnakeInvitation({ language }: { language: Locale }) {
-  return (
-    <button
-      className="snake-invitation"
-      onClick={(event) => {
-        const rect = event.currentTarget
-          .querySelector("svg")!
-          .getBoundingClientRect();
-        window.dispatchEvent(
-          new CustomEvent("portfolio:snake", {
-            detail: {
-              x: rect.left + rect.width / 2,
-              y: rect.top + rect.height / 2 + window.scrollY,
-            },
-          }),
-        );
-      }}
-    >
-      <svg width="42" height="24" viewBox="0 0 42 24" aria-hidden="true">
-        <path
-          d="M4 16 H15 Q23 16 23 9 Q23 4 29 4 H35"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="7"
-          strokeLinecap="round"
-        />
-        <circle cx="35" cy="3" r="1" fill="white" />
-      </svg>
-      <span>{featureCopy[language].invite}</span>
-      <span aria-hidden="true">↗</span>
-    </button>
-  );
-}
 type Panel = "commands" | "backstage" | "snake" | null;
 export function StudioTools({
   language,
@@ -48,7 +15,7 @@ export function StudioTools({
 }) {
   const t = featureCopy[language],
     page = copy[language];
-  const [origin, setOrigin] = useState<{ x: number; y: number }>();
+  const [origin, setOrigin] = useState<SnakeOrigin>();
   const [panel, setPanel] = useState<Panel>(null);
   const [query, setQuery] = useState("");
   const [blueprint, setBlueprint] = useState(false);
@@ -59,6 +26,8 @@ export function StudioTools({
   const close = useCallback(() => {
     dialog.current?.close();
     setPanel(null);
+    setOrigin(undefined);
+    window.dispatchEvent(new Event("portfolio:snake-end"));
   }, []);
   const open = useCallback((next: Panel) => {
     if (!dialog.current?.open)
@@ -68,7 +37,7 @@ export function StudioTools({
   }, []);
   useEffect(() => {
     const start = (event: Event) => {
-      setOrigin((event as CustomEvent<{ x: number; y: number }>).detail);
+      setOrigin((event as CustomEvent<SnakeOrigin>).detail);
       open("snake");
     };
     window.addEventListener("portfolio:snake", start);
@@ -99,6 +68,7 @@ export function StudioTools({
   }, [blueprint]);
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
+      if (document.documentElement.hasAttribute("data-phone-sequence")) return;
       if (
         (event.target as HTMLElement).closest(
           'input,textarea,select,[contenteditable="true"]',
