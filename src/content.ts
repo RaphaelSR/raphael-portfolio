@@ -365,7 +365,7 @@ export const projects: Project[] = [
         es: "Interfaces de juegos",
       },
     ],
-    url: "https://github.com/RaphaelSR/trivia",
+    url: "https://raphaelsr.github.io/trivia/",
   },
 ];
 export const toolkit: { title: Label; items: ToolName[] }[] = [
