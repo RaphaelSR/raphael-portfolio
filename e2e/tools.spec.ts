@@ -257,6 +257,19 @@ test("tool inventory is grouped and résumé download appears only at the end", 
   await expect(page.locator("a[download]")).toHaveCount(1);
   await expect(page.locator("#contact a[download]")).toHaveCount(1);
   await page.locator(".toolkit-disclosure summary").click();
+  const tools = page.locator(".toolkit a");
+  expect(await tools.count()).toBeGreaterThan(60);
+  for (const link of await tools.all()) {
+    await expect(link).toHaveAttribute("href", /^https:\/\//);
+    await expect(link).toHaveAttribute("target", "_blank");
+    await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+  }
+  const supabase = page
+    .locator(".toolkit")
+    .getByRole("link", { name: "Supabase", exact: true });
+  await supabase.focus();
+  await expect(supabase).toBeFocused();
+  await expect(supabase).toHaveAttribute("href", "https://supabase.com/");
   for (const name of [
     "Supabase",
     "Railway",
@@ -265,7 +278,7 @@ test("tool inventory is grouped and résumé download appears only at the end", 
     "Storybook",
   ]) {
     await expect(
-      page.locator(".toolkit").getByText(name, { exact: true }),
+      page.locator(".toolkit").getByRole("link", { name, exact: true }),
     ).toBeVisible();
   }
 });

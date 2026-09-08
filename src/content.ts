@@ -1,3 +1,4 @@
+import type { ToolName } from "./tool-sites";
 import type { Label, Localized } from "./i18n";
 export const links = {
   email: "raphaelrochabcc@gmail.com",
@@ -367,7 +368,7 @@ export const projects: Project[] = [
     url: "https://github.com/RaphaelSR/trivia",
   },
 ];
-export const toolkit: { title: Label; items: Label[] }[] = [
+export const toolkit: { title: Label; items: ToolName[] }[] = [
   {
     title: "Mobile",
     items: [
@@ -387,7 +388,8 @@ export const toolkit: { title: Label; items: Label[] }[] = [
       "Vue",
       "TypeScript",
       "JavaScript",
-      "HTML / CSS",
+      "HTML",
+      "CSS",
       "Tailwind CSS",
       "Three.js",
       "Storybook",
@@ -433,7 +435,8 @@ export const toolkit: { title: Label; items: Label[] }[] = [
       "GitHub Actions",
       "GitLab",
       "Azure DevOps",
-      "AWS / S3",
+      "AWS",
+      "Amazon S3",
       "Azure",
       "Clerk",
     ],
@@ -486,6 +489,6 @@ export const toolkit: { title: Label; items: Label[] }[] = [
       en: "Earlier experience",
       es: "Otras experiencias",
     },
-    items: ["Java", "C#", "Ruby on Rails", "C / C++"],
+    items: ["Java", "C#", "Ruby on Rails", "C", "C++"],
   },
 ];
