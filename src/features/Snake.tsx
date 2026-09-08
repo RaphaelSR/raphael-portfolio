@@ -10,6 +10,7 @@ import {
   type Direction,
 } from "./snake-engine";
 import { SnakeArt } from "./SnakeArt";
+import { bodyOutline, mealExpansion, swallow } from "./snake-digestion";
 import { advancePieces, type LoosePiece } from "./snake-physics";
 export type SnakeOrigin = {
   x: number;
@@ -80,6 +81,10 @@ export function Snake({
       y: Math.floor(start.y / size) - (phoneEntry ? i : 0),
     }));
     let previous = body.map((cell) => ({ ...cell }));
+    let meals = body.map(() => 0);
+    let previousMeals = meals;
+    let renderedBlend = 1;
+    let frozenBlend = 1;
     let direction: Direction = phoneEntry ? "down" : "right",
       next: Direction = phoneEntry ? "down" : "right",
       turned = false,
@@ -167,7 +172,8 @@ export function Snake({
       if (!finished && entryComplete) {
         stopped = !stopped;
         setPaused(stopped);
-        lastStep = performance.now();
+        if (stopped) frozenBlend = renderedBlend;
+        else lastStep = performance.now() - frozenBlend * 130;
       }
     };
     const turn = (value: Direction) => {
@@ -212,6 +218,7 @@ export function Snake({
     };
     const hide = () => {
       if (document.hidden) {
+        frozenBlend = renderedBlend;
         stopped = true;
         setPaused(true);
       }
@@ -288,7 +295,17 @@ export function Snake({
         } else {
           previous = body;
           body = result.body;
+          previousMeals = meals;
           if (eating) {
+            meals = swallow(
+              meals,
+              mealExpansion([
+                ...ranges.map((range) => range.getBoundingClientRect()),
+                ...elements.map((element) => element.getBoundingClientRect()),
+                ...falling,
+                ...(bite?.phone ? [{ width: size, height: size }] : []),
+              ]),
+            );
             ranges.forEach((range) => {
               consumed.add(range);
               eaten.add(range);
@@ -377,10 +394,12 @@ export function Snake({
       }
       context.clearRect(0, 0, innerWidth, innerHeight);
       const progress = Math.min(1, Math.max(0, (now - started) / 650));
-      const blend =
-        stopped || reduced
-          ? 1
+      const blend = reduced
+        ? 1
+        : stopped
+          ? frozenBlend
           : Math.min(1, Math.max(0, (now - lastStep) / 130));
+      renderedBlend = blend;
       const points = body.map((cell, index) => {
         const from = previous[index] ?? previous[previous.length - 1];
         const continuous =
@@ -426,6 +445,15 @@ export function Snake({
       art.current
         ?.querySelectorAll("[data-snake-body]")
         .forEach((element) => element.setAttribute("d", path));
+      const outline = art.current?.querySelector("[data-snake-outline]");
+      outline?.setAttribute(
+        "d",
+        bodyOutline(points, meals, previousMeals, blend, size),
+      );
+      outline?.setAttribute(
+        "data-meals",
+        meals.map((value) => value.toFixed(2)).join(","),
+      );
       const head = art.current?.querySelector("[data-snake-head]");
       head?.setAttribute("visibility", "visible");
       head?.setAttribute(
