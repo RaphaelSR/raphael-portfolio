@@ -1844,18 +1844,108 @@ html[data-motion="on"] .project-card {
   font-size: 13px;
   line-height: 1.8;
 }
-.project-contribution .eyebrow { display: block; margin-bottom: 8px; font-size: 9px; }
-.project-description > .inline-link { margin-top: 18px; min-height: 44px; font-size: 12px; }
-.personal-signature { align-items: center; gap: 16px; }
-.footer-languages { display: flex; flex-wrap: wrap; gap: 14px; }
-.footer .footer-languages a { width: auto; height: auto; min-height: 44px; border: 0; display: inline-flex; align-items: center; font-size: 11px; }
-.footer-languages a[aria-current="page"] { text-decoration: underline; text-underline-offset: 4px; }
+.project-contribution .eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 9px;
+}
+.project-description > .inline-link {
+  margin-top: 18px;
+  min-height: 44px;
+  font-size: 12px;
+}
+.personal-signature {
+  align-items: center;
+  gap: 16px;
+}
+.footer-languages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.footer .footer-languages a {
+  width: auto;
+  height: auto;
+  min-height: 44px;
+  border: 0;
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+}
+.footer-languages a[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
 @media (max-width: 620px) {
-  .personal-signature { display: flex; }
-  .footer { flex-wrap: wrap; gap: 12px; }
-  .footer-languages { width: 100%; order: 3; }
+  .personal-signature {
+    display: flex;
+  }
+  .footer {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-languages {
+    width: 100%;
+    order: 3;
+  }
 }
 html:not([data-enhanced]) .language-button,
 html:not([data-enhanced]) .filters,
 html:not([data-enhanced]) .menu-toggle,
-html:not([data-enhanced]) .footer > div > button { display: none !important; }
+html:not([data-enhanced]) .footer > div > button {
+  display: none !important;
+}
+
+.toolkit-disclosure {
+  margin-top: 28px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.toolkit-disclosure > summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 0;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+.toolkit-disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+.toolkit-disclosure[open] > summary svg {
+  transform: rotate(45deg);
+}
+.toolkit-disclosure .toolkit-intro {
+  margin: 0 0 24px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.toolkit-disclosure .toolkit {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  padding-bottom: 24px;
+}
+.toolkit-disclosure .toolkit h3 {
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+.toolkit-disclosure .toolkit span {
+  display: inline-block;
+  margin: 0 6px 6px 0;
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+@media (max-width: 480px) {
+  .toolkit-disclosure .toolkit {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}

@@ -152,16 +152,6 @@ export function StudioTools({
       },
     })),
     {
-      label: page.resume,
-      run: () => {
-        close();
-        const link = document.createElement("a");
-        link.href = links.resume;
-        link.download = "";
-        link.click();
-      },
-    },
-    {
       label: page.copyEmail,
       run: async () => {
         try {

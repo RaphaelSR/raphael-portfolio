@@ -207,9 +207,9 @@ for (const width of [320, 768, 1440]) {
       .getByRole("button", { name: "Sobre mi participación: ModPro AI" })
       .click();
     await expect(page.getByRole("dialog")).toContainText(
-      "Desarrollo de aplicaciones y servicios para ModPro",
+      "Desarrollo móvil con React Native y Expo",
     );
-    await expect(page.getByRole("dialog")).toContainText("Producto");
+    await expect(page.getByRole("dialog")).toContainText("Supabase");
     await page.getByRole("button", { name: "Cerrar detalles" }).click();
     for (const [locale, lang] of [
       ["en", "en"],
