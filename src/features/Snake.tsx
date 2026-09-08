@@ -10,7 +10,12 @@ import {
 } from "./snake-engine";
 import { SnakeArt } from "./SnakeArt";
 import { advancePieces, type LoosePiece } from "./snake-physics";
-export type SnakeOrigin = { x: number; y: number; entry?: "phone" };
+export type SnakeOrigin = {
+  x: number;
+  y: number;
+  entry?: "phone";
+  reducedMotion?: boolean;
+};
 const size = 20;
 type PhoneBite = { mask: SVGMaskElement; left: number; top: number };
 type Bite = {
@@ -172,6 +177,7 @@ export function Snake({
       finished = false,
       count = 0;
     const reduced =
+      origin?.reducedMotion ||
       matchMedia("(prefers-reduced-motion: reduce)").matches ||
       document.documentElement.dataset.motion === "off";
     const started = performance.now();
@@ -461,8 +467,16 @@ export function Snake({
         let y =
           (continuous ? from.y + (cell.y - from.y) * blend : cell.y) * size +
           10;
-        if (phoneEntry && !entryComplete)
-          y += Math.min(1, (now - started) / entryDuration) * 120;
+        if (phoneEntry && !entryComplete) {
+          const entryProgress = Math.min(1, (now - started) / entryDuration);
+          x +=
+            (start.x - (Math.floor(start.x / size) * size + 10)) *
+            (1 - entryProgress);
+          y +=
+            entryProgress * 120 +
+            (start.y - (Math.floor(start.y / size) * size + 10)) *
+              (1 - entryProgress);
+        }
         if (!phoneEntry && progress < 1 && !reduced) {
           x = start.x + (x - start.x) * progress;
           y = start.y + (y - start.y) * progress;

@@ -2,6 +2,11 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { Locale } from "../i18n";
 import "./phone.css";
 import { PhoneApps, type PhoneApp } from "./PhoneApps";
+import { useDeviceTime } from "../hooks/useDeviceTime";
+import {
+  defaultPhonePreferences,
+  type PhonePreferences,
+} from "./PhoneSettings";
 import { SnakeArt } from "./SnakeArt";
 const copy = {
   pt: {
@@ -17,7 +22,6 @@ const copy = {
     health: "Saúde",
     wallet: "Carteira",
     settings: "Ajustes",
-    day: "SEGUNDA-FEIRA",
     events: "Nenhum evento hoje",
     search: "Buscar",
     loading: "Abrindo Snake…",
@@ -37,7 +41,6 @@ const copy = {
     health: "Health",
     wallet: "Wallet",
     settings: "Settings",
-    day: "MONDAY",
     events: "No events today",
     search: "Search",
     loading: "Opening Snake…",
@@ -57,7 +60,6 @@ const copy = {
     health: "Salud",
     wallet: "Cartera",
     settings: "Ajustes",
-    day: "LUNES",
     events: "Sin eventos hoy",
     search: "Buscar",
     loading: "Abriendo Snake…",
@@ -85,8 +87,21 @@ function SnakeGlyph() {
 export function PhoneSimulator({ language }: { language: Locale }) {
   const t = copy[language];
   const [app, setApp] = useState<PhoneApp | null>(null);
-  const [dark, setDark] = useState(false);
-  const [airplane, setAirplane] = useState(false);
+  const [settings, setSettings] = useState(defaultPhonePreferences);
+  const changeSettings = useCallback(
+    (patch: Partial<PhonePreferences>) =>
+      setSettings((current) => ({ ...current, ...patch })),
+    [],
+  );
+  const { dark, airplane } = settings;
+  const now = useDeviceTime();
+  const time =
+    now?.toLocaleTimeString(language, {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: !settings.hour24,
+    }) ?? "--:--";
+  const weekday = now?.toLocaleDateString(language, { weekday: "long" }) ?? "—";
   const launcher = useRef<HTMLButtonElement | null>(null);
   const closeApp = useCallback(() => {
     setApp(null);
@@ -182,6 +197,27 @@ export function PhoneSimulator({ language }: { language: Locale }) {
   }, []);
   const intro = phase === "launching" || phase === "impact";
   useEffect(() => {
+    if (
+      !intro ||
+      settings.reduceMotion ||
+      matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      document.documentElement.dataset.motion === "off"
+    )
+      return;
+    const paths = demoArt.current?.querySelectorAll("[data-snake-body]");
+    let frame = 0;
+    const animate = (time: number) => {
+      const points = Array.from({ length: 13 }, (_, i) => {
+        const distance = i * 5;
+        return `${40 + Math.sin(time / 220 - distance / 13) * 3 * (distance / 60)},${66 - distance}`;
+      });
+      paths?.forEach((path) => path.setAttribute("d", `M${points.join(" L")}`));
+      frame = requestAnimationFrame(animate);
+    };
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, [intro, settings.reduceMotion]);
+  useEffect(() => {
     if (!intro) return;
     const before = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -196,6 +232,7 @@ export function PhoneSimulator({ language }: { language: Locale }) {
     device.current?.scrollIntoView({ block: "center", behavior: "instant" });
     document.documentElement.setAttribute("data-phone-sequence", "true");
     const reduced =
+      settings.reduceMotion ||
       matchMedia("(prefers-reduced-motion: reduce)").matches ||
       document.documentElement.dataset.motion === "off";
     setPhase("launching");
@@ -214,6 +251,7 @@ export function PhoneSimulator({ language }: { language: Locale }) {
                 x: rect.left + rect.width / 2,
                 y: rect.bottom - 24 + window.scrollY,
                 entry: "phone",
+                reducedMotion: reduced,
               },
             }),
           );
@@ -230,7 +268,13 @@ export function PhoneSimulator({ language }: { language: Locale }) {
         <p>{t.text}</p>
       </div>
       <div className="phone-stage" data-phase={phase}>
-        <div ref={device} className="phone-device" data-dark={dark}>
+        <div
+          ref={device}
+          className="phone-device"
+          data-dark={dark}
+          data-wallpaper={settings.wallpaper}
+          data-reduce-motion={settings.reduceMotion}
+        >
           <svg width="0" height="0" aria-hidden="true">
             <defs>
               <mask
@@ -247,14 +291,23 @@ export function PhoneSimulator({ language }: { language: Locale }) {
             </defs>
           </svg>
           <div className="phone-shell" style={{ maskImage: `url(#${maskId})` }}>
-            <div className="phone-screen">
+            <div
+              className="phone-screen"
+              style={{ filter: `brightness(${settings.brightness / 100})` }}
+            >
               <div className="phone-wallpaper" aria-hidden="true" />
               <div className="phone-status" aria-hidden="true">
-                <b>23:00</b>
+                <time dateTime={now?.toISOString()}>{time}</time>
                 <i className="phone-island" />
                 <span className="phone-signals">
                   {airplane ? "✈" : "▂▃▅"}{" "}
-                  <svg viewBox="0 0 24 24">
+                  <svg
+                    viewBox="0 0 24 24"
+                    style={{
+                      visibility:
+                        settings.wifi && !airplane ? "visible" : "hidden",
+                    }}
+                  >
                     <path
                       d="M3 8Q12 0 21 8M6 12q6-5 12 0M10 16q2-2 4 0"
                       fill="none"
@@ -307,8 +360,8 @@ export function PhoneSimulator({ language }: { language: Locale }) {
                     onClick={() => setApp("calendar")}
                   >
                     <div className="phone-calendar-widget">
-                      <b>{t.day}</b>
-                      <strong>7</strong>
+                      <b>{weekday}</b>
+                      <strong>{now?.getDate() ?? "—"}</strong>
                       <p>{t.events}</p>
                     </div>
                     <span>{t.calendar}</span>
@@ -438,9 +491,6 @@ export function PhoneSimulator({ language }: { language: Locale }) {
                   <span>001</span>
                 </div>
                 <div className="phone-game-board">
-                  <div className="phone-demo-snake">
-                    <SnakeArt surface={demoArt} preview />
-                  </div>
                   <i className="phone-food" />
                   <span className="phone-game-watermark">SNAKE</span>
                 </div>
@@ -448,14 +498,16 @@ export function PhoneSimulator({ language }: { language: Locale }) {
                   ← &nbsp; ↑ &nbsp; ↓ &nbsp; →
                 </div>
               </div>
+              <div className="phone-demo-snake" aria-hidden="true">
+                <SnakeArt surface={demoArt} preview />
+              </div>
               <PhoneApps
                 app={app}
                 language={language}
                 close={closeApp}
-                dark={dark}
-                setDark={setDark}
-                airplane={airplane}
-                setAirplane={setAirplane}
+                settings={settings}
+                changeSettings={changeSettings}
+                now={now}
               />
               <div className="phone-glitch" aria-hidden="true" />
               <svg

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { Locale } from "../i18n";
+import { PhoneSettings, type PhonePreferences } from "./PhoneSettings";
 import { projects } from "../content";
 export type PhoneApp =
   | "photos"
@@ -30,11 +31,10 @@ const copy = {
     reminder: "Novo lembrete",
     note: "Uma ideia para o próximo projeto…",
     today: "Hoje",
-    events: "Revisar uma ideia · 15:00",
     steps: "Passos",
     walk: "Simular caminhada",
-    dark: "Aparência escura",
-    airplane: "Modo avião",
+    offline:
+      "Sem conexão. Ative o Wi-Fi e desative o modo avião nos Ajustes para navegar.",
     address: "Endereço do site",
     go: "Ir",
     external: "Abrir fora do telefone ↗",
@@ -70,11 +70,10 @@ const copy = {
     reminder: "New reminder",
     note: "An idea for the next project…",
     today: "Today",
-    events: "Review an idea · 3:00 PM",
     steps: "Steps",
     walk: "Simulate a walk",
-    dark: "Dark appearance",
-    airplane: "Airplane mode",
+    offline:
+      "No connection. Enable Wi-Fi and turn off airplane mode in Settings to browse.",
     address: "Website address",
     go: "Go",
     external: "Open outside the phone ↗",
@@ -110,11 +109,10 @@ const copy = {
     reminder: "Nuevo recordatorio",
     note: "Una idea para el próximo proyecto…",
     today: "Hoy",
-    events: "Revisar una idea · 15:00",
     steps: "Pasos",
     walk: "Simular caminata",
-    dark: "Apariencia oscura",
-    airplane: "Modo avión",
+    offline:
+      "Sin conexión. Activa el Wi-Fi y desactiva el modo avión en Ajustes para navegar.",
     address: "Dirección del sitio",
     go: "Ir",
     external: "Abrir fuera del teléfono ↗",
@@ -138,18 +136,16 @@ export function PhoneApps({
   app,
   language,
   close,
-  dark,
-  setDark,
-  airplane,
-  setAirplane,
+  settings,
+  changeSettings,
+  now,
 }: {
   app: PhoneApp | null;
   language: Locale;
   close: () => void;
-  dark: boolean;
-  setDark: (value: boolean) => void;
-  airplane: boolean;
-  setAirplane: (value: boolean) => void;
+  settings: PhonePreferences;
+  changeSettings: (patch: Partial<PhonePreferences>) => void;
+  now: Date | null;
 }) {
   const t = copy[language];
   const [photo, setPhoto] = useState<number | null>(null);
@@ -159,7 +155,17 @@ export function PhoneApps({
   ]);
   const [newReminder, setNewReminder] = useState("");
   const [note, setNote] = useState("");
-  const [day, setDay] = useState(7);
+  const [selectedDay, setDay] = useState<{ month: string; day: number } | null>(
+    null,
+  );
+  const month = now ? `${now.getFullYear()}-${now.getMonth()}` : "";
+  const day = selectedDay?.month === month ? selectedDay.day : now?.getDate();
+  const days = now
+    ? new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()
+    : 0;
+  const firstWeekday = now
+    ? new Date(now.getFullYear(), now.getMonth(), 1).getDay()
+    : 0;
   const [steps, setSteps] = useState(4200);
   const [card, setCard] = useState(0);
   const back = useRef<HTMLButtonElement>(null);
@@ -185,7 +191,7 @@ export function PhoneApps({
     }
   };
   return (
-    <div className="phone-app-window" data-dark={dark}>
+    <div className="phone-app-window" data-dark={settings.dark}>
       <div className="phone-app-toolbar">
         <button ref={back} onClick={close} aria-label={t.home}>
           ‹
@@ -302,12 +308,29 @@ export function PhoneApps({
         )}
         {app === "calendar" && (
           <>
+            <p className="mock-calendar-month">
+              {now?.toLocaleDateString(language, {
+                month: "long",
+                year: "numeric",
+              }) ?? "—"}
+            </p>
             <div className="mock-calendar">
-              {Array.from({ length: 30 }, (_, i) => (
+              {Array.from({ length: 7 }, (_, i) => (
+                <span key={`weekday-${i}`} className="mock-calendar-weekday">
+                  {new Date(2023, 0, i + 1).toLocaleDateString(language, {
+                    weekday: "narrow",
+                  })}
+                </span>
+              ))}
+              {Array.from({ length: firstWeekday }, (_, i) => (
+                <span key={`blank-${i}`} aria-hidden="true" />
+              ))}
+              {Array.from({ length: days }, (_, i) => (
                 <button
                   key={i}
                   aria-pressed={day === i + 1}
-                  onClick={() => setDay(i + 1)}
+                  onClick={() => setDay({ month, day: i + 1 })}
+                  aria-current={now?.getDate() === i + 1 ? "date" : undefined}
                 >
                   {i + 1}
                 </button>
@@ -315,7 +338,7 @@ export function PhoneApps({
             </div>
             <div className="mock-event">
               <strong>{day}</strong>
-              <p>{day === 7 ? t.events : "—"}</p>
+              <p>{day === now?.getDate() ? t.today : "—"}</p>
             </div>
           </>
         )}
@@ -373,80 +396,68 @@ export function PhoneApps({
           </>
         )}
         {app === "settings" && (
-          <div className="mock-settings">
-            <label>
-              <span>{t.dark}</span>
-              <input
-                type="checkbox"
-                role="switch"
-                checked={dark}
-                onChange={(e) => setDark(e.target.checked)}
-              />
-            </label>
-            <label>
-              <span>{t.airplane}</span>
-              <input
-                type="checkbox"
-                role="switch"
-                checked={airplane}
-                onChange={(e) => setAirplane(e.target.checked)}
-              />
-            </label>
-          </div>
+          <PhoneSettings
+            language={language}
+            settings={settings}
+            change={changeSettings}
+          />
         )}
-        {app === "browser" && (
-          <>
-            <form
-              className="mock-address"
-              onSubmit={(e) => {
-                e.preventDefault();
-                openUrl(address);
-              }}
-            >
-              <input
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder="https://"
-                aria-label={t.address}
-              />
-              <button>{t.go}</button>
-            </form>
-            {error && <p role="alert">{error}</p>}
-            {url ? (
-              <>
-                <a
-                  className="mock-browser-external"
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {t.external}
-                </a>
-                <iframe
-                  src={url}
-                  title={t.browser}
-                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                  referrerPolicy="no-referrer"
+        {app === "browser" &&
+          (settings.airplane || !settings.wifi ? (
+            <p role="status">{t.offline}</p>
+          ) : (
+            <>
+              <form
+                className="mock-address"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  openUrl(address);
+                }}
+              >
+                <input
+                  type="text"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder="https://"
+                  aria-label={t.address}
                 />
-                <p>{t.blocked}</p>
-              </>
-            ) : (
-              <div className="mock-bookmarks">
-                {projects
-                  .filter((p) => p.category !== "product")
-                  .map((project) => (
-                    <button
-                      key={project.id}
-                      onClick={() => openUrl(project.url)}
-                    >
-                      {project.name} ↗
-                    </button>
-                  ))}
-              </div>
-            )}
-          </>
-        )}
+                <button>{t.go}</button>
+              </form>
+              {error && <p role="alert">{error}</p>}
+              {url ? (
+                <>
+                  <a
+                    className="mock-browser-external"
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {t.external}
+                  </a>
+                  <iframe
+                    src={url}
+                    title={t.browser}
+                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                    referrerPolicy="no-referrer"
+                  />
+                  <p>{t.blocked}</p>
+                </>
+              ) : (
+                <div className="mock-bookmarks">
+                  {projects
+                    .filter((p) => p.category !== "product")
+                    .map((project) => (
+                      <button
+                        key={project.id}
+                        onClick={() => openUrl(project.url)}
+                      >
+                        {project.name} ↗
+                      </button>
+                    ))}
+                </div>
+              )}
+            </>
+          ))}
         {app === "messages" && (
           <>
             <div className="mock-messages">

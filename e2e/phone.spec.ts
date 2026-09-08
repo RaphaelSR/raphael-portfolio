@@ -138,3 +138,85 @@ test("escaped snake can eat the broken phone and exit restores its mask", async 
     page.getByRole("button", { name: "Play Snake", exact: true }),
   ).toBeFocused();
 });
+
+test.describe("device clock and phone preferences", () => {
+  test.use({ timezoneId: "America/Sao_Paulo" });
+  test("clock and calendar follow local midnight, month changes and leap years", async ({
+    page,
+  }) => {
+    await page.clock.install({ time: new Date("2028-02-01T02:59:59Z") });
+    await page.goto("./en/");
+    await expect(page.locator(".phone-status time")).toHaveText("23:59");
+    await expect(page.locator(".phone-calendar-widget strong")).toHaveText(
+      "31",
+    );
+    await page.clock.runFor(2000);
+    await expect(page.locator(".phone-status time")).toHaveText("00:00");
+    await expect(page.locator(".phone-calendar-widget strong")).toHaveText("1");
+    await expect(page.locator(".phone-calendar-widget b")).toHaveText(
+      "Tuesday",
+    );
+    await page
+      .locator(".phone-device")
+      .getByRole("button", { name: "Calendar", exact: true })
+      .click();
+    await expect(page.locator(".mock-calendar-month")).toHaveText(
+      "February 2028",
+    );
+    await expect(page.locator(".mock-calendar button")).toHaveCount(29);
+    await page.clock.setSystemTime(new Date("2028-03-01T03:00:00Z"));
+    await page.clock.runFor(1100);
+    await expect(page.locator(".mock-calendar-month")).toHaveText("March 2028");
+    await expect(page.locator(".mock-calendar button")).toHaveCount(31);
+  });
+  test("settings affect the display, connection and animation", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 320, height: 900 });
+    await page.clock.install({ time: new Date("2028-02-01T16:20:00Z") });
+    await page.goto("./en/");
+    const phone = page.locator(".phone-device");
+    const settings = () =>
+      phone.getByRole("button", { name: "Settings", exact: true }).click();
+    const home = () =>
+      phone.getByRole("button", { name: "Home", exact: true }).click();
+    await settings();
+    await phone.getByRole("switch", { name: "24-hour time" }).uncheck();
+    await expect(phone.locator(".phone-status time")).toHaveText("01:20 PM");
+    await phone.getByRole("button", { name: "Forest", exact: true }).click();
+    await expect(phone).toHaveAttribute("data-wallpaper", "forest");
+    await phone.getByRole("slider", { name: /Brightness/ }).focus();
+    await page.keyboard.press("Home");
+    await expect(phone.locator(".phone-screen")).toHaveCSS(
+      "filter",
+      "brightness(0.45)",
+    );
+    await page.keyboard.press("End");
+    await phone.getByRole("switch", { name: "Wi-Fi", exact: true }).uncheck();
+    await home();
+    await phone.getByRole("button", { name: "Browser", exact: true }).click();
+    await expect(phone.getByRole("status")).toContainText("No connection");
+    await home();
+    await settings();
+    await phone.getByRole("switch", { name: "Wi-Fi", exact: true }).check();
+    await phone
+      .getByRole("switch", { name: "Reduce motion", exact: true })
+      .check();
+    expect(
+      (
+        await new AxeBuilder({ page })
+          .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+          .analyze()
+      ).violations,
+    ).toEqual([]);
+    await home();
+    await phone
+      .getByRole("button", { name: "Play Snake", exact: true })
+      .click();
+    await page.clock.runFor(500);
+    await expect(
+      page.getByRole("button", { name: "Pause", exact: true }),
+    ).toBeVisible();
+    await page.keyboard.press("Escape");
+  });
+});
