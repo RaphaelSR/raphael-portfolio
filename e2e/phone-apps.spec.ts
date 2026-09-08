@@ -268,7 +268,7 @@ test("published sibling projects use external launch while arbitrary embeds stay
 }, testInfo) => {
   const localOrigin = new URL(testInfo.project.use.baseURL as string).origin;
   await page.route(
-    "https://raphaelsr.github.io/raphael-portfolio/**",
+    "https://raphaelsr.github.io/**",
     async (route) => {
       const local = new URL(route.request().url());
       const response = await request.get(
@@ -277,7 +277,7 @@ test("published sibling projects use external launch while arbitrary embeds stay
       await route.fulfill({ response });
     },
   );
-  await page.goto("https://raphaelsr.github.io/raphael-portfolio/en/");
+  await page.goto("https://raphaelsr.github.io/en/");
   await page
     .locator(".filters button")
     .filter({ hasText: /Online games|Jogos online|Juegos online/ })

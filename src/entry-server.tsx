@@ -3,7 +3,7 @@ import App from "./App";
 import { copy } from "./messages";
 import { documentLanguages, locales, type Locale } from "./i18n";
 import { links } from "./content";
-const origin = "https://raphaelsr.github.io";
+const origin = "https://raphaelrocha.com";
 const base = import.meta.env.BASE_URL;
 export function renderPage(template: string, locale: Locale, root = false) {
   const canonical = `${origin}${base}${locale}/`;

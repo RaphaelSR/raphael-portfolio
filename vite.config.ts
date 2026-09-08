@@ -11,14 +11,14 @@ export default defineConfig({
           "/src/entry-server.tsx",
         );
         const segment = (context.originalUrl ?? context.path)
-          .replace(/^\/raphael-portfolio\/?/, "")
+          .replace(/^\//, "")
           .split("/")[0];
         const locale = ["pt", "en", "es"].includes(segment) ? segment : "en";
         return renderPage(html, locale, !["pt", "en", "es"].includes(segment));
       },
     },
   ],
-  base: "/raphael-portfolio/",
+  base: "/",
   server: { port: 3010, strictPort: true },
   build: { target: "es2022" },
 });
