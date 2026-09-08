@@ -1,5 +1,7 @@
 import type { Localized } from "../i18n";
 const en = {
+  help: "Controls & how it works",
+  invite: "Let it loose on this page",
   commands: "Commands",
   backstage: "Behind this site",
   search: "Search commands…",
@@ -7,7 +9,7 @@ const en = {
   close: "Close",
   blueprint: "Toggle blueprint",
   blueprintOff: "Exit blueprint",
-  snake: "Snake: eat the letters",
+  snake: "Snake: devour the page",
   original: "Play the original Snake",
   extra: "Another experiment:",
   intro: "A few decisions behind the experience you’re browsing.",
@@ -30,8 +32,8 @@ const en = {
   failed: "Could not copy the email.",
   gameTitle: "Snake between the lines",
   gameHelp:
-    "Eat the outlined letters. Arrows or WASD to move, Space to pause, Esc to restore the page. Edges wrap around.",
-  score: "Letters",
+    "Devour the page. Click, tap, or use arrows / WASD to guide. Space pauses. Esc brings everything back.",
+  score: "Bites",
   pause: "Pause",
   resume: "Resume",
   restart: "Restart",
@@ -47,6 +49,8 @@ const en = {
 export const featureCopy: Localized<typeof en> = {
   en,
   pt: {
+    help: "Controles e como jogar",
+    invite: "Soltar a cobra nesta página",
     commands: "Comandos",
     backstage: "Por trás deste site",
     search: "Buscar comandos…",
@@ -54,7 +58,7 @@ export const featureCopy: Localized<typeof en> = {
     close: "Fechar",
     blueprint: "Alternar blueprint",
     blueprintOff: "Sair do blueprint",
-    snake: "Snake: comer as letras",
+    snake: "Snake: devorar a página",
     original: "Jogar o Snake original",
     extra: "Outro experimento:",
     intro: "Algumas decisões por trás da experiência que você está navegando.",
@@ -77,8 +81,8 @@ export const featureCopy: Localized<typeof en> = {
     failed: "Não foi possível copiar o e-mail.",
     gameTitle: "Snake entre as linhas",
     gameHelp:
-      "Coma as letras contornadas. Setas ou WASD movem, Espaço pausa e Esc restaura a página. As bordas se conectam.",
-    score: "Letras",
+      "Devore a página. Clique, toque ou use setas / WASD para guiar. Espaço pausa. Esc traz tudo de volta.",
+    score: "Mordidas",
     pause: "Pausar",
     resume: "Continuar",
     restart: "Recomeçar",
@@ -92,6 +96,8 @@ export const featureCopy: Localized<typeof en> = {
     right: "Direita",
   },
   es: {
+    help: "Controles y cómo jugar",
+    invite: "Soltar la serpiente en esta página",
     commands: "Comandos",
     backstage: "Detrás de este sitio",
     search: "Buscar comandos…",
@@ -99,7 +105,7 @@ export const featureCopy: Localized<typeof en> = {
     close: "Cerrar",
     blueprint: "Alternar blueprint",
     blueprintOff: "Salir del blueprint",
-    snake: "Snake: comer las letras",
+    snake: "Snake: devorar la página",
     original: "Jugar al Snake original",
     extra: "Otro experimento:",
     intro: "Algunas decisiones detrás de la experiencia que estás explorando.",
@@ -122,8 +128,8 @@ export const featureCopy: Localized<typeof en> = {
     failed: "No se pudo copiar el correo.",
     gameTitle: "Snake entre líneas",
     gameHelp:
-      "Come las letras marcadas. Flechas o WASD para moverte, Espacio para pausar y Esc para restaurar la página. Los bordes se conectan.",
-    score: "Letras",
+      "Devora la página. Haz clic, toca o usa flechas / WASD para guiar. Espacio pausa. Esc restaura todo.",
+    score: "Bocados",
     pause: "Pausar",
     resume: "Continuar",
     restart: "Reiniciar",
