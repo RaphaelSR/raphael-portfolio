@@ -109,9 +109,7 @@ export default function App({
             className="wordmark"
             aria-label={`Raphael Rocha — ${t.home}`}
           >
-            <span className="monogram">
-              r<span>/</span>r
-            </span>
+            <Portrait motion={motion} />
             <span>
               Raphael Rocha
               <span className="wordmark-sub">SOFTWARE ENGINEER</span>
@@ -362,7 +360,6 @@ export default function App({
               <Lines text={t.aboutTitle} />
             </h2>
             <div className="personal-signature">
-              <Portrait motion={motion} />
               <div>
                 <strong>Raphael Rocha</strong>
                 <span>Mobile · Web · Backend</span>
