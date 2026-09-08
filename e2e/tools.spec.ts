@@ -268,6 +268,7 @@ test("phone opens the game, breaks, and only then hands over controls", async ({
 }) => {
   await page.clock.install();
   await page.goto("./en/");
+  await page.getByRole("button", { name: "Online games 3" }).click();
   const play = page.getByRole("button", { name: "Play Snake", exact: true });
   await play.click();
   await expect(page.locator(".phone-stage")).toHaveAttribute(
@@ -314,6 +315,7 @@ test("phone entrance cancels cleanly and supports reduced motion on mobile", asy
   await page.setViewportSize({ width: 320, height: 740 });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("./pt/");
+  await page.getByRole("button", { name: "Jogos online 3" }).click();
   await page.getByRole("button", { name: "Jogar Snake", exact: true }).click();
   await page.keyboard.press("Escape");
   await page.clock.runFor(4000);

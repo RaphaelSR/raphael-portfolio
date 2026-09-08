@@ -57,6 +57,7 @@ export default function PortraitDialog({
     surface = useRef<HTMLCanvasElement>(null),
     stage = useRef<HTMLDivElement>(null);
   const renderer = useRef<ElasticPortrait | null>(null);
+  const openingMotion = useRef(motion);
   const keyboard = useRef<Point | null>(null);
   const pointers = useRef(new Set<number>());
   const [status, setStatus] = useState<"loading" | "ready" | "fallback">(
@@ -70,7 +71,7 @@ export default function PortraitDialog({
     dialog.showModal();
     document.body.style.overflow = "hidden";
     let animation: Animation | undefined;
-    if (motion && origin && stage.current) {
+    if (openingMotion.current && origin && stage.current) {
       const target = stage.current.getBoundingClientRect();
       animation = stage.current.animate(
         [
@@ -90,7 +91,7 @@ export default function PortraitDialog({
       document.body.style.overflow = before;
       opener?.focus({ preventScroll: true });
     };
-  }, [motion, trigger]);
+  }, [trigger]);
   useEffect(() => {
     try {
       renderer.current = createElasticPortrait(

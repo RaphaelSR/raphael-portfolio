@@ -4,6 +4,10 @@ for (const width of [320, 768])
   test(`phone demo apps work at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("./en/");
+    await page
+      .locator(".filters button")
+      .filter({ hasText: /Online games|Jogos online|Juegos online/ })
+      .click();
     const phone = page.locator(".phone-device");
     await phone.scrollIntoViewIfNeeded();
     const home = () =>
@@ -116,6 +120,10 @@ test("escaped snake can eat the broken phone and exit restores its mask", async 
 }) => {
   await page.clock.install();
   await page.goto("./en/");
+  await page
+    .locator(".filters button")
+    .filter({ hasText: /Online games|Jogos online|Juegos online/ })
+    .click();
   await page.getByRole("button", { name: "Play Snake", exact: true }).click();
   await page.clock.runFor(2300);
   await expect(page.locator(".phone-stage")).toHaveAttribute(
@@ -147,6 +155,10 @@ test.describe("device clock and phone preferences", () => {
   }) => {
     await page.clock.install({ time: new Date("2028-02-01T02:59:59Z") });
     await page.goto("./en/");
+    await page
+      .locator(".filters button")
+      .filter({ hasText: /Online games|Jogos online|Juegos online/ })
+      .click();
     await expect(page.locator(".phone-status time")).toHaveText("23:59");
     await expect(page.locator(".phone-calendar-widget strong")).toHaveText(
       "31",
@@ -176,6 +188,10 @@ test.describe("device clock and phone preferences", () => {
     await page.setViewportSize({ width: 320, height: 900 });
     await page.clock.install({ time: new Date("2028-02-01T16:20:00Z") });
     await page.goto("./en/");
+    await page
+      .locator(".filters button")
+      .filter({ hasText: /Online games|Jogos online|Juegos online/ })
+      .click();
     const phone = page.locator(".phone-device");
     const settings = () =>
       phone.getByRole("button", { name: "Settings", exact: true }).click();
@@ -227,6 +243,10 @@ test("Escape outside a phone app does not steal focus back from the main menu", 
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("./en/");
+  await page
+    .locator(".filters button")
+    .filter({ hasText: /Online games|Jogos online|Juegos online/ })
+    .click();
   const phone = page.locator(".phone-device");
   await phone.getByRole("button", { name: "Notes", exact: true }).click();
   await phone.getByRole("button", { name: "Home", exact: true }).click();

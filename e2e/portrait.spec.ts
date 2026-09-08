@@ -89,8 +89,10 @@ test("portrait supports touch cancellation, keyboard and reduced motion at 320px
     touchPoints: [],
   });
   await expect(canvas).toHaveAttribute("data-deformed", "false");
-  await page.emulateMedia({ reducedMotion: "reduce" });
   await stage.focus();
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "off");
+  await expect(stage).toBeFocused();
   await page.screenshot({ path: "test-results/portrait-minimal-mobile.png" });
   await page.keyboard.down("ArrowRight");
   await expect(canvas).toHaveAttribute("data-deformed", "true");

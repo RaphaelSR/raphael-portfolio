@@ -52,7 +52,7 @@ export default function App({
   const activeSection = useActiveSection();
   usePageMotion(motion);
   const [menu, setMenu] = useState(false);
-  const [filter, setFilter] = useState<"all" | Project["category"]>("all");
+  const [filter, setFilter] = useState<"all" | Project["category"]>("product");
   const [selected, setSelected] = useState<Project | null>(null);
   const [copyState, setCopyState] = useState<"idle" | "done" | "failed">(
     "idle",
@@ -73,8 +73,20 @@ export default function App({
         menuRef.current?.focus();
       }
     };
+    const onPointer = (event: globalThis.PointerEvent) => {
+      if (
+        menu &&
+        event.target instanceof Node &&
+        !menuRef.current?.closest("header")?.contains(event.target)
+      )
+        setMenu(false);
+    };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onPointer);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onPointer);
+    };
   }, [menu]);
   useEffect(() => {
     if (!selected) return;
@@ -109,7 +121,13 @@ export default function App({
       <a className="skip-link" href="#main">
         {t.skip}
       </a>
-      <header className="header">
+      <header
+        className="header"
+        onBlur={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget))
+            setMenu(false);
+        }}
+      >
         <div className="header-inner">
           <div className="wordmark">
             <Portrait motion={motion} language={language} />
@@ -136,6 +154,17 @@ export default function App({
                 {label}
               </a>
             ))}
+            <a
+              href="#contact"
+              className="nav-contact"
+              onClick={() => setMenu(false)}
+              aria-current={
+                activeSection === "contact" ? "location" : undefined
+              }
+            >
+              <span className="nav-index">04</span>
+              {t.contact}
+            </a>
           </nav>
           <div className="header-actions">
             <select
@@ -160,7 +189,15 @@ export default function App({
             <button
               ref={menuRef}
               className="menu-toggle icon-button"
-              onClick={() => setMenu((v) => !v)}
+              onClick={() => {
+                setMenu((v) => !v);
+                if (!menu)
+                  requestAnimationFrame(() =>
+                    document
+                      .querySelector<HTMLAnchorElement>("#main-nav a")
+                      ?.focus(),
+                  );
+              }}
               aria-expanded={menu}
               aria-controls="main-nav"
               aria-label={menu ? t.closeMenu : t.openMenu}
@@ -267,11 +304,12 @@ export default function App({
               <p>{t.projectsIntro}</p>
             </div>
             <div className="filters" role="group" aria-label={t.filterProjects}>
-              {(["all", "product", "experiment", "game"] as const).map(
+              {(["product", "experiment", "game", "all"] as const).map(
                 (key) => (
                   <button
                     key={key}
                     aria-pressed={filter === key}
+                    aria-controls="project-list"
                     onClick={() => setFilter(key)}
                   >
                     {t[key]}
@@ -284,59 +322,50 @@ export default function App({
                 ),
               )}
             </div>
-            <div className="projects-grid">
-              {projects
-                .filter((p) => filter === "all" || filter === p.category)
-                .map((project, i) => (
-                  <article className="project-card" key={project.id}>
-                    <button
-                      className="project-preview"
-                      onClick={(e) => selectProject(project, e.currentTarget)}
-                      aria-label={`${t.detail}: ${project.name}`}
-                    >
-                      <span className="project-wordmark" aria-hidden="true">
-                        {project.name}
-                      </span>
-                      <span
-                        className="project-preview-caption"
-                        aria-hidden="true"
-                      >
-                        {project.stack
-                          .slice(0, 2)
-                          .map((tag) => localize(tag, language))
-                          .join(" · ")}
-                      </span>
-                      <span className="project-open">
-                        <Icon name="external" />
-                      </span>
-                    </button>
-                    <div className="project-description">
-                      <p className="mono project-category">
-                        {project.label[language]}
-                      </p>
-                      <div className="project-title">
-                        <h3>
-                          <button
-                            onClick={(e) =>
-                              selectProject(project, e.currentTarget)
-                            }
-                          >
-                            {project.name}
-                          </button>
-                        </h3>
-                        <span className="mono">0{i + 1}</span>
-                      </div>
-                      <p>{project.description[language]}</p>
-                      <p className="project-contribution">
-                        <span className="eyebrow">{t.role}</span>
-                        {project.contribution[language]}
-                      </p>
-                      <External href={project.url} className="inline-link">
-                        {t.open}
-                      </External>
+            <div className="projects-grid" id="project-list">
+              {projects.map((project) => (
+                <article
+                  className="project-card"
+                  key={project.id}
+                  hidden={filter !== "all" && filter !== project.category}
+                >
+                  <div className="project-description">
+                    <p className="mono project-category">
+                      {project.label[language]}
+                    </p>
+                    <div className="project-title">
+                      <h3>
+                        <button
+                          onClick={(e) =>
+                            selectProject(project, e.currentTarget)
+                          }
+                          aria-label={`${t.detail}: ${project.name}`}
+                        >
+                          {project.name}
+                          <Icon name="plus" />
+                        </button>
+                      </h3>
                     </div>
-                  </article>
-                ))}
+                    <p className="project-summary">
+                      {project.description[language]}
+                    </p>
+                    <p className="project-contribution">
+                      <span className="eyebrow">{t.role}</span>
+                      {project.contribution[language]}
+                    </p>
+                    <div className="tags">
+                      {project.stack.slice(0, 3).map((tag) => (
+                        <span key={localize(tag, language)}>
+                          {localize(tag, language)}
+                        </span>
+                      ))}
+                    </div>
+                    <External href={project.url} className="inline-link">
+                      {t.open}
+                    </External>
+                  </div>
+                </article>
+              ))}
             </div>
             {(filter === "all" || filter === "game") && (
               <PhoneSimulator language={language} />
@@ -353,12 +382,6 @@ export default function App({
             <h2 id="about-title">
               <Lines text={t.aboutTitle} />
             </h2>
-            <div className="personal-signature">
-              <div>
-                <strong>Raphael Rocha</strong>
-                <span>Mobile · Web · Backend</span>
-              </div>
-            </div>
           </div>
           <div className="about-content">
             <p className="about-lead">{t.aboutText}</p>
