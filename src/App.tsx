@@ -1,3 +1,4 @@
+import { AppStores } from "./components/AppStores";
 import { toolSites } from "./tool-sites";
 import { StudioTools } from "./features/StudioTools";
 import { PhoneSimulator } from "./features/PhoneSimulator";
@@ -354,12 +355,13 @@ export default function App({
                       {project.contribution[language]}
                     </p>
                     <div className="tags">
-                      {project.stack.slice(0, 3).map((tag) => (
+                      {project.stack.map((tag) => (
                         <span key={localize(tag, language)}>
                           {localize(tag, language)}
                         </span>
                       ))}
                     </div>
+                    {project.stores && <AppStores stores={project.stores} language={language} name={project.name} />}
                     <External href={project.url} className="inline-link">
                       {t.open}
                     </External>
