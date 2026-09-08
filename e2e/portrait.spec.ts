@@ -16,6 +16,9 @@ test("portrait expands, deforms actual pixels, springs back and restores focus",
     canvas = stage.locator("canvas");
   await expect(stage).toHaveAttribute("data-ready", "true");
   await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole("button")).toHaveCount(1);
+  await expect(dialog).toHaveText("×");
+  await page.screenshot({ path: "test-results/portrait-minimal-desktop.png" });
   await expect
     .poll(() => stage.evaluate((el) => el.getAnimations().length))
     .toBe(0);
@@ -87,7 +90,8 @@ test("portrait supports touch cancellation, keyboard and reduced motion at 320px
   });
   await expect(canvas).toHaveAttribute("data-deformed", "false");
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.getByRole("button", { name: "Nariz", exact: true }).click();
+  await stage.focus();
+  await page.screenshot({ path: "test-results/portrait-minimal-mobile.png" });
   await page.keyboard.down("ArrowRight");
   await expect(canvas).toHaveAttribute("data-deformed", "true");
   await page.keyboard.up("ArrowRight");
@@ -121,11 +125,9 @@ test("portrait retains a usable image when WebGL is unavailable", async ({
   });
   await page.goto("./es/");
   await page.locator(".portrait-trigger").click();
-  await expect(
-    page.getByText(
-      "Retrato ampliado. La interacción gráfica no está disponible en este navegador.",
-    ),
-  ).toBeVisible();
+  await expect(page.getByRole("dialog").getByRole("status")).toHaveText(
+    "Retrato ampliado. La interacción gráfica no está disponible en este navegador.",
+  );
   await expect(page.locator(".elastic-portrait img")).toBeVisible();
   await page
     .getByRole("button", { name: "Cerrar retrato", exact: true })
