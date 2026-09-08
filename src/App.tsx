@@ -1,3 +1,5 @@
+import { StudioTools } from "./features/StudioTools";
+import { featureCopy, snakeUrl } from "./features/copy";
 import { Portrait } from "./components/Portrait";
 import { ExperienceRow } from "./components/ExperienceRow";
 import { useActiveSection, usePageMotion } from "./hooks/usePageMotion";
@@ -347,6 +349,12 @@ export default function App({
                   </article>
                 ))}
             </div>
+            <p className="side-project-note">
+              {featureCopy[language].extra}{" "}
+              <a href={snakeUrl} target="_blank" rel="noopener noreferrer">
+                Snake ↗
+              </a>
+            </p>
           </div>
         </section>
         <section
@@ -480,6 +488,7 @@ export default function App({
           </a>
         </div>
       </footer>
+      <StudioTools language={language} setLanguage={setLanguage} />
       <dialog
         ref={dialog}
         className="project-dialog"
