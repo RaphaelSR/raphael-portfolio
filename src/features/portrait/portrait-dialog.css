@@ -1,14 +1,10 @@
 .portrait-dialog {
-  width: min(610px, calc(100vw - 24px));
+  width: min(520px, calc(100vw - 24px));
   max-height: calc(100dvh - 24px);
   padding: 0;
-  border: 1px solid #ffffff80;
-  border-radius: 28px;
-  background: #f2f5fad9;
+  border: 0;
+  background: transparent;
   color: #1f2c3b;
-  font-weight: 400;
-  letter-spacing: normal;
-  box-shadow: 0 35px 140px #15243b50;
   overflow: auto;
 }
 .portrait-dialog::backdrop {
@@ -17,38 +13,39 @@
   -webkit-backdrop-filter: blur(14px);
 }
 .portrait-dialog-content {
-  padding: 20px 28px 24px;
+  position: relative;
+  padding: 56px 16px 16px;
 }
-.portrait-dialog-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font: 11px var(--mono);
-}
-.portrait-dialog-heading button {
+.portrait-dialog-close {
+  position: absolute;
+  top: 4px;
+  right: 4px;
   width: 44px;
   height: 44px;
-  background: #ffffff80;
+  background: #f2f5fa;
+  color: #1f2c3b;
   border: 1px solid #c9d2df;
   border-radius: 50%;
   font-size: 26px;
+  cursor: pointer;
 }
-.portrait-dialog h2 {
-  font-size: clamp(22px, 4vw, 30px);
-  letter-spacing: -0.8px;
-  margin: 10px 0 8px;
+.portrait-dialog-close:focus-visible {
+  outline: 3px solid #3579ba;
+  outline-offset: 3px;
 }
-.portrait-dialog p {
-  color: #526175;
-  font-size: 13px;
-  line-height: 1.6;
-  margin: 0;
+.portrait-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 .elastic-portrait {
   position: relative;
-  width: min(100%, 440px, 52dvh);
+  width: min(100%, 440px, calc(100dvh - 112px));
   aspect-ratio: 1;
-  margin: 24px auto;
+  margin: 0 auto;
   border-radius: 50%;
   overflow: hidden;
   box-shadow:
@@ -83,70 +80,6 @@
 .elastic-portrait:focus-visible {
   outline: 3px solid #3579ba;
   outline-offset: 5px;
-}
-.portrait-key-point {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  margin: -6px;
-  border: 2px solid white;
-  border-radius: 50%;
-  box-shadow: 0 0 0 2px #315578;
-  opacity: 0;
-  pointer-events: none;
-}
-.elastic-portrait:focus-visible .portrait-key-point {
-  opacity: 1;
-}
-.portrait-regions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px;
-}
-.portrait-regions button {
-  padding: 8px 10px;
-  min-height: 36px;
-  border: 1px solid #c6d0dc;
-  border-radius: 20px;
-  background: #ffffff80;
-  color: #41536a;
-  font-size: 11px;
-}
-.portrait-regions button[aria-pressed="true"] {
-  background: #263c54;
-  color: white;
-  border-color: #263c54;
-}
-.portrait-dialog-footer {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  margin-top: 18px;
-}
-.portrait-dialog-footer p {
-  font-size: 11px;
-  flex: 1;
-}
-.portrait-dialog-footer button {
-  background: none;
-  border: 0;
-  white-space: nowrap;
-  font-size: 12px;
-  min-height: 44px;
-}
-@media (max-width: 480px) {
-  .portrait-dialog-content {
-    padding: 14px 16px 18px;
-  }
-  .elastic-portrait {
-    width: min(100%, 46dvh);
-    margin: 20px auto;
-  }
-  .portrait-regions button {
-    font-size: 10px;
-    padding-inline: 9px;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .portrait-dialog,
