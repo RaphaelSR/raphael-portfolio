@@ -55,7 +55,7 @@ export function usePreferences(initialLocale: Locale) {
       .querySelector('link[rel="canonical"]')
       ?.setAttribute(
         "href",
-        `https://raphaelsr.github.io${import.meta.env.BASE_URL}${language}/`,
+        `https://raphaelrocha.com${import.meta.env.BASE_URL}${language}/`,
       );
   }, [language]);
   useEffect(() => {
