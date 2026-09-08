@@ -21,7 +21,7 @@ for (const [locale, title] of [
     await expect(page.locator(".experience-highlight").last()).toBeVisible();
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       "href",
-      `https://raphaelrocha.com/${locale}/`,
+      `https://portfolio.raphaelrocha.com/${locale}/`,
     );
     await expect(page.locator("link[hreflang]")).toHaveCount(4);
     await page.getByRole("link", { name: "Español", exact: true }).click();

@@ -331,7 +331,7 @@ export const projects: Project[] = [
       es: "Renderizado con Three.js y React, controles tipados en TypeScript e integración entre la escena, la línea de tiempo y los flujos de exportación.",
     },
     stack: ["Three.js", "React", "TypeScript"],
-    url: "https://raphaelsr.github.io/3d-shape-animator/",
+    url: "https://3d.raphaelrocha.com/",
   },
   {
     id: "trivia",
@@ -360,7 +360,7 @@ export const projects: Project[] = [
         es: "Interfaces de juegos",
       },
     ],
-    url: "https://raphaelsr.github.io/trivia/",
+    url: "https://trivia.raphaelrocha.com/",
   },
 
   {
@@ -383,7 +383,7 @@ export const projects: Project[] = [
       es: "Proyecto independiente de interacción y lógica de juego. También inspiró la serpiente que escapa del teléfono en este portafolio.",
     },
     stack: ["Web"],
-    url: "https://raphaelsr.github.io/snake-game/",
+    url: "https://snake.raphaelrocha.com/",
   },
   {
     id: "mimica",
@@ -405,7 +405,7 @@ export const projects: Project[] = [
       es: "Interfaz móvil con lista editable, temporizador ajustable y una opción para ocultar la palabra al pasar el celular.",
     },
     stack: ["HTML", "CSS", "JavaScript"],
-    url: "https://raphaelsr.github.io/mimica/",
+    url: "https://mimica.raphaelrocha.com/",
   },
 ];
 export const toolkit: { title: Label; items: ToolName[] }[] = [

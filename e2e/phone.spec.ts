@@ -80,7 +80,7 @@ for (const width of [320, 768])
       phone.getByText("Message received in this demo."),
     ).toBeVisible();
     await home();
-    await page.route("https://raphaelsr.github.io/trivia/", (route) =>
+    await page.route("https://trivia.raphaelrocha.com/", (route) =>
       route.fulfill({ contentType: "text/html", body: "<h1>Trivia demo</h1>" }),
     );
     await phone.getByRole("button", { name: "Browser", exact: true }).click();
@@ -93,7 +93,7 @@ for (const width of [320, 768])
     );
     await phone
       .getByRole("textbox", { name: "Website address" })
-      .fill("https://raphaelsr.github.io/trivia/");
+      .fill("https://trivia.raphaelrocha.com/");
     await phone.getByRole("button", { name: "Go", exact: true }).click();
     await expect(
       page.frameLocator(".phone-app-content iframe").getByRole("heading"),
