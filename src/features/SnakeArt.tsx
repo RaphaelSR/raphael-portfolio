@@ -7,7 +7,7 @@ export function SnakeArt({
   preview?: boolean;
 }) {
   const id = useId();
-  const path = preview ? "M32 18H43Q57 18 57 30V40Q57 55 43 55H15" : undefined;
+  const path = preview ? "M40 66C37 50 43 25 40 6" : undefined;
   return (
     <svg
       ref={surface}
@@ -54,7 +54,7 @@ export function SnakeArt({
       <g
         data-snake-head
         visibility={preview ? "visible" : "hidden"}
-        transform={preview ? "translate(32 18) rotate(180)" : undefined}
+        transform={preview ? "translate(40 66) rotate(90)" : undefined}
       >
         <path
           d="M12 0 H19 l3 -2 M19 0 l3 2"
