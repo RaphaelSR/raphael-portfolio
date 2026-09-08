@@ -1,3 +1,4 @@
+import { toolSites } from "./tool-sites";
 import { StudioTools, SnakeInvitation } from "./features/StudioTools";
 import { featureCopy, snakeUrl } from "./features/copy";
 import { Portrait } from "./components/Portrait";
@@ -388,9 +389,17 @@ export default function App({
                   <div key={localize(group.title, language)}>
                     <h3>{localize(group.title, language)}</h3>
                     {group.items.map((item) => (
-                      <span key={localize(item, language)}>
-                        {localize(item, language)}
-                      </span>
+                      <a
+                        key={item}
+                        href={toolSites[item]}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {item}
+                        <span aria-hidden="true" className="tool-external">
+                          ↗
+                        </span>
+                      </a>
                     ))}
                   </div>
                 ))}

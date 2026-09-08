@@ -1934,7 +1934,7 @@ html:not([data-enhanced]) .footer > div > button {
   margin-bottom: 10px;
   font-size: 12px;
 }
-.toolkit-disclosure .toolkit span {
+.toolkit-disclosure .toolkit a {
   display: inline-block;
   margin: 0 6px 6px 0;
   padding: 4px 8px;
@@ -1948,4 +1948,26 @@ html:not([data-enhanced]) .footer > div > button {
     grid-template-columns: 1fr;
     gap: 20px;
   }
+}
+
+.toolkit-disclosure .toolkit a {
+  text-decoration: none;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+}
+.toolkit-disclosure .toolkit a:hover {
+  background: #e5edf6;
+  border-color: #8ba6c7;
+}
+.toolkit-disclosure .toolkit a:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+.toolkit-disclosure .toolkit .tool-external {
+  display: inline;
+  padding: 0;
+  margin: 0 0 0 5px;
+  font-size: 10px;
+  color: var(--muted);
 }

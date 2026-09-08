@@ -50,7 +50,7 @@ function readContent() {
     'dialog,script,style,.studio-tools,[aria-hidden="true"],[hidden]';
   root
     .querySelectorAll<HTMLElement | SVGElement>(
-      "button,a,img,svg,hr,.tags span,.toolkit span",
+      "button,a,img,svg,hr,.tags span",
     )
     .forEach((element) => {
       if (element.closest(skip) || element.matches(".snake-invitation")) return;
@@ -65,8 +65,7 @@ function readContent() {
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   let node: Node | null;
   while ((node = walker.nextNode())) {
-    if (node.parentElement?.closest(skip + ",a,.tags span,.toolkit span"))
-      continue;
+    if (node.parentElement?.closest(skip + ",a,.tags span")) continue;
     if (node.parentElement?.closest("button:not(.snake-invitation)")) continue;
     if (
       node.parentElement &&
