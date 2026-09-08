@@ -1,9 +1,10 @@
+import type { ToolName } from "./tool-sites";
 import type { Label, Localized } from "./i18n";
 export const links = {
   email: "raphaelrochabcc@gmail.com",
   github: "https://github.com/RaphaelSR",
   linkedin: "https://www.linkedin.com/in/raphael-rocha-903014103/",
-  resume: `${import.meta.env.BASE_URL}raphael-rocha-resume-2026.pdf`,
+  resume: `${import.meta.env.BASE_URL}raphael-rocha-resume.pdf`,
 };
 export interface Experience {
   company: string;
@@ -11,10 +12,16 @@ export interface Experience {
   title: Localized<string>;
   description: Localized<string>;
   tags: Label[];
+  highlight?: Localized<string>;
 }
 export const experience: Experience[] = [
   {
     company: "Xseed Solutions",
+    highlight: {
+      pt: "Aplicativos mobile · BFFs e backends com NestJS",
+      en: "Mobile apps · NestJS BFFs and backend services",
+      es: "Aplicaciones móviles · BFFs y backends con NestJS",
+    },
     period: "10.2025 —",
     title: {
       pt: "Senior Mobile Software Engineer",
@@ -30,6 +37,11 @@ export const experience: Experience[] = [
   },
   {
     company: "Medely",
+    highlight: {
+      pt: "Modernização da base mobile e evolução de arquitetura",
+      en: "Mobile codebase modernization and architecture",
+      es: "Modernización del código móvil y la arquitectura",
+    },
     period: "10.2024 — 10.2025",
     title: {
       pt: "Senior Mobile Software Engineer",
@@ -233,7 +245,7 @@ export const experience: Experience[] = [
 export interface Project {
   id: string;
   name: string;
-  category: "product" | "experiment";
+  category: "product" | "experiment" | "game";
   label: Localized<string>;
   description: Localized<string>;
   contribution: Localized<string>;
@@ -256,18 +268,17 @@ export const projects: Project[] = [
       es: "Plataforma automotriz que reúne gestión de vehículos, modificaciones, comunidad y asistencia con IA.",
     },
     contribution: {
-      pt: "Desenvolvimento de aplicações e serviços para o ModPro, integrando experiências mobile e web às funcionalidades da plataforma.",
-      en: "Developing applications and services for ModPro, connecting mobile and web experiences with the platform’s capabilities.",
-      es: "Desarrollo de aplicaciones y servicios para ModPro, integrando las experiencias móviles y web con las funcionalidades de la plataforma.",
+      pt: "Desenvolvimento mobile com React Native e Expo, aplicações web com Next.js e serviços com NestJS e Supabase. Integrações de IA, autenticação e dados conectam as diferentes experiências do produto.",
+      en: "Mobile development with React Native and Expo, web applications with Next.js, and services with NestJS and Supabase. AI, authentication and data integrations connect the product’s different experiences.",
+      es: "Desarrollo móvil con React Native y Expo, aplicaciones web con Next.js y servicios con NestJS y Supabase. Las integraciones de IA, autenticación y datos conectan las distintas experiencias del producto.",
     },
     stack: [
-      "Mobile",
-      "Web",
-      {
-        pt: "Produto",
-        en: "Product",
-        es: "Producto",
-      },
+      "React Native",
+      "Expo",
+      "Next.js",
+      "NestJS",
+      "Supabase",
+      "TypeScript",
     ],
     url: "https://modpro.ai/",
   },
@@ -315,9 +326,9 @@ export const projects: Project[] = [
       es: "Editor 3D para crear animaciones con geometrías, materiales y exportación de imágenes y vídeos.",
     },
     contribution: {
-      pt: "Projeto pessoal: editor de geometrias 3D com iluminação de estúdio, gradientes, animação e exportação de imagens e vídeos.",
-      en: "Personal project: a 3D shape editor with studio lighting, gradients, animation, and image and video export.",
-      es: "Proyecto personal: editor de geometrías 3D con iluminación de estudio, degradados, animación y exportación de imágenes y vídeos.",
+      pt: "Renderização com Three.js e React, controles tipados em TypeScript e integração entre a cena, a linha do tempo e os fluxos de exportação.",
+      en: "Rendering with Three.js and React, typed controls in TypeScript, and integration between the scene, timeline and export workflows.",
+      es: "Renderizado con Three.js y React, controles tipados en TypeScript e integración entre la escena, la línea de tiempo y los flujos de exportación.",
     },
     stack: ["Three.js", "React", "TypeScript"],
     url: "https://raphaelsr.github.io/3d-shape-animator/",
@@ -325,7 +336,7 @@ export const projects: Project[] = [
   {
     id: "trivia",
     name: "Trivia",
-    category: "experiment",
+    category: "game",
     label: {
       pt: "JOGO · INTERAÇÃO",
       en: "GAME · INTERACTION",
@@ -349,32 +360,175 @@ export const projects: Project[] = [
         es: "Interfaces de juegos",
       },
     ],
-    url: "https://github.com/RaphaelSR/trivia",
+    url: "https://raphaelsr.github.io/trivia/",
+  },
+
+  {
+    id: "snake",
+    name: "Snake",
+    category: "game",
+    label: {
+      pt: "JOGO · CLÁSSICO",
+      en: "GAME · CLASSIC",
+      es: "JUEGO · CLÁSICO",
+    },
+    description: {
+      pt: "O clássico jogo da cobra, disponível para jogar direto no navegador.",
+      en: "The classic snake game, ready to play in your browser.",
+      es: "El clásico juego de la serpiente, para jugar directamente en el navegador.",
+    },
+    contribution: {
+      pt: "Projeto independente de interação e lógica de jogo. Também inspirou a cobra que escapa do telefone neste portfólio.",
+      en: "An independent project in interaction and game logic. It also inspired the snake that escapes the phone in this portfolio.",
+      es: "Proyecto independiente de interacción y lógica de juego. También inspiró la serpiente que escapa del teléfono en este portafolio.",
+    },
+    stack: ["Web"],
+    url: "https://raphaelsr.github.io/snake-game/",
+  },
+  {
+    id: "mimica",
+    name: "Mímica",
+    category: "game",
+    label: {
+      pt: "JOGO · EM GRUPO",
+      en: "GAME · GROUP PLAY",
+      es: "JUEGO · EN GRUPO",
+    },
+    description: {
+      pt: "Mímica para reunir muita gente em torno de um único celular. Organize as palavras e passe o aparelho a cada rodada.",
+      en: "Charades for a whole group with just one phone. Set up the words and pass the phone around between rounds.",
+      es: "Mímica para reunir a un grupo con un solo celular. Organiza las palabras y pasa el teléfono en cada ronda.",
+    },
+    contribution: {
+      pt: "Interface mobile com lista editável, temporizador ajustável e opção de ocultar a palavra ao passar o celular.",
+      en: "A mobile interface with an editable word list, adjustable timer and a way to hide the word when passing the phone.",
+      es: "Interfaz móvil con lista editable, temporizador ajustable y una opción para ocultar la palabra al pasar el celular.",
+    },
+    stack: ["HTML", "CSS", "JavaScript"],
+    url: "https://raphaelsr.github.io/mimica/",
   },
 ];
-export const toolkit: { title: Label; items: Label[] }[] = [
+export const toolkit: { title: Label; items: ToolName[] }[] = [
   {
     title: "Mobile",
-    items: ["React Native", "Expo", "TypeScript"],
+    items: [
+      "React Native",
+      "Expo",
+      "Kotlin",
+      "React Navigation",
+      "Reanimated",
+      "NativeWind",
+    ],
   },
   {
-    title: "Web & backend",
-    items: ["React", "Next.js", "Node.js / NestJS"],
+    title: "Web",
+    items: [
+      "React",
+      "Next.js",
+      "Vue",
+      "TypeScript",
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "Tailwind CSS",
+      "Three.js",
+      "Storybook",
+    ],
+  },
+  {
+    title: { pt: "Estado e dados", en: "State & data", es: "Estado y datos" },
+    items: [
+      "TanStack Query",
+      "Zustand",
+      "Redux",
+      "MobX",
+      "GraphQL",
+      "Zod",
+      "React Hook Form",
+    ],
+  },
+  {
+    title: "Backend",
+    items: [
+      "Node.js",
+      "NestJS",
+      "Express",
+      "REST APIs",
+      "MongoDB",
+      "SQLite",
+      "Supabase",
+      "PostgreSQL",
+      "Drizzle",
+      "Firebase",
+    ],
   },
   {
     title: {
-      pt: "Qualidade",
-      en: "Quality",
-      es: "Calidad",
+      pt: "Infraestrutura e entrega",
+      en: "Infrastructure & delivery",
+      es: "Infraestructura y entrega",
     },
     items: [
-      "Jest / Maestro",
-      {
-        pt: "Acessibilidade",
-        en: "Accessibility",
-        es: "Accesibilidad",
-      },
-      "Sentry / Firebase",
+      "Railway",
+      "Infisical",
+      "Git",
+      "GitHub Actions",
+      "GitLab",
+      "Azure DevOps",
+      "AWS",
+      "Amazon S3",
+      "Azure",
+      "Clerk",
     ],
+  },
+  {
+    title: {
+      pt: "IA e automação",
+      en: "AI & automation",
+      es: "IA y automatización",
+    },
+    items: ["OpenAI", "AI SDK", "Mastra", "Inngest", "Trigger.dev"],
+  },
+  {
+    title: {
+      pt: "Qualidade e observabilidade",
+      en: "Quality & observability",
+      es: "Calidad y observabilidad",
+    },
+    items: [
+      "Jest",
+      "Cypress",
+      "Maestro",
+      "Playwright",
+      "Sentry",
+      "Rollbar",
+      "Statsig",
+      "PostHog",
+      "LaunchDarkly",
+      "Figma",
+    ],
+  },
+  {
+    title: {
+      pt: "Integrações de produto",
+      en: "Product integrations",
+      es: "Integraciones de producto",
+    },
+    items: [
+      "Google Maps",
+      "Stream",
+      "Typesense",
+      "Algolia",
+      "Customer.io",
+      "Intercom",
+    ],
+  },
+  {
+    title: {
+      pt: "Outras experiências",
+      en: "Earlier experience",
+      es: "Otras experiencias",
+    },
+    items: ["Java", "C#", "Ruby on Rails", "C", "C++"],
   },
 ];

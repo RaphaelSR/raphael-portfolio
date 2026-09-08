@@ -21,6 +21,11 @@ export function ExperienceRow({
         <span className="experience-name">
           <strong>{item.company}</strong>
           <span>{item.title[language]}</span>
+          {item.highlight && (
+            <span className="experience-highlight">
+              {item.highlight[language]}
+            </span>
+          )}
         </span>
         <Icon name="plus" />
       </summary>

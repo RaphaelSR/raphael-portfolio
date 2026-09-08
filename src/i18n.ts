@@ -29,3 +29,7 @@ export function resolveLocale(
 export function localize(label: Label, locale: Locale): string {
   return typeof label === "string" ? label : label[locale];
 }
+export function localeFromPath(path: string): Locale | null {
+  const segment = path.slice(import.meta.env.BASE_URL.length).split("/")[0];
+  return isLocale(segment) ? segment : null;
+}
