@@ -10,7 +10,7 @@ npm ci
 npm run dev
 ```
 
-Open http://127.0.0.1:3010/raphael-portfolio/.
+Open http://127.0.0.1:3010/.
 
 On Raphael's current Mac, this checkout is on the APFS SSD. `node_modules` is a local symlink to `/Users/raphael.rocha/Documents/Codex/dependencies/raphael-portfolio/node_modules` to avoid slow random reads on the external volume. That link is ignored by Git. A normal `npm ci` works on a fresh checkout.
 
@@ -39,9 +39,9 @@ Career dates follow the supplied 2026 résumé. Website copy additionally incorp
 
 ## Publication
 
-Production: https://raphaelsr.github.io/raphael-portfolio/
+Production: https://raphaelrocha.com/
 
-The workflow validates pull requests and `main`. Publishing requires a manual workflow dispatch on `main`, with lint, build, audit and browser tests against the built static site before deployment. GitHub Pages uses GitHub Actions as its source. To test the public release: `PLAYWRIGHT_BASE_URL=https://raphaelsr.github.io/raphael-portfolio/ PLAYWRIGHT_CHANNEL=chrome npm test`.
+The workflow validates pull requests and `main`. Publishing requires a manual workflow dispatch on `main`, with lint, build, audit and browser tests against the built static site before deployment. GitHub Pages uses GitHub Actions as its source. To test the public release: `PLAYWRIGHT_BASE_URL=https://raphaelrocha.com/ PLAYWRIGHT_CHANNEL=chrome npm test`.
 
 ## Design references
 
