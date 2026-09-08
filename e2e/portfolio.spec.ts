@@ -262,10 +262,10 @@ test("professional work leads, with games discoverable in their category", async
   await page.getByRole("button", { name: "Online games 3" }).click();
   await expect(page.locator(".project-card:visible")).toHaveCount(3);
   await expect(page.locator(".phone-device")).toBeVisible();
-  for (const path of ["trivia", "snake-game", "mimica"]) {
+  for (const path of ["trivia", "snake", "mimica"]) {
     await expect(
       page.locator(
-        `.project-card a[href="https://raphaelsr.github.io/${path}/"]`,
+        `.project-card a[href="https://${path}.raphaelrocha.com/"]`,
       ),
     ).toBeVisible();
   }
