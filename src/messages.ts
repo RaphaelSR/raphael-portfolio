@@ -6,7 +6,7 @@ const en = {
   eyebrow: "MOBILE · FULL STACK · AI",
   hero: ["Raphael Rocha.", "Senior Mobile Engineer"],
   intro:
-    "I build mobile products with the engineering breadth to connect apps, web experiences and backend services. My focus is turning product decisions into reliable software people can use.",
+    "I build mobile products from architecture to release, connecting apps, web experiences and backend services. I work closely with product and design to turn business needs into reliable software.",
   workCta: "Explore my work",
   resume: "Résumé",
   focusLabel: "HOW I CONTRIBUTE",
@@ -44,7 +44,7 @@ const en = {
   projectsLabel: "02 / SELECTED WORK",
   projectsTitle: "Selected work.",
   projectsIntro:
-    "Products I’ve contributed to and independent projects I build to explore new solutions.",
+    "Professional contributions, independent tools and games. Explore each category to see the work behind them.",
   all: "All",
   product: "Products",
   experiment: "Experiments",
@@ -98,7 +98,7 @@ export const copy: Localized<Messages> = {
     eyebrow: "MOBILE · FULL STACK · AI",
     hero: ["Raphael Rocha.", "Senior Mobile Engineer"],
     intro:
-      "Desenvolvo produtos mobile com a visão de engenharia necessária para conectar aplicativos, experiências web e serviços de backend. Meu foco é transformar decisões de produto em software confiável no uso real.",
+      "Desenvolvo produtos mobile da arquitetura à publicação, conectando aplicativos, web e serviços de backend. Trabalho próximo de produto e design para transformar necessidades de negócio em software confiável.",
     workCta: "Conheça meu trabalho",
     resume: "Currículo",
     focusLabel: "COMO EU CONTRIBUO",
@@ -136,7 +136,7 @@ export const copy: Localized<Messages> = {
     projectsLabel: "02 / TRABALHOS SELECIONADOS",
     projectsTitle: "Trabalhos selecionados.",
     projectsIntro:
-      "Produtos em que contribuí e projetos independentes que desenvolvo para explorar novas soluções.",
+      "Contribuições profissionais, ferramentas independentes e jogos. Explore cada categoria para conhecer os projetos e minha atuação.",
     all: "Todos",
     product: "Produtos",
     experiment: "Experimentos",
@@ -187,7 +187,7 @@ export const copy: Localized<Messages> = {
     eyebrow: "MOBILE · FULL STACK · IA",
     hero: ["Raphael Rocha.", "Senior Mobile Engineer"],
     intro:
-      "Desarrollo productos móviles con la visión de ingeniería necesaria para conectar aplicaciones, experiencias web y servicios de backend. Mi foco es convertir decisiones de producto en software fiable en el uso real.",
+      "Desarrollo productos móviles desde la arquitectura hasta la publicación, conectando aplicaciones, web y servicios de backend. Trabajo junto a producto y diseño para convertir necesidades de negocio en software fiable.",
     workCta: "Conoce mi trabajo",
     resume: "Currículum",
     focusLabel: "CÓMO CONTRIBUYO",
@@ -225,7 +225,7 @@ export const copy: Localized<Messages> = {
     projectsLabel: "02 / PROYECTOS SELECCIONADOS",
     projectsTitle: "Proyectos seleccionados.",
     projectsIntro:
-      "Productos en los que he contribuido y proyectos independientes que desarrollo para explorar nuevas soluciones.",
+      "Contribuciones profesionales, herramientas independientes y juegos. Explora cada categoría para conocer los proyectos y mi participación.",
     all: "Todos",
     product: "Productos",
     experiment: "Experimentos",

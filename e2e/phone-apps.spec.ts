@@ -63,6 +63,10 @@ for (const locale of ["en", "pt", "es"] as const) {
         external.push(request.url());
     });
     await page.goto(`./${locale}/`);
+    await page
+      .locator(".filters button")
+      .filter({ hasText: /Online games|Jogos online|Juegos online/ })
+      .click();
     const phone = page.locator(".phone-device");
     for (const app of labels[locale].apps) {
       await phone
@@ -103,6 +107,10 @@ test("personal apps retain edits and support their secondary controls", async ({
   page,
 }) => {
   await page.goto("./en/");
+  await page
+    .locator(".filters button")
+    .filter({ hasText: /Online games|Jogos online|Juegos online/ })
+    .click();
   const phone = page.locator(".phone-device");
   const open = (app: string) =>
     phone.getByRole("button", { name: app, exact: true }).first().click();
@@ -192,6 +200,10 @@ test("dark apps remain accessible and browser frames cannot access the portfolio
 }) => {
   test.setTimeout(120000);
   await page.goto("./en/");
+  await page
+    .locator(".filters button")
+    .filter({ hasText: /Online games|Jogos online|Juegos online/ })
+    .click();
   const phone = page.locator(".phone-device");
   const open = (name: string) =>
     phone.getByRole("button", { name, exact: true }).first().click();
@@ -266,6 +278,10 @@ test("published sibling projects use external launch while arbitrary embeds stay
     },
   );
   await page.goto("https://raphaelsr.github.io/raphael-portfolio/en/");
+  await page
+    .locator(".filters button")
+    .filter({ hasText: /Online games|Jogos online|Juegos online/ })
+    .click();
   const phone = page.locator(".phone-device");
   await phone.getByRole("button", { name: "Browser", exact: true }).click();
   await phone.getByRole("button", { name: "Trivia", exact: true }).click();

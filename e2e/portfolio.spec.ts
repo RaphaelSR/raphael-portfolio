@@ -52,7 +52,7 @@ test("language, keyboard navigation, details and modal focus", async ({
     page.getByText("Modernizing the mobile codebase", { exact: false }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Experiments 1" }).click();
-  await expect(page.locator(".project-card")).toHaveCount(1);
+  await expect(page.locator(".project-card:visible")).toHaveCount(1);
   await expect(
     page.getByRole("heading", { name: "ModPro AI", exact: true }),
   ).toHaveCount(0);
@@ -248,3 +248,50 @@ test("language selection remains usable without persistent storage", async ({
   await page.getByRole("combobox").selectOption("es");
   await expect(page.locator("html")).toHaveAttribute("lang", "es");
 });
+
+test("professional work leads, with games discoverable in their category", async ({
+  page,
+}) => {
+  await page.goto("./en/");
+  await expect(
+    page.getByRole("button", { name: "Products 2" }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator(".project-card:visible")).toHaveCount(2);
+  await expect(page.locator(".phone-device")).toHaveCount(0);
+  await expect(page.locator("a[download]")).toHaveCount(1);
+  await page.getByRole("button", { name: "Online games 3" }).click();
+  await expect(page.locator(".project-card:visible")).toHaveCount(3);
+  await expect(page.locator(".phone-device")).toBeVisible();
+  for (const path of ["trivia", "snake-game", "mimica"]) {
+    await expect(
+      page.locator(
+        `.project-card a[href="https://raphaelsr.github.io/${path}/"]`,
+      ),
+    ).toBeVisible();
+  }
+  await page.getByRole("button", { name: "All 6" }).click();
+  await expect(page.locator(".project-card:visible")).toHaveCount(6);
+});
+
+for (const width of [320, 768])
+  test(`contact is reachable from the keyboard menu at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("./en/");
+    const menu = page.getByRole("button", { name: "Open menu", exact: true });
+    await menu.click();
+    const navigation = page.getByRole("navigation", {
+      name: "Main navigation",
+    });
+    await expect(navigation.getByRole("link", { name: /Home/ })).toBeFocused();
+    await navigation.getByRole("link", { name: /Let’s talk/ }).click();
+    await expect(navigation).toBeHidden();
+    await expect(page).toHaveURL(/#contact$/);
+    await expect(
+      page.getByRole("link", { name: "Résumé", exact: true }),
+    ).toBeInViewport();
+    await menu.click();
+    await page.keyboard.press("Escape");
+    await expect(menu).toBeFocused();
+  });
