@@ -54,10 +54,11 @@ for (const locale of ["en", "pt", "es"] as const) {
   }, testInfo) => {
     test.setTimeout(120000);
     await page.setViewportSize({ width: 320, height: 900 });
+    const origin = new URL(testInfo.project.use.baseURL as string).origin;
     const external: string[] = [];
     page.on("request", (request) => {
       if (
-        !request.url().startsWith("http://127.0.0.1") &&
+        !request.url().startsWith(`${origin}/`) &&
         !request.url().startsWith("data:")
       )
         external.push(request.url());
