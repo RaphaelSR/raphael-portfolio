@@ -109,6 +109,15 @@ export function PhoneSimulator({ language }: { language: Locale }) {
       launcher.current?.focus({ preventScroll: true }),
     );
   }, []);
+  useEffect(() => {
+    if (!app) return;
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && !document.querySelector("dialog[open]"))
+        closeApp();
+    };
+    window.addEventListener("keydown", onEscape);
+    return () => window.removeEventListener("keydown", onEscape);
+  }, [app, closeApp]);
   const demoArt = useRef<SVGSVGElement>(null);
   const maskId = useId();
   const [phase, setPhase] = useState<Phase>("home");
@@ -130,8 +139,6 @@ export function PhoneSimulator({ language }: { language: Locale }) {
       document.documentElement.removeAttribute("data-phone-sequence");
     };
     const cancel = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && !document.querySelector("dialog[open]"))
-        closeApp();
       if (
         sequence.current &&
         !document.querySelector("dialog[open]") &&
@@ -177,7 +184,7 @@ export function PhoneSimulator({ language }: { language: Locale }) {
       window.removeEventListener("resize", reset);
       document.removeEventListener("visibilitychange", hidden);
     };
-  }, [closeApp]);
+  }, []);
   useEffect(() => {
     const phone = device.current!;
     let visible = false;

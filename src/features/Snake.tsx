@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { Locale } from "../i18n";
+import { readContent } from "./snake-content";
 import { featureCopy } from "./copy";
 import {
   canTurn,
@@ -17,97 +18,6 @@ export type SnakeOrigin = {
   reducedMotion?: boolean;
 };
 const size = 20;
-type PhoneBite = { mask: SVGMaskElement; left: number; top: number };
-type Bite = {
-  ranges: Range[];
-  elements: Set<HTMLElement | SVGElement>;
-  phone?: PhoneBite;
-};
-function readContent() {
-  const food = new Map<string, Bite>();
-  const add = (
-    rect: DOMRect,
-    range?: Range,
-    element?: HTMLElement | SVGElement,
-    phone?: PhoneBite,
-  ) => {
-    const top = rect.top + window.scrollY;
-    for (
-      let y = Math.floor(top / size);
-      y <= Math.floor((top + rect.height - 1) / size);
-      y++
-    ) {
-      for (
-        let x = Math.max(0, Math.floor(rect.left / size));
-        x <=
-        Math.min(
-          Math.floor(innerWidth / size) - 1,
-          Math.floor((rect.right - 1) / size),
-        );
-        x++
-      ) {
-        const key = `${x}:${y}`;
-        const bite: Bite = food.get(key) ?? {
-          ranges: [],
-          elements: new Set<HTMLElement | SVGElement>(),
-        };
-        if (range) bite.ranges.push(range);
-        if (element) bite.elements.add(element);
-        if (phone) bite.phone = phone;
-        food.set(key, bite);
-      }
-    }
-  };
-  const root = document.getElementById("root")!;
-  const skip =
-    'dialog,script,style,.studio-tools,.phone-device,[aria-hidden="true"],[hidden]';
-  root
-    .querySelectorAll<HTMLElement | SVGElement>(
-      "button,a,img,svg,hr,.tags span",
-    )
-    .forEach((element) => {
-      if (element.closest(skip)) return;
-      const rect = element.getBoundingClientRect();
-      if (
-        rect.width &&
-        rect.height &&
-        getComputedStyle(element).visibility !== "hidden"
-      )
-        add(rect, undefined, element);
-    });
-  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
-  let node: Node | null;
-  while ((node = walker.nextNode())) {
-    if (node.parentElement?.closest(skip + ",a,.tags span")) continue;
-    if (node.parentElement?.closest("button")) continue;
-    if (
-      node.parentElement &&
-      getComputedStyle(node.parentElement).visibility === "hidden"
-    )
-      continue;
-    for (let i = 0; i < (node.textContent?.length ?? 0); i++) {
-      if (!node.textContent![i].trim()) continue;
-      const range = document.createRange();
-      range.setStart(node, i);
-      range.setEnd(node, i + 1);
-      const rect = range.getBoundingClientRect();
-      if (rect.width && rect.height) add(rect, range);
-    }
-  }
-  const phone = root.querySelector<HTMLElement>(
-    '.phone-stage[data-phase="escaped"] .phone-device',
-  );
-  const mask = phone?.querySelector<SVGMaskElement>("[data-phone-mask]");
-  if (phone && mask) {
-    const rect = phone.getBoundingClientRect();
-    add(rect, undefined, undefined, {
-      mask,
-      left: rect.left,
-      top: rect.top + window.scrollY,
-    });
-  }
-  return food;
-}
 export function Snake({
   language,
   close,
@@ -144,7 +54,7 @@ export function Snake({
     const originalScroll = window.scrollY;
     const columns = Math.floor(innerWidth / size),
       rows = Math.ceil(document.documentElement.scrollHeight / size);
-    const food = readContent();
+    const { food, floating } = readContent(size);
     const eaten = new Highlight();
     const hidden = new Map<HTMLElement | SVGElement, string>();
     const consumed = new Set<Range>();
@@ -336,9 +246,23 @@ export function Snake({
         const bite = food.get(`${destination.x}:${destination.y}`);
         const ranges =
           bite?.ranges.filter((range) => !consumed.has(range)) ?? [];
-        const elements = [...(bite?.elements ?? [])].filter(
-          (element) => !hidden.has(element),
-        );
+        const floatingHere = floating.filter((element) => {
+          if (hidden.has(element)) return false;
+          const rect = element.getBoundingClientRect();
+          const x = destination.x * size,
+            y = destination.y * size - window.scrollY;
+          return (
+            rect.width > 0 &&
+            rect.height > 0 &&
+            x < rect.right &&
+            x + size > rect.left &&
+            y < rect.bottom &&
+            y + size > rect.top
+          );
+        });
+        const elements = [
+          ...new Set([...(bite?.elements ?? []), ...floatingHere]),
+        ].filter((element) => !hidden.has(element));
         const falling = pieces.filter(
           (piece) =>
             destination.x * size < piece.x + piece.width &&
