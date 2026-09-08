@@ -51,8 +51,8 @@ test("language, keyboard navigation, details and modal focus", async ({
   await expect(
     page.getByText("Modernizing the mobile codebase", { exact: false }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Experiments 2" }).click();
-  await expect(page.locator(".project-card")).toHaveCount(2);
+  await page.getByRole("button", { name: "Experiments 1" }).click();
+  await expect(page.locator(".project-card")).toHaveCount(1);
   await expect(
     page.getByRole("heading", { name: "ModPro AI", exact: true }),
   ).toHaveCount(0);

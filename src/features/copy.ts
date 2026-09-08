@@ -10,7 +10,6 @@ const en = {
   blueprint: "Toggle blueprint",
   blueprintOff: "Exit blueprint",
   snake: "Snake: devour the page",
-  original: "Play the original Snake",
   extra: "Another experiment:",
   intro: "A few decisions behind the experience you’re browsing.",
   cards: [
@@ -59,7 +58,6 @@ export const featureCopy: Localized<typeof en> = {
     blueprint: "Alternar blueprint",
     blueprintOff: "Sair do blueprint",
     snake: "Snake: devorar a página",
-    original: "Jogar o Snake original",
     extra: "Outro experimento:",
     intro: "Algumas decisões por trás da experiência que você está navegando.",
     cards: [
@@ -106,7 +104,6 @@ export const featureCopy: Localized<typeof en> = {
     blueprint: "Alternar blueprint",
     blueprintOff: "Salir del blueprint",
     snake: "Snake: devorar la página",
-    original: "Jugar al Snake original",
     extra: "Otro experimento:",
     intro: "Algunas decisiones detrás de la experiencia que estás explorando.",
     cards: [
@@ -143,4 +140,3 @@ export const featureCopy: Localized<typeof en> = {
     right: "Derecha",
   },
 };
-export const snakeUrl = "https://raphaelsr.github.io/snake-game/";

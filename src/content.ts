@@ -245,7 +245,7 @@ export const experience: Experience[] = [
 export interface Project {
   id: string;
   name: string;
-  category: "product" | "experiment";
+  category: "product" | "experiment" | "game";
   label: Localized<string>;
   description: Localized<string>;
   contribution: Localized<string>;
@@ -336,7 +336,7 @@ export const projects: Project[] = [
   {
     id: "trivia",
     name: "Trivia",
-    category: "experiment",
+    category: "game",
     label: {
       pt: "JOGO · INTERAÇÃO",
       en: "GAME · INTERACTION",
@@ -361,6 +361,51 @@ export const projects: Project[] = [
       },
     ],
     url: "https://raphaelsr.github.io/trivia/",
+  },
+
+  {
+    id: "snake",
+    name: "Snake",
+    category: "game",
+    label: {
+      pt: "JOGO · CLÁSSICO",
+      en: "GAME · CLASSIC",
+      es: "JUEGO · CLÁSICO",
+    },
+    description: {
+      pt: "O clássico jogo da cobra, disponível para jogar direto no navegador.",
+      en: "The classic snake game, ready to play in your browser.",
+      es: "El clásico juego de la serpiente, para jugar directamente en el navegador.",
+    },
+    contribution: {
+      pt: "Projeto independente de interação e lógica de jogo. Também inspirou a cobra que escapa do telefone neste portfólio.",
+      en: "An independent project in interaction and game logic. It also inspired the snake that escapes the phone in this portfolio.",
+      es: "Proyecto independiente de interacción y lógica de juego. También inspiró la serpiente que escapa del teléfono en este portafolio.",
+    },
+    stack: ["Web"],
+    url: "https://raphaelsr.github.io/snake-game/",
+  },
+  {
+    id: "mimica",
+    name: "Mímica",
+    category: "game",
+    label: {
+      pt: "JOGO · EM GRUPO",
+      en: "GAME · GROUP PLAY",
+      es: "JUEGO · EN GRUPO",
+    },
+    description: {
+      pt: "Mímica para reunir muita gente em torno de um único celular. Organize as palavras e passe o aparelho a cada rodada.",
+      en: "Charades for a whole group with just one phone. Set up the words and pass the phone around between rounds.",
+      es: "Mímica para reunir a un grupo con un solo celular. Organiza las palabras y pasa el teléfono en cada ronda.",
+    },
+    contribution: {
+      pt: "Interface mobile com lista editável, temporizador ajustável e opção de ocultar a palavra ao passar o celular.",
+      en: "A mobile interface with an editable word list, adjustable timer and a way to hide the word when passing the phone.",
+      es: "Interfaz móvil con lista editable, temporizador ajustable y una opción para ocultar la palabra al pasar el celular.",
+    },
+    stack: ["HTML", "CSS", "JavaScript"],
+    url: "https://raphaelsr.github.io/mimica/",
   },
 ];
 export const toolkit: { title: Label; items: ToolName[] }[] = [

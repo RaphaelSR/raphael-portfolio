@@ -434,7 +434,7 @@ export function PhoneApps({
             ) : (
               <div className="mock-bookmarks">
                 {projects
-                  .filter((p) => p.category === "experiment")
+                  .filter((p) => p.category !== "product")
                   .map((project) => (
                     <button
                       key={project.id}

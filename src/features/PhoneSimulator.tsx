@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { Locale } from "../i18n";
-import { snakeUrl } from "./copy";
 import "./phone.css";
 import { PhoneApps, type PhoneApp } from "./PhoneApps";
 import { SnakeArt } from "./SnakeArt";
@@ -10,7 +9,6 @@ const copy = {
     text: "Entre aplicativos e interfaces, também há espaço para brincar. Toque no Snake para experimentar.",
     label: "EXPERIMENTO INTERATIVO",
     play: "Jogar Snake",
-    original: "Abrir o jogo original",
     maps: "Mapas",
     calendar: "Calendário",
     photos: "Fotos",
@@ -31,7 +29,6 @@ const copy = {
     text: "Between apps and interfaces, there’s room to play. Tap Snake to give it a try.",
     label: "INTERACTIVE EXPERIMENT",
     play: "Play Snake",
-    original: "Open the original game",
     maps: "Maps",
     calendar: "Calendar",
     photos: "Photos",
@@ -52,7 +49,6 @@ const copy = {
     text: "Entre aplicaciones e interfaces, también hay espacio para jugar. Toca Snake para probar.",
     label: "EXPERIMENTO INTERACTIVO",
     play: "Jugar Snake",
-    original: "Abrir el juego original",
     maps: "Mapas",
     calendar: "Calendario",
     photos: "Fotos",
@@ -232,9 +228,6 @@ export function PhoneSimulator({ language }: { language: Locale }) {
         <p className="eyebrow">{t.label}</p>
         <h3>{t.title}</h3>
         <p>{t.text}</p>
-        <a href={snakeUrl} target="_blank" rel="noopener noreferrer">
-          {t.original} ↗
-        </a>
       </div>
       <div className="phone-stage" data-phase={phase}>
         <div ref={device} className="phone-device" data-dark={dark}>
