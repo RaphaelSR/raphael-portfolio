@@ -33,7 +33,7 @@ const en = {
   gameTitle: "Snake between the lines",
   gameHelp:
     "Devour the page. Click, tap, or use arrows / WASD to guide. Space pauses. Esc brings everything back.",
-  score: "Bites",
+  score: "Score",
   pause: "Pause",
   resume: "Resume",
   restart: "Restart",
@@ -82,7 +82,7 @@ export const featureCopy: Localized<typeof en> = {
     gameTitle: "Snake entre as linhas",
     gameHelp:
       "Devore a página. Clique, toque ou use setas / WASD para guiar. Espaço pausa. Esc traz tudo de volta.",
-    score: "Mordidas",
+    score: "Score",
     pause: "Pausar",
     resume: "Continuar",
     restart: "Recomeçar",
@@ -129,7 +129,7 @@ export const featureCopy: Localized<typeof en> = {
     gameTitle: "Snake entre líneas",
     gameHelp:
       "Devora la página. Haz clic, toca o usa flechas / WASD para guiar. Espacio pausa. Esc restaura todo.",
-    score: "Bocados",
+    score: "Score",
     pause: "Pausar",
     resume: "Continuar",
     restart: "Reiniciar",

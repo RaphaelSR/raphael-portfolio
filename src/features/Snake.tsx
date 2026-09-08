@@ -485,15 +485,28 @@ export function Snake({
       <canvas ref={canvas} className="snake-canvas" aria-hidden="true" />
       <SnakeArt surface={art} />
       <div className="snake-hud">
-        <div>
-          <h2 id="tools-title">{t.gameTitle}</h2>
-        </div>
+        <h2 id="tools-title" className="snake-title">
+          {t.gameTitle}
+        </h2>
         <p role="status">{ended ? t[ended] : `${t.score}: ${score}`}</p>
         <div className="tools-actions">
-          <button onClick={() => control.current?.pause()} disabled={!!ended}>
-            {paused ? t.resume : t.pause}
+          <button
+            onClick={() => control.current?.pause()}
+            disabled={!!ended}
+            aria-label={paused ? t.resume : t.pause}
+            title={paused ? t.resume : t.pause}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              {paused ? (
+                <path d="m9 5 10 7-10 7Z" />
+              ) : (
+                <path d="M8 5v14M16 5v14" />
+              )}
+            </svg>
           </button>
           <button
+            aria-label={t.restart}
+            title={t.restart}
             onClick={() => {
               setScore(0);
               setPaused(false);
@@ -501,16 +514,30 @@ export function Snake({
               setRound((value) => value + 1);
             }}
           >
-            {t.restart}
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 10a8 8 0 1 1 2 8M4 4v6h6" />
+            </svg>
           </button>
-          <button onClick={close}>{t.close} · Esc</button>
+          <button
+            onClick={close}
+            aria-label={`${t.close} · Esc`}
+            title={`${t.close} · Esc`}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m6 6 12 12M6 18 18 6" />
+            </svg>
+          </button>
         </div>
         <details className="snake-help">
-          <summary>{t.help}</summary>
-          <p>{t.gameHelp}</p>
-          <a href={snakeUrl} target="_blank" rel="noopener noreferrer">
-            {t.original} ↗
-          </a>
+          <summary aria-label={t.help} title={t.help}>
+            ?
+          </summary>
+          <div className="snake-help-content">
+            <p>{t.gameHelp}</p>
+            <a href={snakeUrl} target="_blank" rel="noopener noreferrer">
+              {t.original} ↗
+            </a>
+          </div>
         </details>
         <div className="snake-directions">
           {(["left", "up", "down", "right"] as const).map(
