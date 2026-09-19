@@ -132,8 +132,8 @@ export default function App({
         <div className="header-inner">
           <div className="wordmark">
             <Portrait motion={motion} language={language} />
-            <a href="#home" aria-label={`Raphael Rocha — ${t.home}`}>
-              Raphael Rocha
+            <a href="#home" title={t.home}>
+              Raphael Rocha{" "}
               <span className="wordmark-sub">SOFTWARE ENGINEER</span>
             </a>
           </div>
