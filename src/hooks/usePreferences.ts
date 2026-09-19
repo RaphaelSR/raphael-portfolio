@@ -1,4 +1,4 @@
-import { copy } from "../messages";
+import { updateMetadata } from "../seo";
 import { useEffect, useState } from "react";
 import {
   documentLanguages,
@@ -48,15 +48,7 @@ export function usePreferences(initialLocale: Locale) {
   }, []);
   useEffect(() => {
     document.documentElement.lang = documentLanguages[language];
-    document
-      .querySelector('meta[name="description"]')
-      ?.setAttribute("content", copy[language].intro);
-    document
-      .querySelector('link[rel="canonical"]')
-      ?.setAttribute(
-        "href",
-        `https://portfolio.raphaelrocha.com${import.meta.env.BASE_URL}${language}/`,
-      );
+    updateMetadata(language);
   }, [language]);
   useEffect(() => {
     document.documentElement.dataset.motion = motion && !reduced ? "on" : "off";
