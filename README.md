@@ -95,3 +95,12 @@ The mock apps make no external requests until the visitor explicitly navigates i
 Selected work opens with professional products; experiments, online games and the complete collection have their own filters. All project content remains in the pre-rendered HTML and is visible without JavaScript. Each card has a single title, contribution, technology tags and a project link. The phone is a secondary discovery within Online games and All. The mobile navigation includes Contact, moves keyboard focus into the opened menu and closes on Escape, outside interaction or focus leaving the header. The résumé download stays exclusively in Contact.
 
 The refinement follows the sites-building skill, [W3C menu guidance](https://www.w3.org/WAI/tutorials/menus/) and [Nielsen Norman Group’s progressive disclosure guidance](https://www.nngroup.com/articles/progressive-disclosure/). Body copy and primary controls use a more legible type scale; metadata stays quieter.
+
+### Search metadata
+
+`src/seo.ts` is the shared source for localized search titles, descriptions and
+ProfilePage/Person structured data. Prerendering includes these in each language's
+HTML, along with canonical/hreflang links and a local 1200×630 sharing image.
+Language navigation also updates the document metadata. `e2e/seo.spec.ts` checks
+non-JavaScript content and browser history. Search rankings and actual indexing
+must be observed separately through Search Console.
