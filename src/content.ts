@@ -402,6 +402,24 @@ export const projects: Project[] = [
     url: "https://3d.raphaelrocha.com/",
   },
   {
+    id: "flybrain",
+    name: "Fly Brain Bench",
+    category: "experiment",
+    label: { pt: "ESTUDO · SIMULAÇÃO NEURAL", en: "STUDY · NEURAL SIMULATION", es: "ESTUDIO · SIMULACIÓN NEURONAL" },
+    description: {
+      pt: "Estudo interativo de atividade neural baseado no conectoma FlyWire da mosca-da-fruta. Permite aplicar estímulos e observar a propagação de sinais em um modelo simplificado.",
+      en: "An interactive study of neural activity based on the fruit fly’s FlyWire connectome. Apply stimuli and observe signal propagation in a simplified model.",
+      es: "Estudio interactivo de actividad neuronal basado en el conectoma FlyWire de la mosca de la fruta. Permite aplicar estímulos y observar la propagación de señales en un modelo simplificado.",
+    },
+    contribution: {
+      pt: "Simulação leaky integrate-and-fire em Web Worker, visualização WebGL2 e pipeline Python para compactar e validar os dados. A animação corporal usa um decodificador computacional; não representa uma reprodução completa do cérebro ou do comportamento real. Dados FlyWire e modelo de Shiu et al., com créditos no projeto.",
+      en: "Leaky integrate-and-fire simulation in a Web Worker, WebGL2 visualization and a Python pipeline for data packing and validation. Body animation uses a computational decoder; it is not a complete reproduction of the brain or real behavior. FlyWire data and the Shiu et al. model are credited in the project.",
+      es: "Simulación leaky integrate-and-fire en un Web Worker, visualización WebGL2 y pipeline Python para compactar y validar datos. La animación corporal utiliza un decodificador computacional; no es una reproducción completa del cerebro ni del comportamiento real. Datos FlyWire y modelo de Shiu et al., con créditos en el proyecto.",
+    },
+    stack: ["JavaScript", "WebGL2", "Web Workers", "Python"],
+    url: "https://flybrain.raphaelrocha.com/",
+  },
+  {
     id: "trivia",
     name: "Trivia",
     category: "game",
