@@ -1,3 +1,4 @@
+import AxeBuilder from "@axe-core/playwright";
 import { test, expect } from "@playwright/test";
 for (const locale of ["en", "pt", "es"]) {
   test(`SEO: ${locale} is complete without JavaScript`, async ({
@@ -55,3 +56,11 @@ test("SEO metadata follows language selection and browser history", async ({
     "https://portfolio.raphaelrocha.com/en/",
   );
 });
+
+for (const locale of ["en", "pt", "es"]) {
+  test(`visible labels match accessible names in ${locale}`, async ({ page }) => {
+    await page.goto(`${locale}/`);
+    const results = await new AxeBuilder({ page }).withRules(["label-content-name-mismatch"]).analyze();
+    expect(results.violations).toEqual([]);
+  });
+}
