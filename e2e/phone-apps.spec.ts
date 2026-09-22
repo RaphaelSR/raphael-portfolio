@@ -100,7 +100,7 @@ for (const locale of ["en", "pt", "es"] as const) {
         .getByRole("button", { name: labels[locale].home, exact: true })
         .click();
     }
-    expect(external).toEqual([]);
+    expect(external).toEqual(["https://raphaelrocha.com/analytics.js"]);
   });
 }
 
