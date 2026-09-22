@@ -402,6 +402,24 @@ export const projects: Project[] = [
     url: "https://3d.raphaelrocha.com/",
   },
   {
+    id: "basilica",
+    name: "Basílica de Nazaré",
+    category: "experiment",
+    label: { pt: "ESTUDO · ARQUITETURA 3D", en: "STUDY · 3D ARCHITECTURE", es: "ESTUDIO · ARQUITECTURA 3D" },
+    description: {
+      pt: "Miniatura interativa da Basílica de Nazaré, em Belém, que revela sua arquitetura em uma animação de construção.",
+      en: "An interactive miniature of the Basilica of Nazaré in Belém, revealing its architecture through a construction animation.",
+      es: "Miniatura interactiva de la Basílica de Nazaré, en Belém, que revela su arquitectura mediante una animación de construcción.",
+    },
+    contribution: {
+      pt: "Geometria e materiais procedurais em Three.js, animação de montagem em shaders, linha do tempo e câmeras de detalhe. Interpretação estilizada a partir de referências visuais; não é uma reconstrução métrica do edifício.",
+      en: "Procedural geometry and materials in Three.js, shader-driven assembly, a timeline and detail cameras. A stylized interpretation from visual references, not a measured reconstruction of the building.",
+      es: "Geometría y materiales procedurales en Three.js, montaje animado con shaders, línea de tiempo y cámaras de detalle. Interpretación estilizada a partir de referencias visuales, no una reconstrucción métrica del edificio.",
+    },
+    stack: ["Three.js", "React", "TypeScript", "WebGL"],
+    url: "https://basilica.raphaelrocha.com/",
+  },
+  {
     id: "flybrain",
     name: "Fly Brain Bench",
     category: "experiment",
