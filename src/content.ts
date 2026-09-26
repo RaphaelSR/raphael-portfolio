@@ -420,6 +420,28 @@ export const projects: Project[] = [
     url: "https://basilica.raphaelrocha.com/",
   },
   {
+    id: "cantinho",
+    name: "Cantinho",
+    category: "experiment",
+    label: {
+      pt: "FERRAMENTA CRIATIVA · 3D",
+      en: "CREATIVE TOOL · 3D",
+      es: "HERRAMIENTA CREATIVA · 3D",
+    },
+    description: {
+      pt: "Um estúdio 3D no navegador para criar casas, editar andares e cômodos, decorar e explorar a luz ao longo do dia.",
+      en: "A browser-based 3D studio for creating homes, editing floors and rooms, decorating, and exploring daylight.",
+      es: "Un estudio 3D en el navegador para crear casas, editar plantas y habitaciones, decorar y explorar la luz del día.",
+    },
+    contribution: {
+      pt: "Cena em Three.js e React Three Fiber, ferramentas de construção e edição, materiais procedurais, salvamento local e compartilhamento por link sem servidor.",
+      en: "A Three.js and React Three Fiber scene with building and editing tools, procedural materials, local saving, and serverless link sharing.",
+      es: "Escena en Three.js y React Three Fiber con herramientas de construcción y edición, materiales procedurales, guardado local y enlaces para compartir sin servidor.",
+    },
+    stack: ["Three.js", "React", "TypeScript"],
+    url: "https://cantinho.raphaelrocha.com/",
+  },
+  {
     id: "flybrain",
     name: "Fly Brain Bench",
     category: "experiment",

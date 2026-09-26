@@ -51,8 +51,8 @@ test("language, keyboard navigation, details and modal focus", async ({
   await expect(
     page.getByText("Modernizing the mobile codebase", { exact: false }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Experiments 3" }).click();
-  await expect(page.locator(".project-card:visible")).toHaveCount(3);
+  await page.getByRole("button", { name: "Experiments 4" }).click();
+  await expect(page.locator(".project-card:visible")).toHaveCount(4);
   await expect(
     page.getByRole("heading", { name: "ModPro AI", exact: true }),
   ).toHaveCount(0);
@@ -269,8 +269,8 @@ test("professional work leads, with games discoverable in their category", async
       ),
     ).toBeVisible();
   }
-  await page.getByRole("button", { name: "All 10" }).click();
-  await expect(page.locator(".project-card:visible")).toHaveCount(10);
+  await page.getByRole("button", { name: "All 11" }).click();
+  await expect(page.locator(".project-card:visible")).toHaveCount(11);
 });
 
 for (const width of [320, 768])
