@@ -97,7 +97,7 @@ test("mobile menu closes with Escape and navigation remains usable", async ({
   ).not.toBeVisible();
   await expect(page).toHaveURL(/#work$/);
 });
-test("resume is a real PDF and direct contact details are absent", async ({ page }) => {
+test("resume is a real PDF and personal contact links lead to the main site", async ({ page }) => {
   await page.goto("./");
   const downloadPromise = page.waitForEvent("download");
   await page
@@ -112,6 +112,7 @@ test("resume is a real PDF and direct contact details are absent", async ({ page
     page.locator('a[href^="mailto:"], a[href^="tel:"], a[href*="wa.me"]'),
   ).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Copiar e-mail" })).toHaveCount(0);
+  await expect(page.locator('.contact-section a[href="https://raphaelrocha.com/"]')).toHaveCount(1);
 });
 test("reduced motion and manual motion preference", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });

@@ -441,6 +441,7 @@ export default function App({
             </div>
             <p>{t.contactText}</p>
             <div className="social-links">
+              <External href="https://raphaelrocha.com/">raphaelrocha.com</External>
               <External href={links.linkedin}>LinkedIn</External>
               <External href={links.github}>GitHub</External>
               <a href={links.resume} download>
