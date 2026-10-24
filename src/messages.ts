@@ -76,9 +76,6 @@ const en = {
   contactTitle: "Let’s talk about\nyour next product.",
   contactText:
     "For conversations about product development, technical challenges or opportunities to work together.",
-  copyEmail: "Copy email",
-  copied: "Email copied",
-  copyFailed: "Could not copy. The address is available in the email link.",
   footer: "Raphael Rocha · Software engineering",
   back: "Back to top",
   navigation: "Main navigation",
@@ -168,9 +165,6 @@ export const copy: Localized<Messages> = {
     contactTitle: "Vamos falar sobre\nseu próximo produto.",
     contactText:
       "Para conversar sobre desenvolvimento de produtos, desafios técnicos ou oportunidades de colaboração.",
-    copyEmail: "Copiar e-mail",
-    copied: "E-mail copiado",
-    copyFailed: "Não foi possível copiar. O endereço está disponível no link.",
     footer: "Raphael Rocha · Engenharia de software",
     back: "Voltar ao início",
     navigation: "Navegação principal",
@@ -257,9 +251,6 @@ export const copy: Localized<Messages> = {
     contactTitle: "Hablemos de\ntu próximo producto.",
     contactText:
       "Para conversar sobre desarrollo de productos, desafíos técnicos u oportunidades de colaboración.",
-    copyEmail: "Copiar correo",
-    copied: "Correo copiado",
-    copyFailed: "No se pudo copiar. La dirección está disponible en el enlace.",
     footer: "Raphael Rocha · Ingeniería de software",
     back: "Volver al inicio",
     navigation: "Navegación principal",

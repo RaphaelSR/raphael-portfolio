@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { copy } from "../messages";
-import { links } from "../content";
 import { locales, localeNames, type Locale } from "../i18n";
 import { featureCopy } from "./copy";
 import { Snake, type SnakeOrigin } from "./Snake";
@@ -19,7 +18,6 @@ export function StudioTools({
   const [panel, setPanel] = useState<Panel>(null);
   const [query, setQuery] = useState("");
   const [blueprint, setBlueprint] = useState(false);
-  const [notice, setNotice] = useState("");
   const dialog = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLElement | null>(null);
   const search = useRef<HTMLInputElement>(null);
@@ -89,11 +87,6 @@ export function StudioTools({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
-  useEffect(() => {
-    if (!notice) return;
-    const timer = setTimeout(() => setNotice(""), 3500);
-    return () => clearTimeout(timer);
-  }, [notice]);
   const navigate = (anchor: string) => {
     close();
     requestAnimationFrame(() => {
@@ -121,18 +114,6 @@ export function StudioTools({
         close();
       },
     })),
-    {
-      label: page.copyEmail,
-      run: async () => {
-        try {
-          await navigator.clipboard.writeText(links.email);
-          setNotice(t.copied);
-        } catch {
-          setNotice(t.failed);
-        }
-        close();
-      },
-    },
     { label: t.backstage, run: () => open("backstage") },
     { label: t.blueprint, run: toggleBlueprint },
     { label: t.snake, run: () => open("snake") },
@@ -152,9 +133,6 @@ export function StudioTools({
           {t.blueprintOff} · Esc
         </button>
       )}
-      <p className="tools-notice" role="status">
-        {notice}
-      </p>
       <dialog
         ref={dialog}
         className={`tools-dialog ${panel === "snake" ? "is-snake" : ""}`}

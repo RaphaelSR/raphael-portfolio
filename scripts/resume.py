@@ -1,6 +1,6 @@
 """Generate a single-column English resume from the portfolio content export.
 Usage: python scripts/resume.py content.json public/raphael-rocha-resume.pdf
-Requires reportlab. The original supplied PDF is retained separately.
+Requires reportlab. Published PDFs exclude personal phone numbers and email addresses.
 """
 import json, sys, re
 from html import escape
@@ -25,7 +25,7 @@ def period(s):
 def role(item):
  return KeepTogether([p(item['company']+' | '+item['title']['en'],'role'),p(period(item['period']),'meta'),p(item['description']['en']),Spacer(1,5)])
 story=[p('Raphael Rocha','name'),p('Senior Mobile Engineer | Full-stack development | Applied AI','subtitle'),
- p('raphaelrochabcc@gmail.com | github.com/RaphaelSR','meta'),
+ p('raphaelrocha.com | github.com/RaphaelSR','meta'),
  Paragraph('<link href="https://portfolio.raphaelrocha.com/en/">Portfolio</link> | <link href="'+D['links']['linkedin']+'">LinkedIn</link>',styles['meta']),
  Spacer(1,7),p(T['intro']),p(T['aboutText2']),
  p('TECHNICAL SKILLS','section'),p('React Native, Expo, TypeScript, React, Next.js, Node.js, NestJS, REST APIs, GraphQL, Jest, Maestro, accessibility, Git and CI/CD.'),

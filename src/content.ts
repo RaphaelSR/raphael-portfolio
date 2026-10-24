@@ -1,7 +1,6 @@
 import type { ToolName } from "./tool-sites";
 import type { Label, Localized } from "./i18n";
 export const links = {
-  email: "raphaelrochabcc@gmail.com",
   github: "https://github.com/RaphaelSR",
   linkedin: "https://www.linkedin.com/in/raphael-rocha-903014103/",
   resume: `${import.meta.env.BASE_URL}raphael-rocha-resume.pdf`,

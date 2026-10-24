@@ -27,8 +27,6 @@ const en = {
     ],
   ],
   hint: "Explore the layout with blueprint, or discover a small game hidden in the page.",
-  copied: "Email copied",
-  failed: "Could not copy the email.",
   gameTitle: "Snake between the lines",
   gameHelp:
     "Devour the page. Click, tap, or use arrows / WASD to guide. Space pauses. Esc brings everything back.",
@@ -75,8 +73,6 @@ export const featureCopy: Localized<typeof en> = {
       ],
     ],
     hint: "Explore a estrutura com o blueprint ou descubra um pequeno jogo escondido na página.",
-    copied: "E-mail copiado",
-    failed: "Não foi possível copiar o e-mail.",
     gameTitle: "Snake entre as linhas",
     gameHelp:
       "Devore a página. Clique, toque ou use setas / WASD para guiar. Espaço pausa. Esc traz tudo de volta.",
@@ -121,8 +117,6 @@ export const featureCopy: Localized<typeof en> = {
       ],
     ],
     hint: "Explora la estructura con blueprint o descubre un pequeño juego escondido en la página.",
-    copied: "Correo copiado",
-    failed: "No se pudo copiar el correo.",
     gameTitle: "Snake entre líneas",
     gameHelp:
       "Devora la página. Haz clic, toca o usa flechas / WASD para guiar. Espacio pausa. Esc restaura todo.",

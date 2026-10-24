@@ -97,8 +97,7 @@ test("mobile menu closes with Escape and navigation remains usable", async ({
   ).not.toBeVisible();
   await expect(page).toHaveURL(/#work$/);
 });
-test("resume is a real PDF and email copy works", async ({ page, context }) => {
-  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+test("resume is a real PDF and direct contact details are absent", async ({ page }) => {
   await page.goto("./");
   const downloadPromise = page.waitForEvent("download");
   await page
@@ -109,11 +108,10 @@ test("resume is a real PDF and email copy works", async ({ page, context }) => {
   expect(download.suggestedFilename()).toBe("raphael-rocha-resume.pdf");
   const response = await page.request.get("./raphael-rocha-resume.pdf");
   expect((await response.body()).subarray(0, 5).toString()).toBe("%PDF-");
-  await page.getByRole("button", { name: "Copiar e-mail" }).click();
-  await expect(page.getByRole("status")).toHaveText("E-mail copiado");
-  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-    "raphaelrochabcc@gmail.com",
-  );
+  await expect(
+    page.locator('a[href^="mailto:"], a[href^="tel:"], a[href*="wa.me"]'),
+  ).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Copiar e-mail" })).toHaveCount(0);
 });
 test("reduced motion and manual motion preference", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });

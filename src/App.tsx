@@ -55,14 +55,9 @@ export default function App({
   const [menu, setMenu] = useState(false);
   const [filter, setFilter] = useState<"all" | Project["category"]>("product");
   const [selected, setSelected] = useState<Project | null>(null);
-  const [copyState, setCopyState] = useState<"idle" | "done" | "failed">(
-    "idle",
-  );
   const dialog = useRef<HTMLDialogElement>(null);
   const lastTrigger = useRef<HTMLElement | null>(null);
   const menuRef = useRef<HTMLButtonElement>(null);
-  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  useEffect(() => () => clearTimeout(timer.current), []);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (
@@ -106,16 +101,6 @@ export default function App({
   const close = () => {
     dialog.current?.close();
     setSelected(null);
-  };
-  const copyEmail = async () => {
-    try {
-      await navigator.clipboard.writeText(links.email);
-      setCopyState("done");
-    } catch {
-      setCopyState("failed");
-    }
-    clearTimeout(timer.current);
-    timer.current = setTimeout(() => setCopyState("idle"), 4000);
   };
   return (
     <>
@@ -455,23 +440,6 @@ export default function App({
               </span>
             </div>
             <p>{t.contactText}</p>
-            <div className="email-row">
-              <a href={`mailto:${links.email}`}>{links.email}</a>
-              <button
-                className="icon-button"
-                onClick={copyEmail}
-                aria-label={t.copyEmail}
-              >
-                <Icon name={copyState === "done" ? "check" : "copy"} />
-              </button>
-            </div>
-            <p role="status" className="copy-status">
-              {copyState === "done"
-                ? t.copied
-                : copyState === "failed"
-                  ? t.copyFailed
-                  : ""}
-            </p>
             <div className="social-links">
               <External href={links.linkedin}>LinkedIn</External>
               <External href={links.github}>GitHub</External>

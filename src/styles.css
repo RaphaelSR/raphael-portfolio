@@ -675,36 +675,9 @@ summary::-webkit-details-marker {
   color: #b4c1a3;
   padding-right: 20px;
 }
-.contact-section > .section-shell > p:not(.eyebrow):not(.copy-status) {
+.contact-section > .section-shell > p:not(.eyebrow) {
   font-size: 1rem;
   color: #b6c0a9;
-}
-.email-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 34px;
-  flex-wrap: wrap;
-}
-.email-row > a {
-  font-size: clamp(16px, 2.2vw, 27px);
-  letter-spacing: -0.5px;
-  border-bottom: 1px solid #7f8d72;
-  padding-bottom: 7px;
-  overflow-wrap: anywhere;
-}
-.email-row .icon-button {
-  color: #c2cfb2;
-  border: 1px solid #616f55;
-}
-.email-row .icon-button:hover {
-  background: #3a4432;
-}
-.copy-status {
-  min-height: 24px;
-  font-size: 11px;
-  color: #c0d7a6;
-  margin-top: 8px;
 }
 .social-links {
   display: flex;
@@ -1105,21 +1078,9 @@ summary::-webkit-details-marker {
   .contact-arrow {
     display: none;
   }
-  .contact-section > .section-shell > p:not(.eyebrow):not(.copy-status) {
+  .contact-section > .section-shell > p:not(.eyebrow) {
     font-size: 1rem;
     max-width: 300px;
-  }
-  .email-row {
-    margin-top: 26px;
-    gap: 7px;
-  }
-  .email-row > a {
-    font-size: clamp(13px, 4vw, 20px);
-    letter-spacing: -0.5px;
-  }
-  .email-row > .icon-button {
-    width: 38px;
-    height: 40px;
   }
   .social-links {
     gap: 25px;
@@ -1162,9 +1123,6 @@ summary::-webkit-details-marker {
   }
   .expertise-strip > div > span:nth-child(2) {
     gap: 10px;
-  }
-  .email-row > a {
-    font-size: 13px;
   }
   .filters button {
     padding-inline: 9px;
@@ -1527,7 +1485,7 @@ html[data-motion="on"] .hero-copy > .hero-actions {
   background: #202b3d;
 }
 .contact-section .eyebrow,
-.contact-section > .section-shell > p:not(.eyebrow):not(.copy-status) {
+.contact-section > .section-shell > p:not(.eyebrow) {
   color: #c2ccdd;
 }
 .contact-arrow {
@@ -1537,21 +1495,8 @@ html[data-motion="on"] .hero-copy > .hero-actions {
   font-size: 54px;
   letter-spacing: -2px;
 }
-.email-row > .icon-button {
-  border-color: #6c7d97;
-  color: #d6e1f3;
-}
-.email-row > .icon-button:hover {
-  background: #344664;
-}
-.email-row > a {
-  border-color: #7c8da7;
-}
 .social-links a:hover {
   color: #c7d9fa;
-}
-.copy-status {
-  color: #d5e4ff;
 }
 .footer {
   font-size: 0.75rem;
@@ -1742,7 +1687,7 @@ html[data-motion="on"] .hero-copy > .hero-actions {
   .footer {
     font-size: 0.75rem;
   }
-  .contact-section > .section-shell > p:not(.eyebrow):not(.copy-status) {
+  .contact-section > .section-shell > p:not(.eyebrow) {
     font-size: 1rem;
   }
 }
@@ -2006,9 +1951,6 @@ html:not([data-enhanced]) .project-card[hidden] {
   .social-links {
     flex-wrap: wrap;
     gap: 12px 24px;
-  }
-  .contact-section .email-row > a {
-    font-size: clamp(1rem, 4.6vw, 1.25rem);
   }
 }
 @media (max-width: 1000px) {

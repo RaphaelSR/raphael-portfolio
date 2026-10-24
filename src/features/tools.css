@@ -125,10 +125,6 @@ html:not([data-enhanced]) .studio-tools {
   background: var(--paper);
   font-size: 12px;
 }
-.tools-notice:empty {
-  display: none;
-}
-.tools-notice,
 .blueprint-exit {
   position: fixed;
   bottom: 20px;
